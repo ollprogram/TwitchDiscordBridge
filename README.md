@@ -12,7 +12,7 @@ With this application you will be able to link your Twitch chat with a Discord t
 # Dependencies :
 For this project I'm using two APIs :
 - [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA)
-- [Twitch4J](https://github.com/DV8FromTheWorld/JDA)
+- [Twitch4J (Java Twitch API)](https://github.com/DV8FromTheWorld/JDA)
 # Download :
 You can download the runnable jar file [here]().
 # Setup :
