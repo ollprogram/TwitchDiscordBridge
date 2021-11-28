@@ -28,7 +28,6 @@ public class SettingsFile {
 			System.out.println("[INFO] Trying to read settings...");
 			loadFromFile();
 		}catch(IOException | SettingsFileSyntaxException e){//can't load the file
-			e.printStackTrace();
 			System.out.println("[INFO] You don't have yet defined your settings.");
 
 			//demands
