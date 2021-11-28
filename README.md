@@ -34,7 +34,7 @@ To launch the program with the console interface : </br>
 `java -jar TwitchDiscordBridge-1.0-shaded.jar` (cmd or terminal) </br>
 
 To list all commands : </br>
-Type `help` in the console. Or type `!help` on Discord.
+Type `help` or `<command> help` in the console. Or type `!help` on Discord.
 
 # JavaDocs :
 Coming soon.
