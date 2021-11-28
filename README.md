@@ -1,5 +1,5 @@
 # TwitchDiscordBridge
-Links the Discord chat and the Twitch chat together.
+Links the [Discord](https://discord.com) chat and the [Twitch](https://www.twitch.tv) chat together.
 # Author and Liscence :
 Hi I'm ollprogram and I am the author of this project. Thanks for using it. </br>Please don't be afraid to report to me bugs or mistakes. I'll try to fix them. By the way, english isn't my main language, so I'm sorry for english mistakes but i'm open if you find some. </br>
 Find information about the liscence used for this project [here](https://github.com/ollprogram/TwitchDiscordBridge/blob/main/LICENSE).
@@ -9,9 +9,14 @@ With this application you will be able to link your Twitch chat with a Discord t
 </br>When someone will send something on a specified channel on Discord, the same message will be send to a specified Twitch chat, and reversly.
 </br>In this project i'm using a lot the word "Bridge". What does a "Bridge" represent in this project? 
 </br>A "Bridge" is an object which transfer a messages between to destinations. In our case destinations are Discord and Twitch.
+# Dependencies :
+For this project I'm using two APIs :
+- [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA)
+- [Twitch4J](https://github.com/DV8FromTheWorld/JDA)
 # Download :
 You can download the runnable jar file [here]().
 # Setup :
+
 
 # Usage :
 
