@@ -6,9 +6,9 @@ Find information about the liscence used for this project [here](https://github.
 You need to know the liscence before using my app. It gives information about how you can use my project.
 # Description :
 With this application you will be able to link your Twitch chat with a Discord text channel in a guild.
-When someone will send something on a specified channel on Discord, the same message will be send to a specified Twitch chat, and reversly.
-In this project i'm using a lot the word "Bridge". What does a "Bridge" represent in this project? 
-A "Bridge" is an object witch transfer a messages between to destinations. In our case destinations are Discord and Twitch.
+</br>When someone will send something on a specified channel on Discord, the same message will be send to a specified Twitch chat, and reversly.
+</br>In this project i'm using a lot the word "Bridge". What does a "Bridge" represent in this project? 
+</br>A "Bridge" is an object witch transfer a messages between to destinations. In our case destinations are Discord and Twitch.
 # Download :
 You can download the runnable jar file [here]().
 # Setup :
