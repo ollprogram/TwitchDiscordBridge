@@ -24,8 +24,8 @@ There are some procedures before launching the program :
 4. Create a new [Twitch](https://www.twitch.tv) account for your twitch bot. Recommanded to use 2OAuth and to make your bot moderator on the twitch channel where you stream.
 </br></br>
 When you launch the program for the first time, you need :
-1. Your Discord bot token (grab it on the [Discord Dev Portal](https://discord.com/developers/docs/intro)).
-2. Your Twitch bot token (grab it [Here](https://twitchtokengenerator.com)).
+1. Your Discord bot token (grab it on the [Discord Dev Portal](https://discord.com/developers/docs/intro) ).
+2. Your Twitch bot token (grab it [Here](https://twitchtokengenerator.com) ).
 3. A Twitch channel name (The channel where you stream).
 4. A discord channel ID. You need to activate first dev mode on discord apparences>developer mode>on. Right click on the channel where you want your bot to listen to it, and copy the ID.
 
