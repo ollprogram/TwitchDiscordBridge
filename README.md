@@ -33,7 +33,7 @@ When you launch the program for the first time, you need :
 To launch the program with the console interface : </br>
 `java -jar TwitchDiscordBridge-1.0-shaded.jar` (cmd or terminal) </br>
 
-To know all commands : </br>
+To list all commands : </br>
 Type `help` in the console. Or type `!help` on Discord.
 
 # JavaDocs :
