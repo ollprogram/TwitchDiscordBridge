@@ -14,7 +14,7 @@ For this project I'm using two APIs :
 - [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA)
 - [Twitch4J (Java Twitch API)](https://github.com/twitch4j/twitch4j)
 # Download :
-You can download the runnable jar file [here]().
+You can download the runnable jar file [here](https://github.com/ollprogram/TwitchDiscordBridge/releases/download/v1.0.0-beta/TwitchDiscordBridge-1.0-shaded.jar).
 # Setup :
 There are some procedures before launching the program :
 1. You need a [Discord](https://discord.com) account and a Discord server (guild).
