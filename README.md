@@ -21,7 +21,7 @@ There are some procedures before launching the program :
 2. Register a new bot on the [Discord Dev Portal](https://discord.com/developers/docs/intro) (I recommand you to watch a tutorial on youtube).
 3. Add your bot on discord with the [Discord permission calculator](https://discordapi.com/permissions.html) using your bot client ID. The discord bot will need some permissions on your server. See the permissions needed in the screenshot below :
 <img src="https://user-images.githubusercontent.com/39884051/143782121-78b01135-d12f-474c-9239-8afa076120ef.png" width="600"></img>
-4. Create a new <a href="https://discord.com/developers/docs/intro">Twitch</a> account for your Twitch bot. Recommanded to use 2OAuth and to make your bot moderator on the twitch channel where you stream.
+4. Create a new <a href="https://www.twitch.tv">Twitch</a> account for your Twitch bot. Recommanded to use 2OAuth and to make your bot moderator on the twitch channel where you stream.
 </br></br>
 When you launch the program for the first time, you need :
 1. Your Discord bot token (grab it on the <a href="https://discord.com/developers/docs/intro">Discord Dev Portal</a>).
