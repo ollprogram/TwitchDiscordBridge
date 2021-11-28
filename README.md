@@ -30,6 +30,13 @@ When you launch the program for the first time, you need :
 4. A discord channel ID. You need to activate first dev mode on discord apparences>developer mode>on. Right click on the channel where you want your bot to listen to it, and copy the ID.
 
 # Usage :
+To launch the program with the console interface :
+`java -jar TwitchDiscordBridge-1.0-shaded.jar`
+
+To have know all commands : </br>
+Type `help` in the console.
+</br>
+Or type `!help` pn Discord.
 
 # JavaDocs :
 Coming soon.
