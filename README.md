@@ -1,8 +1,8 @@
 # TwitchDiscordBridge
 Links the [Discord](https://discord.com) chat and the [Twitch](https://www.twitch.tv) chat together.
-# Author and Liscence :
-Hi I'm ollprogram and I am the author of this project. Thanks for using it. </br>Please don't be afraid to report to me bugs or mistakes. I'll try to fix them. By the way, english isn't my main language, so I'm sorry for english mistakes but I'm open if you find some. </br>
-Find information about the liscence used for this project [here](https://github.com/ollprogram/TwitchDiscordBridge/blob/main/LICENSE).
+# Author and Licence :
+Hi I'm ollprogram and I am the author of this project. Thanks for using it. </br>Please don't be afraid to report bugs or mistakes to me. I'll try to fix them. By the way, english isn't my main language, so I'm sorry for english mistakes but I'm open if you find some. </br>
+Find information about the licence used for this project [here](https://github.com/ollprogram/TwitchDiscordBridge/blob/main/LICENSE).
 You need to know the liscence before using my project. It gives information about how you can use my project.
 # Description :
 With this application you will be able to link your Twitch chat with a Discord text channel in a guild.
