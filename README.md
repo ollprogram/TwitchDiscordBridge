@@ -27,7 +27,7 @@ When you launch the program for the first time, you need :
 1. Your Discord bot token (grab it on the <a href="https://discord.com/developers/docs/intro">Discord Dev Portal</a>).
 2. Your Twitch bot token (grab it <a href="https://twitchtokengenerator.com">Here</a>).
 3. A Twitch channel name (The channel where you stream).
-4. A discord channel ID. You need to activate first dev mode on discord `advanced>developer_mode>on`. Right click on the channel where you want your bot to listen to it, and copy the ID.
+4. A discord channel ID. You need to activate first dev mode on discord `advanced -> developer_mode -> on`. Right click on the channel where you want your bot to listen to it, and copy the ID.
 
 # Usage :
 To launch the program with the console interface : </br>
