@@ -1,2 +1,2 @@
 # TwitchDiscordBridge
-Link the Discord chat and the Twitch chat together.
+Links the Discord chat and the Twitch chat together.
