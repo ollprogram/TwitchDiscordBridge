@@ -41,7 +41,7 @@ When you launch the program for the first time, you need :
 <h3> To list all commands : </h3>
 Type <code>help</code> or <code>&ltcommand&gt help</code> in the console. Or type <code>!help</code> on Discord.
 
-<h3>Some commands on discord : </h3>
+<h3>All commands on discord : </h3>
 <ul>
   <li><code>!test</code> to see if the bot works.</li>
   <li><code>!code</code> to get the source code.</li>
@@ -52,9 +52,22 @@ Type <code>help</code> or <code>&ltcommand&gt help</code> in the console. Or typ
       <li><code>info</code> get information about the bridge.</li>
     </ul>
     </li>
-  <li><code>!prefix &ltnew prefix&gt</code> to set a new prefix (also changes the nickname of your bot)</li>
-  <li><code>!prefix reset</code> to reset the prefix (reset also the nickname)</li>
+  <li><code>!prefix &ltnew prefix&gt</code> to set a new prefix (also changes the nickname of your bot).</li>
+  <li><code>!prefix reset</code> to reset the prefix (reset also the nickname).</li>
 </ul>
+
+<h3>All commands in the console :</h3>
+<ul>
+  <li><code>shutdown</code> shutdown the app without exceptions.</li>
+  <li><code>shutdown now</code> shutdown the app with exceptions.</li>
+  <li><code>say &ltyour message&gt</code> send a message on both platforms.</li>
+  <li><code> bridge &ltargument&gt</code> <ul>Arguments :
+    <li><code>twitchTarget &ltchannel name&gt</code> link the bridge to an other twitch chat.</li>
+    <li><code>info</code> get information about the bridge.</li>
+    <li><code>open</code> open the bridge.</li>
+    <li><code>close</code> close the bridge.</li>
+    </ul>
+  </li>
 
 # JavaDocs :
 Coming soon.
