@@ -68,7 +68,7 @@ Type <code>help</code> or <code>&ltcommand&gt help</code> in the console. Or typ
     <li><code>close</code> close the bridge.</li>
     </ul>
   </li>
-
+</ul>
 # JavaDocs :
 Coming soon.
 
