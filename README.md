@@ -18,17 +18,21 @@ For this project I'm using two APIs :
 You can download the runnable jar file [here](https://github.com/ollprogram/TwitchDiscordBridge/releases/download/v1.0.0-beta/TwitchDiscordBridge-1.0-shaded.jar).
 # Setup :
 There are some procedures before launching the program :
-1. You need a [Discord](https://discord.com) account and a Discord server (guild).
-2. Register a new bot on the [Discord Dev Portal](https://discord.com/developers/docs/intro) (I recommand you to watch a tutorial on youtube).
-3. Add your bot on Discord with the [Discord permission calculator](https://discordapi.com/permissions.html) using your bot client ID. The Discord bot will need some permissions on your server. See the permissions needed in the screenshot below :
-<img src="https://user-images.githubusercontent.com/39884051/143782121-78b01135-d12f-474c-9239-8afa076120ef.png" width="600"></img>
-4. Create a new <a href="https://www.twitch.tv">Twitch</a> account for your Twitch bot. Recommanded to use OAuth2 and to make your bot moderator on the twitch channel where you stream.
+<ol>
+  <li> You need a <a href="https://discord.com">Discord</a> account and a Discord server (guild). </li>
+  <li>Register a new bot on the <a href="https://discord.com/developers/docs/intro">Discord Developer Portal</a> (I recommand you to watch a tutorial on youtube). </br> You should also turn it to private mode.</li>
+  <li> Add your bot on Discord with the <a href="https://discordapi.com/permissions.html">Discord Permissions Calculator</a> using your bot client ID. The Discord bot will need some permissions on your server. See the permissions needed in the screenshot below :
+<img src="https://user-images.githubusercontent.com/39884051/143782121-78b01135-d12f-474c-9239-8afa076120ef.png" width="600"></img></li>
+  <li> Create a new <a href="https://www.twitch.tv">Twitch</a> account for your Twitch bot. Recommanded to use OAuth2 and to make your bot moderator on the twitch channel where you stream.</li>
+</ol>
 </br></br>
 When you launch the program for the first time, you need :
-1. Your Discord bot token (grab it on the <a href="https://discord.com/developers/docs/intro">Discord Dev Portal</a>).
-2. Your Twitch bot token (grab it <a href="https://twitchtokengenerator.com">Here</a>).
-3. A Twitch channel name (The channel where you stream).
-4. A discord channel ID. You need to activate first dev mode on discord `advanced -> developer_mode -> on`. Right click on the channel where you want your bot to listen to it, and copy the ID.
+<ol>
+  <li> Your Discord bot token (grab it on the <a href="https://discord.com/developers/docs/intro">Discord Dev Portal</a>).</li>
+  <li>Your Twitch bot token (grab it <a href="https://twitchtokengenerator.com">Here</a>).</li>
+  <li>A Twitch channel name (The channel where you stream).</li>
+  <li> A discord channel ID. You need to activate first dev mode on discord `advanced -> developer_mode -> on`. Right click on the channel where you want your bot to listen to it, and copy the ID.</li>
+</ol>
 
 # Usage :
 To launch the program with the console interface : </br>
