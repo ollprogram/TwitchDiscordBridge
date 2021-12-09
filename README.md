@@ -35,11 +35,26 @@ When you launch the program for the first time, you need :
 </ol>
 
 # Usage :
-To launch the program with the console interface : </br>
-`java -jar TwitchDiscordBridge-1.0-shaded.jar` (cmd or terminal) </br>
+<h3> To launch the program with the console interface : </h3>
+<code>java -jar TwitchDiscordBridge-1.0-shaded.jar</code> (cmd or terminal)
 
-To list all commands : </br>
-Type `help` or `<command> help` in the console. Or type `!help` on Discord.
+<h3> To list all commands : </h3>
+Type <code>help</code> or <code>&ltcommand&gt help</code> in the console. Or type <code>!help</code> on Discord.
+
+<h3>Some commands on discord : </h3>
+<ul>
+  <li><code>!test</code> to see if the bot works.</li>
+  <li><code>!code</code> to get the source code.</li>
+  <li><code>!bridge &ltargument&gt</code> <ul>Arguments : 
+      <li><code>target</code> this Discord channel is now linked to the Twitch chat.</li>
+      <li><code>open</code> open the bridge.</li>
+      <li><code>close</code> close the bridge.</li>
+      <li><code>info</code> get information about the bridge.</li>
+    </ul>
+    </li>
+  <li><code>!prefix &ltnew prefix&gt</code> to set a new prefix (also changes the nickname of your bot)</li>
+  <li><code>!prefix reset</code> to reset the prefix (reset also the nickname)</li>
+</ul>
 
 # JavaDocs :
 Coming soon.
