@@ -6,6 +6,7 @@ import fr.ollprogram.twitchdiscordbridge.Bridge;
 
 /**
  * The main event listener for Twitch.
+ * @author ollprogram
  */
 public class TwitchListener {
 	private final Bridge bridge;

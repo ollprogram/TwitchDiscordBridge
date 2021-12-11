@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Allows to change the prefix.
+ * @author ollprogram
  */
 public final class Prefix extends TextCommand {
 
@@ -25,7 +26,7 @@ public final class Prefix extends TextCommand {
 	 * @param event The message event received.
 	 */
 	@Override
-	protected void action(@NotNull String[] args, MessageReceivedEvent event) {
+	protected void action(@NotNull String @NotNull [] args, MessageReceivedEvent event) {
 		if(args.length >= 2){
 			PrefixUtils.setPrefix(event.getGuild(), args[1]); //args 0 is always empty.
 			event.getChannel().sendMessage("The prefix has been changed with success : "+args[1]).queue();
@@ -38,7 +39,7 @@ public final class Prefix extends TextCommand {
 	 * @return Description of the command.
 	 */
 	@Override
-	public String getDescription() {
+	public @NotNull String getDescription() {
 		return "Changes the prefix to another. Parameters : \n" +
 				"	- the new prefix (ex: ?)\n" +
 				"	- reset : reset the prefix to !";

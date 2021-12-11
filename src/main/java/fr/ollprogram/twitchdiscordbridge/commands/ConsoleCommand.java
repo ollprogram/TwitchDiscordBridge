@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Commands for the console.
+ * @author ollprogram
  */
 public abstract class ConsoleCommand {
 	private final String name;

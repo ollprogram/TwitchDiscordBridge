@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 
 /**
  * Describe all discord chat textual commands.
+ * @author ollprogram
  */
 public abstract class TextCommand {
 	private final String name;
@@ -84,7 +85,7 @@ public abstract class TextCommand {
 	 * @param prefix The current prefix.
 	 * @return The command or null if not in the array.
 	 */
-	@Nullable public static TextCommand retrieve(TextCommand[] commands, String msg, String prefix){
+	@Nullable public static TextCommand retrieve(TextCommand @NotNull [] commands, String msg, String prefix){
 		for(TextCommand command : commands){
 			String comparison = prefix+command.getName();
 			if(msg.toUpperCase().startsWith(comparison.toUpperCase()))return command;

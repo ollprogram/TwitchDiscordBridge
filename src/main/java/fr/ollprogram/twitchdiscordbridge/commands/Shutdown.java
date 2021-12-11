@@ -2,9 +2,11 @@ package fr.ollprogram.twitchdiscordbridge.commands;
 
 import com.github.twitch4j.TwitchClient;
 import net.dv8tion.jda.api.JDA;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A shutdown command for the console.
+ * @author ollprogram
  */
 public class Shutdown extends ConsoleCommand{
 
@@ -50,7 +52,7 @@ public class Shutdown extends ConsoleCommand{
 	 * @param args Parameters : Now, help or nothing.
 	 */
 	@Override
-	protected void action(String[] args) {
+	protected void action(String @NotNull [] args) {
 		if(args.length >= 2){
 			if(args[1].equalsIgnoreCase("Now")){
 				twitchClient.close();

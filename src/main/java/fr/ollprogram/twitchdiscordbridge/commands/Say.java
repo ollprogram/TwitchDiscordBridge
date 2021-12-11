@@ -1,9 +1,11 @@
 package fr.ollprogram.twitchdiscordbridge.commands;
 
 import fr.ollprogram.twitchdiscordbridge.Bridge;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A say command for the console.
+ * @author ollprogram
  */
 public class Say extends ConsoleCommand{
 
@@ -42,7 +44,7 @@ public class Say extends ConsoleCommand{
 	 * @param sliced The already split array.
 	 * @return The unsplit string without the first element.
 	 */
-	private static String unsplitAPart(String[] sliced){
+	private static @NotNull String unsplitAPart(String @NotNull [] sliced){
 		StringBuilder res = new StringBuilder();
 		for(int i = 1; i < sliced.length; i++){
 			res.append(" ").append(sliced[i]);
@@ -56,7 +58,7 @@ public class Say extends ConsoleCommand{
 	 * @param args Including the text to send.
 	 */
 	@Override
-	protected void action(String[] args) {
+	protected void action(String @NotNull [] args) {
 		if(args.length >= 2) {
 			String message = unsplitAPart(args);//The split -> unsplit remove all useless spaces and avoid jda exceptions
 			bridge.getBotChat().sendMessage(bridge.getTwitchChannelName(), message);

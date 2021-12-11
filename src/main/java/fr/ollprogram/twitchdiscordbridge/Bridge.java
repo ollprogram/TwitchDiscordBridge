@@ -5,10 +5,12 @@ import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A bridge represent a link between Twitch and Discord.
  * It allows sending messages on both sides.
+ * @author ollprogram
  */
 public final class Bridge {
 	private final SettingsFile settings;
@@ -23,7 +25,7 @@ public final class Bridge {
 	 * @param botChat The chat of the Twitch bot.
 	 * @param jda The jda instance (Discord bot).
 	 */
-	public Bridge(SettingsFile settings, TwitchChat botChat, JDA jda){
+	public Bridge(@NotNull SettingsFile settings, TwitchChat botChat, @NotNull JDA jda){
 		this.settings = settings;
 		this.botChat = botChat;
 		this.discordChannel = jda.getTextChannelById(settings.getDiscordChannelID());
@@ -59,7 +61,7 @@ public final class Bridge {
 	 * Switch to, and update in settings, the discord channel.
 	 * @param channel The new channel.
 	 */
-	public void changeDiscordChannel(MessageChannel channel){
+	public void changeDiscordChannel(@NotNull MessageChannel channel){
 		this.discordChannel = channel;
 		settings.updateDiscordChannelID(channel.getId());
 	}
@@ -125,7 +127,7 @@ public final class Bridge {
 	 * @return The representation.
 	 */
 	@Override
-	public String toString() {
+	public @NotNull String toString() {
 		return "Bridge{" +
 				", discordChannel=" + discordChannel.getName()+"("+discordChannel.getId()+")" +
 				", twitchChannelName='" + twitchChannelName + '\'' +

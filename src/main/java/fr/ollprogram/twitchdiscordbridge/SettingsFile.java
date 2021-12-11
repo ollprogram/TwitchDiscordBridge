@@ -2,6 +2,7 @@ package fr.ollprogram.twitchdiscordbridge;
 
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import fr.ollprogram.twitchdiscordbridge.exceptions.login.SettingsFileSyntaxException;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Scanner;
  * Represent all settings present in the settings file.
  * These settings are important for the application to save information for the next relaunch.
  * Settings are always updated in files when modified.
+ * @author ollprogram
  */
 public class SettingsFile {
 	private OAuth2Credential twitchAccount;
@@ -50,7 +52,7 @@ public class SettingsFile {
 	 * Read all lines of the settings file and catch information.
 	 * @param lines Lines from the settings file.
 	 */
-	private void fillFields(List<String> lines) {
+	private void fillFields(@NotNull List<String> lines) {
 		for(String l : lines){
 			if(l.startsWith("Twitch_Token=")){
 				twitchAccount = new OAuth2Credential( "twitch", l.replace("Twitch_Token=", ""));

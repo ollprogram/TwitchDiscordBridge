@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * A bridge command for discord. Config or show information about the bridge.
+ * @author ollprogram
  */
 public class BridgeCmd extends TextCommand{
 	private final Bridge bridge;
@@ -29,7 +30,7 @@ public class BridgeCmd extends TextCommand{
 	 * @param event The message event received.
 	 */
 	@Override
-	protected void action(@NotNull String[] args, MessageReceivedEvent event) {
+	protected void action(@NotNull String @NotNull [] args, @NotNull MessageReceivedEvent event) {
 		MessageChannel channel = event.getChannel();
 		if(args.length >= 2){
 			if(args[1].equalsIgnoreCase("target")){

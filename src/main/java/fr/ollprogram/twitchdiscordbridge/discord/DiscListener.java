@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * The main Discord listener which will read every message events.
+ * @author ollprogram
  */
 public class DiscListener extends ListenerAdapter {
 	private Bridge bridge;
@@ -69,7 +70,7 @@ public class DiscListener extends ListenerAdapter {
 	 * @param commands All commands.
 	 * @param event The message received event.
 	 */
-	private static void helpAction(TextCommand[] commands, MessageReceivedEvent event){
+	private static void helpAction(TextCommand @NotNull [] commands, MessageReceivedEvent event){
 		StringBuilder msg = new StringBuilder();
 		msg.append("Commands :\n ```\n");
 		for(TextCommand cmd : commands){

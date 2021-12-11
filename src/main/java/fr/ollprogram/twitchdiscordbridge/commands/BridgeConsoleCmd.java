@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * A bridge command for the console.
+ * @author ollprogram
  */
 public class BridgeConsoleCmd extends ConsoleCommand{
 

@@ -2,6 +2,7 @@ package fr.ollprogram.twitchdiscordbridge.exceptions.login;
 
 /**
  * Exception called when the syntax isn't correct in the settings file.
+ * @author ollprogram
  */
 public class SettingsFileSyntaxException extends Exception{
 

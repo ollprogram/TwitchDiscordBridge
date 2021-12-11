@@ -14,11 +14,15 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
+import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * @author ollprogram
+ */
 public class Main {
 
 	public static void main(String[] args) throws IOException {
@@ -74,7 +78,7 @@ public class Main {
 	 * @param commands all commands for the console interface.
 	 * @param jda the jda instance (discord bot).
 	 */
-	private static void consoleInterface(ConsoleCommand[] commands, JDA jda){
+	private static void consoleInterface(ConsoleCommand[] commands, @NotNull JDA jda){
 		Scanner sc = new Scanner(System.in);
 		System.out.println("[INFO] You can type something in the console : (help to view all commands)");
 		while(jda.getStatus().equals(JDA.Status.CONNECTED)){
@@ -95,5 +99,5 @@ public class Main {
 			}
 		}
 		sc.close();
-	}//TODO help discord + final test; traductions + orthographe + spec et commit on github ;)
+	}
 }

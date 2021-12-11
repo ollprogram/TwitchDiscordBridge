@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Command to get the source code of this app.
+ * @author ollprogram
  */
 public class SrcCode extends TextCommand{
 
@@ -22,7 +23,7 @@ public class SrcCode extends TextCommand{
 	 * @param event The message event received.
 	 */
 	@Override
-	protected void action(@NotNull String[] args, MessageReceivedEvent event) {
+	protected void action(@NotNull String[] args, @NotNull MessageReceivedEvent event) {
 		event.getChannel().sendMessage("Bonjour "+event.getAuthor().getAsMention()+"! I'm ollprogram, also known as Olleroy." +"\n"+
 				" I built a program to link the Twitch chat and the Discord chat together.\n"+
 				"Here is the source code : https://github.com/ollprogram/TwitchDiscordBridge").queue();

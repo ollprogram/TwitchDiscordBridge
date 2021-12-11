@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Just a command to test or send a little message.
+ * @author ollprogram
  */
 public class Test extends TextCommand {
 
@@ -24,7 +25,7 @@ public class Test extends TextCommand {
 	 * @param event The message event received.
 	 */
 	@Override
-	protected void action(@NotNull String[] args, MessageReceivedEvent event) {
+	protected void action(@NotNull String[] args, @NotNull MessageReceivedEvent event) {
 		event.getChannel().sendMessage("Bonjour "+event.getAuthor().getAsMention()+"! I'm ollprogram also known as Olleroy." +
 				" I built a program to link the Twitch chat and the Discord chat together.\n"+
 				"Here is my Github account : https://github.com/ollprogram?tab=repositories").queue();
