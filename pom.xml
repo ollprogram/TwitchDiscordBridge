@@ -6,7 +6,7 @@
 
     <groupId>fr.ollprogram.twitchdiscordbridge</groupId>
     <artifactId>TwitchDiscordBridge</artifactId>
-    <version>1.0</version>
+    <version>1.1.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.4.0_350</version>
+            <version>4.4.0_351</version>
         </dependency>
         <dependency>
             <groupId>com.github.twitch4j</groupId>
