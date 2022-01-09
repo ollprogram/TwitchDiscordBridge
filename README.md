@@ -22,7 +22,8 @@ There are some procedures before launching the program :
   <li> You need a <a href="https://discord.com">Discord</a> account and a Discord server (guild). </li>
   <li>Register a new bot on the <a href="https://discord.com/developers/docs/intro">Discord Developer Portal</a> (I recommand you to watch a tutorial on youtube). </br> You should also turn it to private mode.</li>
   <li> Add your bot on Discord with the <a href="https://discordapi.com/permissions.html">Discord Permissions Calculator</a> using your bot client ID. The Discord bot will need some permissions on your server. See the permissions needed in the screenshot below :
-<img src="https://user-images.githubusercontent.com/39884051/143782121-78b01135-d12f-474c-9239-8afa076120ef.png" width="600"></img></li>
+<img src="https://user-images.githubusercontent.com/39884051/148686617-3ca8d816-2a52-4724-a2d9-98dd1c962cb9.png" width="600"></img>
+<p>If you want to activate other permissions, you will have to think about consequences. For exemple, if you decide to activate mentions to all roles for the bot, then every people from twitch will be able to mention all roles on discord.</p></li>
   <li> Create a new <a href="https://www.twitch.tv">Twitch</a> account for your Twitch bot. Recommanded to use OAuth2 and to make your bot moderator on the twitch channel where you stream.</li>
 </ol>
 </br></br>
