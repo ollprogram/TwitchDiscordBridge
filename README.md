@@ -72,7 +72,6 @@ Type <code>help</code> or <code>&ltcommand&gt help</code> in the console. Or typ
 </ul>
 
 # JavaDocs :
-Coming soon.
 
 # Next Upates :
 - Allow to lock the bridge on one side. (comming very soon)
