@@ -2,6 +2,7 @@ package fr.ollprogram.twitchdiscordbridge;
 
 import com.github.twitch4j.chat.TwitchChat;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
+import fr.ollprogram.twitchdiscordbridge.discord.utils.FilteringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
@@ -81,10 +82,12 @@ public final class Bridge {
 	 */
 	public void sendToTwitch(Message msg){
 		if(!isOpened)return;
-		String messageFormatted = msg.getContentStripped();
-		if (messageFormatted.equals(""))return;
+		String messageStripped = msg.getContentStripped();
+		String cleanMessage = FilteringUtils.filterNonUniversalEmojis(messageStripped);
+		if (cleanMessage.contains("https://tenor.com/view/") || FilteringUtils.isEmptyString(cleanMessage))return;
+		//ignoring tenor gifs messages and messages without text content (files)
 		botChat.sendMessage(twitchChannelName,
-				"[DISCORD] "+msg.getAuthor().getName()+" says : "+messageFormatted);
+				"[DISCORD] "+msg.getAuthor().getName()+" says : "+ cleanMessage);
 	}
 
 	/**
@@ -93,8 +96,10 @@ public final class Bridge {
 	 */
 	public void sendToDiscord(ChannelMessageEvent msg){
 		if(!isOpened)return;
+		String filteredMessage = FilteringUtils.filterNonUniversalEmojis(msg.getMessage());
+		if(FilteringUtils.isEmptyString(filteredMessage))return;
 		try{
-			discordChannel.sendMessage("[TWITCH] "+msg.getUser().getName()+" says : "+msg.getMessage()).queue();
+			discordChannel.sendMessage("[TWITCH] "+msg.getUser().getName()+" says : "+filteredMessage).queue();
 		}catch(NullPointerException e) { //if the discord channel isn't defined in settings.
 			System.out.println("Something is wrong with the discord channel ID." +
 					" Turn off the app. Change the ID in settings and relaunch the app.\n"+

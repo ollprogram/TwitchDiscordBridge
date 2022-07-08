@@ -28,6 +28,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		SettingsFile settings = new SettingsFile();
 		System.out.println("[INFO] Your bots must be private, and the bots are recommended to be used on only one server\n");
+		System.out.println("[INFO] It's also recommended to disable link for everyone on discord channel target and twitch channel targeted.\n");
 		try {
 			//START THE TWITCH BOT
 			System.out.println("[INFO] Starting the Twitch bot...");
