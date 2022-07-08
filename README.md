@@ -15,7 +15,7 @@ For this project I'm using two APIs :
 - [Twitch4J (Java Twitch API)](https://github.com/twitch4j/twitch4j)
 </br>You can see the Maven pom.xml [here](https://github.com/ollprogram/TwitchDiscordBridge/blob/main/pom.xml).
 # Download :
-You can download the runnable jar file [here](https://github.com/ollprogram/TwitchDiscordBridge/releases/download/v1.0.0/TwitchDiscordBridge-1.0.0-shaded.jar).
+You can download the runnable jar file [here](https://github.com/ollprogram/TwitchDiscordBridge/releases).
 # Setup :
 There are some procedures before launching the program :
 <ol>
