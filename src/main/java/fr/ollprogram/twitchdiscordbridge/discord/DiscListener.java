@@ -38,7 +38,7 @@ public class DiscListener extends ListenerAdapter {
 	 */
 	@Override
 	public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-		if(event.getAuthor().isBot() || event.getAuthor().isSystem() ||
+		if(event.getAuthor().isBot() || event.getMessage().getContentDisplay().equals("") || event.getAuthor().isSystem() ||
 				!event.isFromGuild() || event.isWebhookMessage() || commands == null)return;
 		String prefix = PrefixUtils.retrievePrefix(event.getGuild());
 		TextCommand cmd = TextCommand.retrieve(commands, event.getMessage().getContentDisplay(),
