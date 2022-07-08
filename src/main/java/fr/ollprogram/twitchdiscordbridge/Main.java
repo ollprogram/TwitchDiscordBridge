@@ -27,8 +27,6 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		SettingsFile settings = new SettingsFile();
-		System.out.println("[INFO] Your bots must be private, and the bots are recommended to be used on only one server\n");
-		System.out.println("[INFO] It's also recommended to disable links for everyone on discord channel target and twitch channel targeted.\n");
 		try {
 			//START THE TWITCH BOT
 			System.out.println("[INFO] Starting the Twitch bot...");
@@ -81,6 +79,9 @@ public class Main {
 	 */
 	private static void consoleInterface(ConsoleCommand[] commands, @NotNull JDA jda){
 		Scanner sc = new Scanner(System.in);
+		System.out.println("[VERSION] TWITCH-DISCORD-BRIDGE 1.1.O");
+		System.out.println("[INFO] Your bots must be private, and the bots are recommended to be used only on one server.\n");
+		System.out.println("[INFO] It's also recommended to disable links for everyone on the discord channel targeted and the twitch channel targeted.\n");
 		System.out.println("[INFO] You can type something in the console : (help to view all commands)");
 		while(jda.getStatus().equals(JDA.Status.CONNECTED)){
 			System.out.print(">");
