@@ -81,8 +81,10 @@ public final class Bridge {
 	 */
 	public void sendToTwitch(Message msg){
 		if(!isOpened)return;
+		String messageFormatted = msg.getContentStripped();
+		if (messageFormatted.equals(""))return;
 		botChat.sendMessage(twitchChannelName,
-				"[DISCORD] "+msg.getAuthor().getName()+" says : "+msg.getContentDisplay());
+				"[DISCORD] "+msg.getAuthor().getName()+" says : "+messageFormatted);
 	}
 
 	/**
