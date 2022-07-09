@@ -10,9 +10,10 @@ With this application you will be able to link your Twitch chat with a Discord t
 </br>In this project i'm using a lot the word "Bridge". What does a "Bridge" represent in this project? 
 </br>A "Bridge" is an object which transfers messages between two destinations. In our case destinations are Discord and Twitch.
 # Dependencies :
-For this project I'm using two APIs :
+For this project I'm using three APIs :
 - [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA)
 - [Twitch4J (Java Twitch API)](https://github.com/twitch4j/twitch4j)
+- [Emoji-Java (API to manipulate emojis codes)](https://github.com/vdurmont/emoji-java)
 </br>You can see the Maven pom.xml [here](https://github.com/ollprogram/TwitchDiscordBridge/blob/main/pom.xml).
 # Download :
 You can download the runnable jar file [here](https://github.com/ollprogram/TwitchDiscordBridge/releases).
