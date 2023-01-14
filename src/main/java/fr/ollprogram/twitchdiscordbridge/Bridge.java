@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * @author ollprogram
  */
 public final class Bridge {
-	private final SettingsFile settings;
+	private final SettingsFileManager settings;
 	private final TwitchChat botChat;
 	private MessageChannel discordChannel;
 	private String twitchChannelName;
@@ -26,7 +26,7 @@ public final class Bridge {
 	 * @param botChat The chat of the Twitch bot.
 	 * @param jda The jda instance (Discord bot).
 	 */
-	public Bridge(@NotNull SettingsFile settings, TwitchChat botChat, @NotNull JDA jda){
+	public Bridge(@NotNull SettingsFileManager settings, TwitchChat botChat, @NotNull JDA jda){
 		this.settings = settings;
 		this.botChat = botChat;
 		this.discordChannel = jda.getTextChannelById(settings.getDiscordChannelID());

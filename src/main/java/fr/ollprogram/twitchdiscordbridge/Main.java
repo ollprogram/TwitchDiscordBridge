@@ -26,7 +26,7 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		SettingsFile settings = new SettingsFile();
+		SettingsFileManager settings = new SettingsFileManager();
 		try {
 			//START THE TWITCH BOT
 			System.out.println("[INFO] Starting the Twitch bot...");
