@@ -13,7 +13,7 @@ package fr.ollprogram.twitchdiscordbridge.configuration;
 
 import org.jetbrains.annotations.NotNull;
 
-public class BridgeConfigImpl implements BridgeConfig {
+public class BConf implements BridgeConfig {
 
     private final String twitchToken;
     private final String discordToken;
@@ -28,8 +28,8 @@ public class BridgeConfigImpl implements BridgeConfig {
      * @param twitchToken The twitch bot token
      * @param discordToken The discord bot token
      */
-    public BridgeConfigImpl(@NotNull String twitchChannelName, @NotNull String discordChannelID,
-                            @NotNull String twitchToken, @NotNull String discordToken){
+    public BConf(@NotNull String twitchChannelName, @NotNull String discordChannelID,
+                 @NotNull String twitchToken, @NotNull String discordToken){
         this.twitchToken = twitchToken;
         this.discordToken = discordToken;
         this.discordChannelID = discordChannelID;

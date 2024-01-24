@@ -1,8 +1,9 @@
 package fr.ollprogram.twitchdiscordbridge;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.factory.ConfigPropertiesMaker;
-import fr.ollprogram.twitchdiscordbridge.configuration.factory.ConfigurationFactory;
+import fr.ollprogram.twitchdiscordbridge.configuration.builder.BConfBuilder;
+import fr.ollprogram.twitchdiscordbridge.configuration.factory.ConfigFromProps;
+import fr.ollprogram.twitchdiscordbridge.configuration.factory.ConfigFromFile;
 import org.junit.jupiter.api.BeforeEach;
 
 public class ConfigurationTest {
@@ -11,7 +12,7 @@ public class ConfigurationTest {
 
     @BeforeEach
     void beforeEach(){
-        ConfigurationFactory fact = new ConfigPropertiesMaker("test");
+        ConfigFromFile fact = new ConfigFromProps("test", new BConfBuilder());
         config = fact.createConfiguration();
     }
 }

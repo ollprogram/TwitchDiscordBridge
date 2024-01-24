@@ -12,7 +12,7 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.factory;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfigImpl;
+import fr.ollprogram.twitchdiscordbridge.configuration.builder.BridgeConfigBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.FileInputStream;
@@ -22,48 +22,64 @@ import java.util.Properties;
 
 import static java.util.logging.Logger.getGlobal;
 
-public class ConfigPropertiesMaker implements ConfigurationFactory{
+public class ConfigFromProps implements ConfigFromFile {
 
     private static final String PROPERTIES_FILE = "bridge.properties";
 
     private Properties props;
 
+    private final BridgeConfigBuilder builder;
+
     /**
      * Constructor, search the file into resources
      * @param resourcePath The properties file pathname
      */
-    public ConfigPropertiesMaker(@NotNull String resourcePath){
+    public ConfigFromProps(@NotNull String resourcePath, BridgeConfigBuilder builder){
+        this.builder = builder;
         try {
             InputStream is = getClass().getResourceAsStream(resourcePath);
+            if(is == null) throw new IOException("Resource not available");
             props = new Properties();
             props.load(is);
+            is.close();
         } catch (IOException e) {
-            getGlobal().severe("Unable to load the properties file");
-            System.exit(1);
+            getGlobal().warning("Unable to load the properties file");
         }
+        tryLoadProps();
     }
 
     /**
      * Constructor, using the default path
      */
-    public ConfigPropertiesMaker(){
+    public ConfigFromProps(BridgeConfigBuilder builder){
+        this.builder = builder;
         try {
             FileInputStream fis = new FileInputStream(PROPERTIES_FILE);
             props = new Properties();
             props.load(fis);
+            fis.close();
         } catch (IOException e) {
-            getGlobal().severe("Unable to load the properties file");
-            System.exit(1);
+            getGlobal().warning("Unable to load the properties file");
         }
+        tryLoadProps();
+    }
+
+    private void tryLoadProps(){
+        builder.setTwitchChannelName(props.getProperty("TwitchChannelName"));
+        builder.setTwitchToken(props.getProperty("TwitchToken"));
+        builder.setDiscordToken(props.getProperty("DiscordToken"));
+        builder.setDiscordChannelID(props.getProperty("DiscordChannelID"));
     }
 
     @Override
-    public BridgeConfig createConfiguration() {
-        String twitchName = props.getProperty("TwitchChannelName");
-        String twitchToken = props.getProperty("TwitchToken");
-        String discordToken = props.getProperty("DiscordToken");
-        String discordChannel = props.getProperty("DiscordChannelID");
-        //TODO verif + builder
-        return new BridgeConfigImpl(twitchName, discordChannel, twitchToken, discordToken);
+    public boolean canLoadConfiguration() {
+        return builder.isComplete();
     }
+
+    @Override
+    public BridgeConfig loadConfiguration() throws IOException {
+        if(builder.isComplete()) return builder.build();
+        else throw new IOException("Can't load configuration file");
+    }
+
 }

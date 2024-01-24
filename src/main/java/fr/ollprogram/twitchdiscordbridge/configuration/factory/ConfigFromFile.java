@@ -13,11 +13,21 @@ package fr.ollprogram.twitchdiscordbridge.configuration.factory;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 
-public interface ConfigurationFactory {
+import java.io.IOException;
+
+public interface ConfigFromFile {
+
+
+    /**
+     * Tell if the configuration could be loaded
+     * @return If the configuration could be loaded
+     */
+    boolean canLoadConfiguration();
 
     /**
      * Creates the configuration
      * @return The configuration made
+     * @throws IOException if unable to load the configuration file
      */
-    BridgeConfig createConfiguration();
+    BridgeConfig loadConfiguration() throws IOException;
 }
