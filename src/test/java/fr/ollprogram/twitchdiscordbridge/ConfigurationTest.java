@@ -12,7 +12,6 @@ public class ConfigurationTest {
 
     @BeforeEach
     void beforeEach(){
-        ConfigFromFile fact = new ConfigFromProps("test", new BConfBuilder());
-        config = fact.createConfiguration();
+
     }
 }
