@@ -1,5 +1,6 @@
-package fr.ollprogram.twitchdiscordbridge;
+package fr.ollprogram.twitchdiscordbridge.configuration.builder;
 
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.builder.BConfBuilder;
 import fr.ollprogram.twitchdiscordbridge.configuration.builder.BridgeConfigBuilder;
 import org.junit.jupiter.api.BeforeEach;
@@ -115,4 +116,19 @@ public class ConfigBuilderTest {
         b.setTwitchChannelName("");
         assertFalse(b.isComplete());
     }
+
+    @Test
+    @DisplayName("build")
+    void build(){
+        b.setTwitchToken("token of twitch");
+        b.setDiscordChannelID("id");
+        b.setDiscordToken("token of discord");
+        b.setTwitchChannelName("name");
+        BridgeConfig c = b.build();
+        assertEquals("token of twitch", c.getTwitchToken());
+        assertEquals( "token of discord", c.getDiscordToken());
+        assertEquals("id", c.getDiscordChannelID());
+        assertEquals("name", c.getTwitchChannelName());
+    }
+
 }
