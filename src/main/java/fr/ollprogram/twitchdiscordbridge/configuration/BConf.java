@@ -29,7 +29,7 @@ public class BConf implements BridgeConfig {
      * @param discordToken The discord bot token
      */
     public BConf(@NotNull String twitchChannelName, @NotNull String discordChannelID,
-                 @NotNull String twitchToken, @NotNull String discordToken){
+                 @NotNull String twitchToken, @NotNull String discordToken) throws IllegalArgumentException {
         this.twitchToken = twitchToken;
         this.discordToken = discordToken;
         this.discordChannelID = discordChannelID;
