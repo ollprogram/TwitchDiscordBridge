@@ -1,8 +1,6 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.builder;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.builder.BConfBuilder;
-import fr.ollprogram.twitchdiscordbridge.configuration.builder.BridgeConfigBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;

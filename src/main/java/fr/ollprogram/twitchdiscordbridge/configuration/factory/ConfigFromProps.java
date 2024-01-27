@@ -14,12 +14,10 @@ package fr.ollprogram.twitchdiscordbridge.configuration.factory;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.builder.BridgeConfigBuilder;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
 import static java.util.logging.Logger.getGlobal;
 
 public class ConfigFromProps implements ConfigFromFile {

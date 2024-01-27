@@ -14,6 +14,7 @@ package fr.ollprogram.twitchdiscordbridge.configuration.saving;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.jetbrains.annotations.NotNull;
 
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
