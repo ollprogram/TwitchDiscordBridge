@@ -41,10 +41,10 @@ public class ConfigFromProps implements ConfigFromFile {
     }
 
     private void loadProps(){
-        builder.setTwitchChannelName(props.getProperty("TwitchChannelName"));
-        builder.setTwitchToken(props.getProperty("TwitchToken"));
-        builder.setDiscordToken(props.getProperty("DiscordToken"));
-        builder.setDiscordChannelID(props.getProperty("DiscordChannelID"));
+        builder.setTwitchChannelName(props.getProperty("TwitchChannelName"))
+                .setTwitchToken(props.getProperty("TwitchToken"))
+                .setDiscordToken(props.getProperty("DiscordToken"))
+                .setDiscordChannelID(props.getProperty("DiscordChannelID"));
     }
 
     @Override
