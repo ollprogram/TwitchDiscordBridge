@@ -26,7 +26,7 @@ import java.util.Properties;
  */
 public class ConfigToProps implements ConfigToFile{
 
-    private static final String PROPERTIES_FILE = "bridge.properties";
+    private static final String PROPERTIES = ".properties";
     @Override
     public void saveConfiguration(@NotNull BridgeConfig bridgeConfig) throws IOException {
         Properties props = new Properties();
@@ -34,7 +34,7 @@ public class ConfigToProps implements ConfigToFile{
         props.put("DiscordToken", bridgeConfig.getDiscordToken());
         props.put("TwitchChannelName", bridgeConfig.getTwitchChannelName());
         props.put("DiscordChannelID", bridgeConfig.getDiscordChannelID());
-        Writer w = new FileWriter(PROPERTIES_FILE);
+        Writer w = new FileWriter(DEFAULT_FILE_NAME + PROPERTIES);
         props.store(w, "You can edit this file if you wish");
         w.close();
     }

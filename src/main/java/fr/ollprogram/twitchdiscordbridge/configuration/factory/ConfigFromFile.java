@@ -23,6 +23,8 @@ import java.io.IOException;
  */
 public interface ConfigFromFile {
 
+    String DEFAULT_FILE_NAME = "bridge";
+
     /**
      * Load the configuration from default file
      * @throws IOException Unable to find or parse the file

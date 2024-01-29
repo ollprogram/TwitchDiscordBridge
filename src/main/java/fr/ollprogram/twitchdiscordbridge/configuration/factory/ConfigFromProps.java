@@ -25,7 +25,7 @@ import java.util.Properties;
  */
 public class ConfigFromProps implements ConfigFromFile {
 
-    private static final String PROPERTIES_FILE = "bridge.properties";
+    private static final String PROPERTIES = ".properties";
 
     private final Properties props;
 
@@ -50,7 +50,7 @@ public class ConfigFromProps implements ConfigFromFile {
     @Override
     public void load() throws IOException {
         InputStream is;
-        is = new FileInputStream(PROPERTIES_FILE);
+        is = new FileInputStream(DEFAULT_FILE_NAME + PROPERTIES);
         props.load(is);
         is.close();
         loadProps();
