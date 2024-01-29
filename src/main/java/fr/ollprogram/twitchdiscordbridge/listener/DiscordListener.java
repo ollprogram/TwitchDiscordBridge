@@ -9,18 +9,18 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
-package fr.ollprogram.twitchdiscordbridge.commands;
 
-public interface Command {
+package fr.ollprogram.twitchdiscordbridge.listener;
 
-    /**
-     * Get the command name
-     * @return The command name
-     */
-    String getName();
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import org.jetbrains.annotations.NotNull;
 
-    /**
-     * Execute the command overwritten operation
-     */
-    void execute();
+public class DiscordListener extends ListenerAdapter  {
+
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        //TODO
+    }
+
 }
