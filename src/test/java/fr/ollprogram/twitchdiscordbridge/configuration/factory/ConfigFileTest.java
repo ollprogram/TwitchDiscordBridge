@@ -1,5 +1,6 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.factory;
 
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.builder.BConfBuilder;
 import fr.ollprogram.twitchdiscordbridge.configuration.builder.BridgeConfigBuilder;
 import org.apache.commons.lang.IncompleteArgumentException;
@@ -11,8 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ConfigFileTest {
 
@@ -81,5 +81,83 @@ public class ConfigFileTest {
     void incomplete2() throws IOException {
         fact.load("/configFactory/randomEmpty.properties");
         assertFalse(fact.isComplete());
+    }
+
+    @Test
+    @Tag("Robustness")
+    @DisplayName("Incomplete props missing Twitch token. create")
+    void createBad3() throws IOException {
+        fact.load("/configFactory/missingTT.properties");
+        assertThrows(IncompleteArgumentException.class, () -> fact.createConfiguration());
+    }
+
+    @Test
+    @DisplayName("Incomplete missing twitch token")
+    void incomplete3() throws IOException {
+        fact.load("/configFactory/missingTT.properties");
+        assertFalse(fact.isComplete());
+    }
+
+    @Test
+    @Tag("Robustness")
+    @DisplayName("Incomplete props missing discord token. create")
+    void createBad4() throws IOException {
+        fact.load("/configFactory/missingDT.properties");
+        assertThrows(IncompleteArgumentException.class, () -> fact.createConfiguration());
+    }
+
+    @Test
+    @DisplayName("Incomplete missing discord token")
+    void incomplete4() throws IOException {
+        fact.load("/configFactory/missingDT.properties");
+        assertFalse(fact.isComplete());
+    }
+
+    @Test
+    @Tag("Robustness")
+    @DisplayName("Incomplete props missing discord channel. create")
+    void createBad5() throws IOException {
+        fact.load("/configFactory/missingDC.properties");
+        assertThrows(IncompleteArgumentException.class, () -> fact.createConfiguration());
+    }
+
+    @Test
+    @DisplayName("Incomplete missing discord channel")
+    void incomplete5() throws IOException {
+        fact.load("/configFactory/missingDC.properties");
+        assertFalse(fact.isComplete());
+    }
+
+    @Test
+    @Tag("Robustness")
+    @DisplayName("Incomplete props missing twitch channel. create")
+    void createBad6() throws IOException {
+        fact.load("/configFactory/missingTC.properties");
+        assertThrows(IncompleteArgumentException.class, () -> fact.createConfiguration());
+    }
+
+    @Test
+    @DisplayName("Incomplete missing twitch channel")
+    void incomplete6() throws IOException {
+        fact.load("/configFactory/missingTC.properties");
+        assertFalse(fact.isComplete());
+    }
+
+    @Test
+    @DisplayName("Completed config")
+    void complete1() throws IOException {
+        fact.load("/configFactory/completed.properties");
+        assertTrue(fact.isComplete());
+    }
+
+    @Test
+    @DisplayName("Completed config create")
+    void completeCreate1() throws IOException {
+        fact.load("/configFactory/completed.properties");
+        BridgeConfig b = fact.createConfiguration();
+        assertEquals("my%twitch%token", b.getTwitchToken());
+        assertEquals("my%discord%token", b.getDiscordToken());
+        assertEquals("my_twitch_channel", b.getTwitchChannelName());
+        assertEquals("1006321562229678111", b.getDiscordChannelID());
     }
 }
