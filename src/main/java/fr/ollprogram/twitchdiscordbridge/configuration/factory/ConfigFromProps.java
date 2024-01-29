@@ -48,6 +48,7 @@ public class ConfigFromProps implements ConfigFromFile {
         InputStream is;
         is = new FileInputStream(PROPERTIES_FILE);
         props.load(is);
+        is.close();
         loadProps();
     }
 
@@ -56,6 +57,7 @@ public class ConfigFromProps implements ConfigFromFile {
         InputStream is = getClass().getResourceAsStream(pathname);
         if (is == null) throw new FileNotFoundException("Can't find the properties file " + pathname);
         props.load(is);
+        is.close();
         loadProps();
     }
 
