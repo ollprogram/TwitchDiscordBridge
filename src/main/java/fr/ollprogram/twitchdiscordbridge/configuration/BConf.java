@@ -13,6 +13,10 @@ package fr.ollprogram.twitchdiscordbridge.configuration;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A simple implementation for a BridgeConfig
+ * @author ollprogram
+ */
 public class BConf implements BridgeConfig {
 
     private final String twitchToken;

@@ -19,6 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.util.Properties;
 
+/**
+ * Implementation of a ConfigFromFile which loads from properties files.
+ * @author ollprogram
+ */
 public class ConfigFromProps implements ConfigFromFile {
 
     private static final String PROPERTIES_FILE = "bridge.properties";
@@ -67,7 +71,7 @@ public class ConfigFromProps implements ConfigFromFile {
     }
 
     @Override
-    public BridgeConfig createConfiguration() throws IncompleteArgumentException {
+    public @NotNull BridgeConfig createConfiguration() throws IncompleteArgumentException {
         if(!isComplete()) throw new IncompleteArgumentException("Can't create an incomplete configuration");
         return builder.build();
     }

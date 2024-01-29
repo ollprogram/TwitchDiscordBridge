@@ -20,6 +20,10 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Properties;
 
+/**
+ * Implementation of a ConfigToFile which saves into properties files.
+ * @author ollprogram
+ */
 public class ConfigToProps implements ConfigToFile{
 
     private static final String PROPERTIES_FILE = "bridge.properties";
