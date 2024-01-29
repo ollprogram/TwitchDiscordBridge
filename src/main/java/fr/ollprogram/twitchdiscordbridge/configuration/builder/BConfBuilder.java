@@ -15,6 +15,10 @@ import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.BConf;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Implementation of a configuration builder
+ * @author ollprogram
+ */
 public class BConfBuilder implements BridgeConfigBuilder{
 
     private String tToken;

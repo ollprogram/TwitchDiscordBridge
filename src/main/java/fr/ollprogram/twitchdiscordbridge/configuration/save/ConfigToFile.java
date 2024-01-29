@@ -16,6 +16,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+/**
+ * Allows you to convert a configuration to a file.
+ * @author ollprogram
+ */
 public interface ConfigToFile {
 
     /**

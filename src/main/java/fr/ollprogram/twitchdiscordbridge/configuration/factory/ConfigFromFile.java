@@ -17,6 +17,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+/**
+ * A factory/loader which can create a configuration after loading a file which contains the configuration.
+ * @author ollprogram
+ */
 public interface ConfigFromFile {
 
     /**
@@ -43,5 +47,5 @@ public interface ConfigFromFile {
      * @return The bridge configuration
      * @throws IncompleteArgumentException If the configuration file was incomplete
      */
-    BridgeConfig createConfiguration() throws IncompleteArgumentException;
+    @NotNull BridgeConfig createConfiguration() throws IncompleteArgumentException;
 }
