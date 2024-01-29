@@ -22,6 +22,8 @@ import java.io.IOException;
  */
 public interface ConfigToFile {
 
+    String DEFAULT_FILE_NAME = "bridge";
+
     /**
      * Save the configuration
      * @param bridgeConfig The configuration  to save.
