@@ -3,7 +3,7 @@
 {
 	"name": "Java",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "kuent1/java18:latest",
+	"image": "kuent1/java18:test",
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -19,9 +19,9 @@
 		}
 	},
 	"remoteEnv": {
-		"JAVA_HOME":"/usr/lib/jvm/java-18-openjdk-amd64"
+		"JAVA_HOME": "/usr/lib/jvm/java-18-openjdk-amd64"
 	},
-	"postStartCommand": "/tmp/library-scripts/entrypoint.sh"
+	"postStartCommand": "/tmp/library-scripts/entrypoint.sh && rm -rf /tmp/library-scripts/"
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.

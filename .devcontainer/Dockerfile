@@ -20,4 +20,5 @@ COPY library-scripts/entrypoint.sh /tmp/library-scripts/
 RUN apt update --fix-missing && \
     apt install -y openjdk-18-jre openjdk-18-jdk wget git && \
     bash /tmp/library-scripts/maven-debian.sh "latest" "${SDKMAN_DIR}" &&\
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    rm /tmp/library-scripts/maven-debian.sh
