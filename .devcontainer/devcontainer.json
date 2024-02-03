@@ -11,13 +11,6 @@
 			]
 		}
 	},
-	"features": {
-		"ghcr.io/devcontainers/features/java:1": {
-			"version": "none",
-			"installMaven": "true",
-			"installGradle": "false"
-		}
-	},
 	"remoteEnv": {
 		"JAVA_HOME": "/usr/lib/jvm/java-18-openjdk-amd64"
 	},
