@@ -108,6 +108,16 @@ Type `help` or `<command> help` in the console. Or type `!help` on Discord.
   - `open` open the bridge.
   - `close` close the bridge.
 
+
+
+## Devcontainer
+
+To use the devcontainer, you need [Docker Desktop](https://www.docker.com/products/docker-desktop/) and [VSCode](https://code.visualstudio.com/), running the [devcontainer extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+
+Once these dependencies are installed, you can open the project in a new container from VSCode, the project and all of its dependencies will be imported automatically. 
+
+On container startup, Maven will clean, validate, compile and test the project.
+
 ## JavaDocs
 
 ### Next Upates
