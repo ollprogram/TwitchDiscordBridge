@@ -7,14 +7,15 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"vscjava.vscode-java-pack"
+				"vscjava.vscode-java-pack",
+				"github.vscode-github-actions"
 			]
 		}
 	},
 	"remoteEnv": {
 		"JAVA_HOME": "/usr/lib/jvm/java-18-openjdk-amd64"
 	},
-	"postStartCommand": "/tmp/library-scripts/entrypoint.sh && rm -rf /tmp/library-scripts/"
+	"postStartCommand": "/tmp/library-scripts/entrypoint.sh"
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.

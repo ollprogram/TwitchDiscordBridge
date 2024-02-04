@@ -3,3 +3,4 @@
 .vscode
 *.iml
 bridge.properties
+.devcontainer/ssh-keys/*
