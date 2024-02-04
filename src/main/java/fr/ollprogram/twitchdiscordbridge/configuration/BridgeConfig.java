@@ -13,6 +13,18 @@ package fr.ollprogram.twitchdiscordbridge.configuration;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The Bridge configuration contains 4 information :
+ * <ul>
+ *     <li>The name of the twitch channel target (mutable) </li>
+ *     <li>The id of the discord channel target (mutable) </li>
+ *     <li>The discord token for the bot (immutable)</li>
+ *     <li>The twitch token for the bot (immutable)</li>
+ * </ul>
+ * This configuration can be saved or read from other files easily.
+ * This configuration contains all information needed for the two bots (twitch, discord) to run properly.
+ * @author ollprogram
+ */
 public interface BridgeConfig {
 
     /**

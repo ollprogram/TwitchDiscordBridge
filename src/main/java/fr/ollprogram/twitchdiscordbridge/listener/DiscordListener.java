@@ -9,19 +9,18 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
-package fr.ollprogram.twitchdiscordbridge.configuration.saving;
 
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+package fr.ollprogram.twitchdiscordbridge.listener;
+
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
+public class DiscordListener extends ListenerAdapter  {
 
-public interface ConfigToFile {
+    @Override
+    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+        //TODO
+    }
 
-    /**
-     * Save the configuration
-     * @param bridgeConfig The configuration  to save.
-     * @throws IOException If can't save the configuration into a file.
-     */
-    void saveConfiguration(@NotNull BridgeConfig bridgeConfig) throws IOException;
 }

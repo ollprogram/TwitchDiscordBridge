@@ -9,18 +9,25 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
-package fr.ollprogram.twitchdiscordbridge.commands;
+package fr.ollprogram.twitchdiscordbridge.configuration.save;
 
-public interface Command {
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+
+/**
+ * Allows you to convert a configuration to a file.
+ * @author ollprogram
+ */
+public interface ConfigToFile {
+
+    String DEFAULT_FILE_NAME = "bridge";
 
     /**
-     * Get the command name
-     * @return The command name
+     * Save the configuration
+     * @param bridgeConfig The configuration  to save.
+     * @throws IOException If can't save the configuration into a file.
      */
-    String getName();
-
-    /**
-     * Execute the command overwritten operation
-     */
-    void execute();
+    void saveConfiguration(@NotNull BridgeConfig bridgeConfig) throws IOException;
 }

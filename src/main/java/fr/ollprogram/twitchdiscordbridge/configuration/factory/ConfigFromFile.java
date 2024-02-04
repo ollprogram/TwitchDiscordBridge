@@ -12,22 +12,42 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.factory;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import org.apache.commons.lang.IncompleteArgumentException;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+/**
+ * A factory/loader which can create a configuration after loading a file which contains the configuration.
+ * @author ollprogram
+ */
 public interface ConfigFromFile {
 
+    String DEFAULT_FILE_NAME = "bridge";
 
     /**
-     * Tell if the configuration could be loaded
-     * @return If the configuration could be loaded
+     * Load the configuration from default file
+     * @throws IOException Unable to find or parse the file
      */
-    boolean canLoadConfiguration();
+    void load() throws IOException;
 
     /**
-     * Creates the configuration
-     * @return The configuration made
-     * @throws IOException if unable to load the configuration file
+     * Load from a specific file name
+     * @param pathname The file to load
+     * @throws IOException Unable to find or parse the file
      */
-    BridgeConfig loadConfiguration() throws IOException;
+    void load(@NotNull String pathname) throws IOException;
+
+    /**
+     * Tell if the configuration is complete
+     * @return If the configuration is complete
+     */
+    boolean isComplete();
+
+    /**
+     * Create the bridge configuration from the loaded file
+     * @return The bridge configuration
+     * @throws IncompleteArgumentException If the configuration file was incomplete
+     */
+    @NotNull BridgeConfig createConfiguration() throws IncompleteArgumentException;
 }

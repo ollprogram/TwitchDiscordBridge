@@ -13,6 +13,10 @@ package fr.ollprogram.twitchdiscordbridge.configuration;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A simple implementation for a BridgeConfig
+ * @author ollprogram
+ */
 public class BConf implements BridgeConfig {
 
     private final String twitchToken;
@@ -29,7 +33,7 @@ public class BConf implements BridgeConfig {
      * @param discordToken The discord bot token
      */
     public BConf(@NotNull String twitchChannelName, @NotNull String discordChannelID,
-                 @NotNull String twitchToken, @NotNull String discordToken){
+                 @NotNull String twitchToken, @NotNull String discordToken) throws IllegalArgumentException {
         this.twitchToken = twitchToken;
         this.discordToken = discordToken;
         this.discordChannelID = discordChannelID;
