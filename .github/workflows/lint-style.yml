@@ -1,0 +1,44 @@
+name: Lint Style
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 18
+          distribution: 'temurin'
+      
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Install linter
+        run: |
+          wget https://raw.githubusercontent.com/checkstyle/checkstyle/master/scripts/installCheckstyle.sh
+          source installCheckstyle.sh
+          mvn install:checkstyle -o
+
+      - name: Install SAST tool
+        run: |
+          npm install -g snyk
+
+      - name: Run linter
+        run: |
+          mvn checkstyle
+
+      - name: Run SAST analysis
+        run: |
+          snyk test --fail-on=high,critical

@@ -3,19 +3,12 @@
 {
 	"name": "Java",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "kuent1/java18:test",
+	"image": "kuent1/java18:latest",
 	"customizations": {
 		"vscode": {
 			"extensions": [
 				"vscjava.vscode-java-pack"
 			]
-		}
-	},
-	"features": {
-		"ghcr.io/devcontainers/features/java:1": {
-			"version": "none",
-			"installMaven": "true",
-			"installGradle": "false"
 		}
 	},
 	"remoteEnv": {
