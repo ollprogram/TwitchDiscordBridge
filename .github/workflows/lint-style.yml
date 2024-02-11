@@ -30,15 +30,21 @@ jobs:
           wget https://raw.githubusercontent.com/checkstyle/checkstyle/master/scripts/installCheckstyle.sh
           source installCheckstyle.sh
           mvn install:checkstyle -o
-
-      - name: Install SAST tool
+      - name: Install PMD
         run: |
-          npm install -g snyk
+          wget https://github.com/pmd/pmd/releases/download/pmd_releases%2F6.50.0/pmd-bin-6.50.0.zip
+          unzip pmd-bin-6.50.0.zip
+          export PATH=$PATH:$PWD/pmd-bin-6.50.0/bin
 
-      - name: Run linter
+      - name: Run PMD
         run: |
-          mvn checkstyle
+          mvn pmd:check
 
-      - name: Run SAST analysis
+      - name: Install SpotBugs
         run: |
-          snyk test --fail-on=high,critical
+          wget https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.6.2/spotbugs-maven-plugin-4.6.2.jar
+          mv spotbugs-maven-plugin-4.6.2.jar $HOME/.m2/repository/com/github/spotbugs/spotbugs-maven-plugin/4.6.2/
+      
+      - name: Run SpotBugs
+        run: |
+          mvn spotbugs:check
