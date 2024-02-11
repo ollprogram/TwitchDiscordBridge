@@ -26,6 +26,9 @@ jobs:
             ${{ runner.os }}-m2-
 
       - name: Linting
-        uses: axel-op/googlejavaformat-action@v3
+        uses: axel-op/googlejavaformat-action@v3.6.0
         with:
-          args: "--set-exit-if-changed"
+          args: "--replace"
+          skip-commit: true
+      - name: Print diffs
+        run: git --no-pager diff --exit-code
