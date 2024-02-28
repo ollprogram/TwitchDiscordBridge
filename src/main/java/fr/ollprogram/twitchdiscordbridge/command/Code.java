@@ -9,13 +9,29 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
-
 package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface CommandExecutor {
+import java.io.PrintStream;
 
-    void executeCommand(@NotNull Command command);
+public class Code implements Command{
 
+    private static final String text = "Hi I'm ollprogram this bot has been made with TwitchDiscordBridge.\n" +
+            "TwitchDiscordBridge is free software, contribute or download here : https://github.com/ollprogram/TwitchDiscordBridge";
+    private PrintStream out;
+
+    public Code(@NotNull PrintStream out){
+        this.out = out;
+    }
+
+    @Override
+    public String getName() {
+        return "code";
+    }
+
+    @Override
+    public void execute() {
+        out.println(text);
+    }
 }

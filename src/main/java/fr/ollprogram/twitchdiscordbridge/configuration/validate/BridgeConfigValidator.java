@@ -10,28 +10,29 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge;
+package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
+
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.jetbrains.annotations.NotNull;
 
-public interface Bridge {
+/**
+ * The validator of a bridge configuration.
+ *
+ * @author ollprogram
+ */
+public interface BridgeConfigValidator {
 
     /**
-     * Shutdown the bots running
+     * Load the configuration and check if the configuration is valid.
+     * A configuration is valid when the bot tokens are valid and if the channels exists.
      */
-    void shutdown();
+    void validate(@NotNull BridgeConfig config);
 
     /**
-     * Send to Twitch a message
-     * @param message The message to send
-     * @param channelId The channel id of the message
+     * Check if the configuration has been validated.
+     * @return If the configuration is valid.
+     * A configuration is valid when the bot tokens are valid and if the channels exists.
      */
-    void sendToTwitch(@NotNull String message, @NotNull String channelId);
-
-    /**
-     * Send to Discord a message
-     * @param message The message to send
-     * @param channelId The channel id of the message
-     */
-    void sendToDiscord(@NotNull String message, @NotNull String channelId);
+    boolean isValid();
 }

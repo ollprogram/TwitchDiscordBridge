@@ -12,15 +12,24 @@
 
 package fr.ollprogram.twitchdiscordbridge.listener;
 
+import fr.ollprogram.twitchdiscordbridge.Bridge;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 public class DiscordListener extends ListenerAdapter  {
 
+    private final Bridge bridge;
+
+    public DiscordListener(@NotNull Bridge bridge){
+        this.bridge = bridge;
+    }
+
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        //TODO
+        String message = event.getMessage().getContentDisplay();
+        String channelId = event.getChannel().getId();
+        bridge.sendToTwitch(message, channelId);
     }
 
 }

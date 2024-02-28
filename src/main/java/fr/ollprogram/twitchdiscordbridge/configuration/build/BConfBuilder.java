@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
-package fr.ollprogram.twitchdiscordbridge.configuration.builder;
+package fr.ollprogram.twitchdiscordbridge.configuration.build;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.BConf;
