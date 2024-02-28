@@ -9,10 +9,10 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
-package fr.ollprogram.twitchdiscordbridge.configuration.factory;
+package fr.ollprogram.twitchdiscordbridge.configuration.load;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.builder.BridgeConfigBuilder;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.BridgeConfigBuilder;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.jetbrains.annotations.NotNull;
 

@@ -10,28 +10,22 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge;
+package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
+import fr.ollprogram.twitchdiscordbridge.Bridge;
 import org.jetbrains.annotations.NotNull;
 
-public interface Bridge {
+/**
+ * A Bridge factory which handle the creation of a valid bridge
+ *
+ * @author ollprogram
+ */
+public interface BridgeFactory extends BridgeConfigValidator {
 
     /**
-     * Shutdown the bots running
+     * Create a valid bridge
+     * @return The valid bridge
      */
-    void shutdown();
+    @NotNull Bridge createBridge();
 
-    /**
-     * Send to Twitch a message
-     * @param message The message to send
-     * @param channelId The channel id of the message
-     */
-    void sendToTwitch(@NotNull String message, @NotNull String channelId);
-
-    /**
-     * Send to Discord a message
-     * @param message The message to send
-     * @param channelId The channel id of the message
-     */
-    void sendToDiscord(@NotNull String message, @NotNull String channelId);
 }
