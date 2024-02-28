@@ -12,10 +12,6 @@
 
 package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
-
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import org.jetbrains.annotations.NotNull;
-
 /**
  * The validator of a bridge configuration.
  *
@@ -24,10 +20,15 @@ import org.jetbrains.annotations.NotNull;
 public interface BridgeConfigValidator {
 
     /**
-     * Load the configuration and check if the configuration is valid.
-     * A configuration is valid when the bot tokens are valid and if the channels exists.
+     * Load the configuration.
+     * While loading, the configuration may change if the channels specified are wrong.
+     * Default values are :
+     * <ul>
+     *     <li>Twitch channel : bot own channel</li>
+     *     <li>Discord channel : default guild channel or discord system private channel</li>
+     * </ul>
      */
-    void validate(@NotNull BridgeConfig config);
+    void loadConfiguration();
 
     /**
      * Check if the configuration has been validated.
