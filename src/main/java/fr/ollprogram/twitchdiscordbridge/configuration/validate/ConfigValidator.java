@@ -17,18 +17,7 @@ package fr.ollprogram.twitchdiscordbridge.configuration.validate;
  *
  * @author ollprogram
  */
-public interface BridgeConfigValidator {
-
-    /**
-     * Load the configuration.
-     * While loading, the configuration may change if the channels specified are wrong.
-     * Default values are :
-     * <ul>
-     *     <li>Twitch channel : bot own channel</li>
-     *     <li>Discord channel : default guild channel or discord system private channel</li>
-     * </ul>
-     */
-    void loadConfiguration();
+public interface ConfigValidator {
 
     /**
      * Check if the configuration has been validated.

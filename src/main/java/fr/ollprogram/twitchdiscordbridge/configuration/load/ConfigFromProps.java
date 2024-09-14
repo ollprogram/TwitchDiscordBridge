@@ -12,7 +12,7 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.load;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.build.BridgeConfigBuilder;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,13 +29,13 @@ public class ConfigFromProps implements ConfigFromFile {
 
     private final Properties props;
 
-    private final BridgeConfigBuilder builder;
+    private final ConfigBuilder builder;
 
     /**
      * Constructor, using the default path
      * @param builder The bridge config builder
      */
-    public ConfigFromProps(@NotNull BridgeConfigBuilder builder){
+    public ConfigFromProps(@NotNull ConfigBuilder builder){
         this.builder = builder;
         props = new Properties();
     }

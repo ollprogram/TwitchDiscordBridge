@@ -12,14 +12,14 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.build;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.BConf;
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfigImpl;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Implementation of a configuration builder
  * @author ollprogram
  */
-public class BConfBuilder implements BridgeConfigBuilder{
+public class ConfigBuilderImpl implements ConfigBuilder {
 
     private String tToken;
     private String dToken;
@@ -29,25 +29,25 @@ public class BConfBuilder implements BridgeConfigBuilder{
     private String name;
 
     @Override
-    public @NotNull BridgeConfigBuilder setDiscordChannelID(String id) {
+    public @NotNull ConfigBuilder setDiscordChannelID(String id) {
         this.id = id;
         return this;
     }
 
     @Override
-    public @NotNull BridgeConfigBuilder setTwitchToken(String token) {
+    public @NotNull ConfigBuilder setTwitchToken(String token) {
         tToken = token;
         return this;
     }
 
     @Override
-    public @NotNull BridgeConfigBuilder setDiscordToken(String token) {
+    public @NotNull ConfigBuilder setDiscordToken(String token) {
         dToken = token;
         return this;
     }
 
     @Override
-    public @NotNull BridgeConfigBuilder setTwitchChannelName(String name) {
+    public @NotNull ConfigBuilder setTwitchChannelName(String name) {
         this.name = name;
         return this;
     }
@@ -59,7 +59,7 @@ public class BConfBuilder implements BridgeConfigBuilder{
 
     @Override
     public @NotNull BridgeConfig build() {
-        if(isComplete()) return new BConf(name, id, tToken, dToken);
+        if(isComplete()) return new BridgeConfigImpl(name, id, tToken, dToken);
         else throw new IllegalArgumentException("Incomplete number of fields");
     }
 }

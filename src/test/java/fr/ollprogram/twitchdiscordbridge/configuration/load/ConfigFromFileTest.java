@@ -13,8 +13,8 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.load;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.build.BConfBuilder;
-import fr.ollprogram.twitchdiscordbridge.configuration.build.BridgeConfigBuilder;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import org.apache.commons.lang.IncompleteArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +32,7 @@ public class ConfigFromFileTest {
 
     @BeforeEach
     void before(){
-        BridgeConfigBuilder builder = new BConfBuilder();
+        ConfigBuilder builder = new ConfigBuilderImpl();
         fact = new ConfigFromProps(builder);
     }
 

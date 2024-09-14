@@ -47,32 +47,17 @@ public class BridgeFactoryImpl implements BridgeFactory {
         this.conf = conf;
     }
 
-    @Override
     public void loadConfiguration() {
-        try { //TODO this try catch this is bad smell (please change in next version with an oauth2 validator)
-            discordBot = JDABuilder.createDefault(conf.getDiscordToken()).build();
-            OAuth2Credential twitchCred = new OAuth2Credential("twitch", conf.getTwitchToken());
-            TwitchClientBuilder builder = TwitchClientBuilder.builder().withChatAccount(twitchCred);
-            twitchBot = builder.build();
-        } catch (InvalidTokenException e){
-            getGlobal().warning("Invalid configuration, please check your tokens.");
-        }
-        if(isValid()){
-            //discordBot.getChannelById(conf.getDiscordChannelID());
-            TwitchChat chat = twitchBot.getChat();
-            chat.joinChannel(conf.getTwitchChannelName());
-            //TODO
-        }
-    }
-
-    @Override
-    public boolean isValid(){
-        return discordBot != null && twitchBot != null;
+        //please change in next version with an oauth2 validator
+        discordBot = JDABuilder.createDefault(conf.getDiscordToken()).build();
+        OAuth2Credential twitchCred = new OAuth2Credential("twitch", conf.getTwitchToken());
+        TwitchClientBuilder builder = TwitchClientBuilder.builder().withChatAccount(twitchCred);
+        twitchBot = builder.build();
+        //TODO
     }
 
     @Override
     public @NotNull Bridge createBridge() {
-        if(!isValid()) throw new InvalidConfigurationException("Can't crate the bridge while the configuration is not valid");
-        return new BridgeImpl(discordBot, twitchBot, conf);
+        return null;
     }
 }

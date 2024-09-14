@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ConfigBuilderTest {
 
-    private BridgeConfigBuilder b;
+    private ConfigBuilder b;
     @BeforeEach
     void before(){
-        b = new BConfBuilder();
+        b = new ConfigBuilderImpl();
     }
 
     @Test

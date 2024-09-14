@@ -20,35 +20,35 @@ import org.jetbrains.annotations.NotNull;
  * It's not possible to build an incomplete configuration.
  * @author ollprogram
  */
-public interface BridgeConfigBuilder {
+public interface ConfigBuilder {
 
     /**
      * Set the discord channel id
      * @param id The discord channel id to set
      * @return This.
      */
-    @NotNull BridgeConfigBuilder setDiscordChannelID(String id);
+    @NotNull ConfigBuilder setDiscordChannelID(String id);
 
     /**
      * Set the twitch token
      * @param token the twitch token to set
      * @return this
      */
-    @NotNull BridgeConfigBuilder setTwitchToken(String token);
+    @NotNull ConfigBuilder setTwitchToken(String token);
 
     /**
      * Set the discord token
      * @param token the discord token
      * @return this
      */
-    @NotNull BridgeConfigBuilder setDiscordToken(String token);
+    @NotNull ConfigBuilder setDiscordToken(String token);
 
     /**
      * Set the twitch channel name
      * @param name The channel name to set
      * @return this
      */
-    @NotNull BridgeConfigBuilder setTwitchChannelName(String name);
+    @NotNull ConfigBuilder setTwitchChannelName(String name);
 
     /**
      * Check if all fields are all set to a non-null value.

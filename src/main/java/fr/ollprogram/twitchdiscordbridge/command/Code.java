@@ -17,8 +17,17 @@ import java.io.PrintStream;
 
 public class Code implements Command{
 
-    private static final String text = "Hi I'm ollprogram this bot has been made with TwitchDiscordBridge.\n" +
-            "TwitchDiscordBridge is free software, contribute or download here : https://github.com/ollprogram/TwitchDiscordBridge";
+    private static final String TEXT = """
+            Hi I'm ollprogram this bot has been made with TwitchDiscordBridge.
+            TwitchDiscordBridge is free software, contribute or download here : https://github.com/ollprogram/TwitchDiscordBridge
+            """;
+
+    private static final String MANUAL = """
+            The Code command :
+                Tells where we can find the source code.
+                Example : 
+                    code
+            """;
     private PrintStream out;
 
     public Code(@NotNull PrintStream out){
@@ -26,12 +35,17 @@ public class Code implements Command{
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "code";
     }
 
     @Override
+    public @NotNull String getHelp() {
+        return MANUAL;
+    }
+
+    @Override
     public void execute() {
-        out.println(text);
+        out.println(TEXT);
     }
 }

@@ -25,42 +25,42 @@ public class BridgeConfigTest {
     @Tag("Robustness")
     @DisplayName("all null")
     void allNull(){
-        assertThrows(IllegalArgumentException.class, () -> new BConf(null, null, null, null));
+        assertThrows(IllegalArgumentException.class, () -> new BridgeConfigImpl(null, null, null, null));
     }
 
     @Test
     @Tag("Robustness")
     @DisplayName("discord token is null")
     void nullDT(){
-        assertThrows(IllegalArgumentException.class, () -> new BConf("", "", "", null));
+        assertThrows(IllegalArgumentException.class, () -> new BridgeConfigImpl("", "", "", null));
     }
 
     @Test
     @Tag("Robustness")
     @DisplayName("twitch token is null")
     void nullTT(){
-        assertThrows(IllegalArgumentException.class, () -> new BConf("", "", null, ""));
+        assertThrows(IllegalArgumentException.class, () -> new BridgeConfigImpl("", "", null, ""));
     }
 
     @Test
     @Tag("Robustness")
     @DisplayName("discord channel is null")
     void nullDC(){
-        assertThrows(IllegalArgumentException.class, () -> new BConf("", null, "", ""));
+        assertThrows(IllegalArgumentException.class, () -> new BridgeConfigImpl("", null, "", ""));
     }
 
     @Test
     @Tag("Robustness")
     @DisplayName("twitch channel is null")
     void nullTC(){
-        assertThrows(IllegalArgumentException.class, () -> new BConf(null, "", "", ""));
+        assertThrows(IllegalArgumentException.class, () -> new BridgeConfigImpl(null, "", "", ""));
     }
 
     private BridgeConfig bc;
 
     @BeforeEach
     void before(){
-        bc = new BConf("name", "id", "twitch", "discord");
+        bc = new BridgeConfigImpl("name", "id", "twitch", "discord");
     }
 
     @Test

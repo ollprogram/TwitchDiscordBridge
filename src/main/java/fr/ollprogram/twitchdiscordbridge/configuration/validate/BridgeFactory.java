@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author ollprogram
  */
-public interface BridgeFactory extends BridgeConfigValidator {
+public interface BridgeFactory {
 
     /**
      * Create a valid bridge

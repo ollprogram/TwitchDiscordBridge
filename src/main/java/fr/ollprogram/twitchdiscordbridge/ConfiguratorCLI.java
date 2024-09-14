@@ -13,8 +13,8 @@
 package fr.ollprogram.twitchdiscordbridge;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.build.BConfBuilder;
-import fr.ollprogram.twitchdiscordbridge.configuration.build.BridgeConfigBuilder;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigFromFile;
 import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigFromProps;
 
@@ -24,13 +24,13 @@ import java.util.logging.Logger;
 
 public class ConfiguratorCLI {
 
-    private final BridgeConfigBuilder builder;
+    private final ConfigBuilder builder;
     private BridgeConfig config;
 
     private static  Logger log = Logger.getLogger("Configurator CLI");
 
     public ConfiguratorCLI(){
-        this.builder = new BConfBuilder();
+        this.builder = new ConfigBuilderImpl();
         this.config = null;
     }
 

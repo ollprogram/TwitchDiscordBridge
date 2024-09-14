@@ -12,6 +12,15 @@
 
 package fr.ollprogram.twitchdiscordbridge;
 
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
+import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigFromFile;
+import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigFromProps;
+import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
+import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
+
+import java.io.IOException;
 import java.util.logging.Logger;
 
 public class Main {
@@ -28,9 +37,15 @@ public class Main {
             If not, see https://www.gnu.org/licenses.
             """;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Logger lg = Logger.getLogger("Main");
         lg.info(LICENCE);
         lg.info("Started Bridge CLI");
+        ConfigBuilderImpl configBuilder = new ConfigBuilderImpl();
+        ConfigFromFile configFactory = new ConfigFromProps(configBuilder);
+        configFactory.load();
+        BridgeConfig config = configFactory.createConfiguration();
+        ConfigValidator validator = new ConfigValidatorImpl(config);
+        lg.info("is valid = " + validator.isValid());
     }
 }

@@ -11,13 +11,22 @@
  */
 package fr.ollprogram.twitchdiscordbridge.command;
 
+import org.jetbrains.annotations.NotNull;
+
 public interface Command {
 
     /**
      * Get the command name
      * @return The command name
      */
-    String getName();
+    @NotNull String getName();
+
+    /**
+     * Get the command helper manuals
+     * @return The manual of the command
+     */
+    @NotNull String getHelp();
+
 
     /**
      * Execute the command overwritten operation

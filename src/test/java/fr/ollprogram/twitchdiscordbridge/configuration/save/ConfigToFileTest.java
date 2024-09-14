@@ -12,7 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.configuration.save;
 
-import fr.ollprogram.twitchdiscordbridge.configuration.BConf;
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfigImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.junit.jupiter.api.*;
 
@@ -60,7 +60,7 @@ public class ConfigToFileTest {
     @Test
     @DisplayName("Saving a configuration")
     void saving1() throws IOException {
-        BridgeConfig b = new BConf("my_twitch_channel", "1006321562229678111",
+        BridgeConfig b = new BridgeConfigImpl("my_twitch_channel", "1006321562229678111",
                 "my%twitch%token", "my%discord%token");
         saver.saveConfiguration(b);
         assertConfigurationFile(b);
