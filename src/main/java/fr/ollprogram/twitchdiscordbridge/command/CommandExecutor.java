@@ -9,25 +9,19 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
+
 package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
-public interface Command extends Callable<Void> {
+public interface CommandExecutor {
 
-    /**
-     * Get the command name
-     * @return The command name
-     */
-    @NotNull String getName();
+    @NotNull Future<Void> submit(Command command);
 
-    /**
-     * Get the command helper manuals
-     * @return The manual of the command
-     */
-    @NotNull String getHelp();
+    void shutdown();
 
+    boolean isShutdown();
 
 }

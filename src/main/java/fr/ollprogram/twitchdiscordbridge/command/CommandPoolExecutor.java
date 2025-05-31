@@ -9,44 +9,34 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
+
 package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.PrintStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
-public class Code implements Command{
+public class CommandPoolExecutor implements CommandExecutor {
+    private final ExecutorService executorService;
 
-    private static final String TEXT = """
-            Hi I'm ollprogram this bot has been made with TwitchDiscordBridge.
-            TwitchDiscordBridge is free software, contribute or download here : https://github.com/ollprogram/TwitchDiscordBridge
-            """;
-
-    private static final String MANUAL = """
-            The Code command :
-                Tells where we can find the source code.
-                Example : 
-                    code
-            """;
-    private final PrintStream out;
-
-    public Code(@NotNull PrintStream out){
-        this.out = out;
+    public CommandPoolExecutor(int poolSize) {
+        this.executorService = new ScheduledThreadPoolExecutor(poolSize);
     }
 
     @Override
-    public @NotNull String getName() {
-        return "code";
+    public @NotNull Future<Void> submit(Command command) {
+        return executorService.submit(command);
     }
 
     @Override
-    public @NotNull String getHelp() {
-        return MANUAL;
+    public synchronized void shutdown() {
+        executorService.shutdown();
     }
 
     @Override
-    public Void call() {
-        out.println(TEXT);
-        return null;
+    public boolean isShutdown() {
+        return executorService.isShutdown();
     }
 }

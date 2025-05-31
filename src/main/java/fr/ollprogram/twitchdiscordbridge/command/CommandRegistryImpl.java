@@ -9,44 +9,33 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
+
 package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.PrintStream;
+import java.util.*;
 
-public class Code implements Command{
+public class CommandRegistryImpl implements CommandRegistry {
 
-    private static final String TEXT = """
-            Hi I'm ollprogram this bot has been made with TwitchDiscordBridge.
-            TwitchDiscordBridge is free software, contribute or download here : https://github.com/ollprogram/TwitchDiscordBridge
-            """;
+    private final Map<String, Command> commandsMap;
 
-    private static final String MANUAL = """
-            The Code command :
-                Tells where we can find the source code.
-                Example : 
-                    code
-            """;
-    private final PrintStream out;
-
-    public Code(@NotNull PrintStream out){
-        this.out = out;
+    public CommandRegistryImpl(){
+        commandsMap = new HashMap<>();
     }
 
     @Override
-    public @NotNull String getName() {
-        return "code";
+    public void register(Command command) {
+        commandsMap.put(command.getName(), command);
     }
 
     @Override
-    public @NotNull String getHelp() {
-        return MANUAL;
+    public @NotNull Optional<Command> find(String commandName) {
+        return Optional.ofNullable(commandsMap.get(commandName));
     }
 
     @Override
-    public Void call() {
-        out.println(TEXT);
-        return null;
+    public void deregister(Command command) {
+        commandsMap.remove(command.getName());
     }
 }
