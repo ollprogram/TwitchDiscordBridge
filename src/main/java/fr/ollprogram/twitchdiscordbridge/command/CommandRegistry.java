@@ -16,11 +16,27 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+/**
+ * A registry of usable commands.
+ */
 public interface CommandRegistry {
 
+    /**
+     * Register a command to the registry.
+     * @param command The command to register.
+     */
     void register(Command command);
 
+    /**
+     * Retrieve a command by its name.
+     * @param commandName The command name
+     * @return The command which has the specified name if retrieved.
+     */
     @NotNull Optional<Command> find(String commandName);
 
+    /**
+     * Remove a command from the registry.
+     * @param command The command to remove from the registry.
+     */
     void deregister(Command command);
 }

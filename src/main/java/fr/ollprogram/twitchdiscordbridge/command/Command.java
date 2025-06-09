@@ -24,7 +24,7 @@ public interface Command extends Callable<Void> {
     @NotNull String getName();
 
     /**
-     * Get the command helper manuals
+     * Get the command help
      * @return The manual of the command
      */
     @NotNull String getHelp();

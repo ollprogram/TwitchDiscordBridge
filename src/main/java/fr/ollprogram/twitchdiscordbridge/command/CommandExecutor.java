@@ -16,12 +16,27 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.Future;
 
+/**
+ * A command executor service. Based on the active object pattern to allow parallel execution of commands.
+ */
 public interface CommandExecutor {
 
+    /**
+     * Submit the command to the executor. The command will be executed.
+     * @param command The command to execute.
+     * @return The command future.
+     */
     @NotNull Future<Void> submit(Command command);
 
+    /**
+     * Shutdown the executor and delete all the pending command to execute. The executor can't receive any other commands after this call.
+     */
     void shutdown();
 
+    /**
+     *
+     * @return If the executor is shutdown.
+     */
     boolean isShutdown();
 
 }

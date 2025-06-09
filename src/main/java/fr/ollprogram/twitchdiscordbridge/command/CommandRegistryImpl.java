@@ -16,6 +16,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+/**
+ * Implementation of the command registry, using a HashMap to store commands.
+ */
 public class CommandRegistryImpl implements CommandRegistry {
 
     private final Map<String, Command> commandsMap;

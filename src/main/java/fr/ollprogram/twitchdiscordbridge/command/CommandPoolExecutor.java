@@ -18,6 +18,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
+/**
+ * Implementation of the Command executor, using a ScheduledThreadPoolExecutor.
+ */
 public class CommandPoolExecutor implements CommandExecutor {
     private final ExecutorService executorService;
 
