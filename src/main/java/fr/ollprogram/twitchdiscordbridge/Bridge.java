@@ -22,6 +22,17 @@ public interface Bridge {
     void shutdown();
 
     /**
+     * Starts the bridge bots
+     */
+    void start();
+
+    /**
+     * Check if the bridge is shutdown
+     * @return if the bridge is shutdown
+     */
+    boolean isShutdown();
+
+    /**
      * Send to Twitch a message
      * @param message The message to send
      * @param channelId The channel id of the message

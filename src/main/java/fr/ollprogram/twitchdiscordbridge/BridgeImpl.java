@@ -26,6 +26,8 @@ public class BridgeImpl implements Bridge {
 
     private final JDA discordBot;
 
+    private boolean shutdown;
+
     private final TwitchClient twitchBot;
 
     private final BridgeConfig bc;
@@ -35,6 +37,7 @@ public class BridgeImpl implements Bridge {
         this.bc = bc;
         this.twitchBot = twitchBot;
         this.discordBot = discordBot;
+        this.shutdown = false;
         configure();
     }
 
@@ -44,7 +47,24 @@ public class BridgeImpl implements Bridge {
 
     @Override
     public void shutdown() {
+        try {
+            discordBot.shutdownNow();
+            discordBot.awaitShutdown();
+            twitchBot.close();
+            shutdown = true;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void start() {
         //TODO
+    }
+
+    @Override
+    public boolean isShutdown() {
+        return shutdown;
     }
 
     @Override
