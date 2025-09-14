@@ -1,5 +1,5 @@
-/* Copyright © 2024 ollprogram
- *
+/*
+ * Copyright © 2025 ollprogram
  * This file is part of TwitchDiscordBridge.
  * TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or \(at your option\) any later version.
@@ -14,28 +14,20 @@ package fr.ollprogram.twitchdiscordbridge.configuration.save;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.jetbrains.annotations.NotNull;
 
-
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
-import java.util.Properties;
 
 /**
- * Implementation of a ConfigToFile which saves into properties files.
+ * Allows you to convert a configuration to a file.
  * @author ollprogram
  */
-public class ConfigToProps implements ConfigToFile{
+public interface ConfigSaver {
 
-    private static final String PROPERTIES = ".properties";
-    @Override
-    public void saveConfiguration(@NotNull BridgeConfig bridgeConfig) throws IOException {
-        Properties props = new Properties();
-        props.put("TwitchToken", bridgeConfig.getTwitchToken());
-        props.put("DiscordToken", bridgeConfig.getDiscordToken());
-        props.put("TwitchChannelName", bridgeConfig.getTwitchChannelName());
-        props.put("DiscordChannelID", bridgeConfig.getDiscordChannelID());
-        Writer w = new FileWriter(DEFAULT_FILE_NAME + PROPERTIES);
-        props.store(w, "You can edit this file if you wish");
-        w.close();
-    }
+    String DEFAULT_FILE_NAME = "bridge";
+
+    /**
+     * Save the configuration
+     * @param bridgeConfig The configuration  to save.
+     * @throws IOException If can't save the configuration into a file.
+     */
+    void saveConfiguration(@NotNull BridgeConfig bridgeConfig) throws IOException;
 }

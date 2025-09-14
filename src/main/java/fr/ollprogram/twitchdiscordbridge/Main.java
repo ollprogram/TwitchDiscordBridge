@@ -1,5 +1,5 @@
-/* Copyright © 2024 ollprogram
- *
+/*
+ * Copyright © 2025 ollprogram
  * This file is part of TwitchDiscordBridge.
  * TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or \(at your option\) any later version.
@@ -13,10 +13,9 @@
 package fr.ollprogram.twitchdiscordbridge;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
-import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigFromFile;
-import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigFromProps;
+import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoader;
+import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoaderFromProps;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
 
@@ -42,10 +41,10 @@ public class Main {
         lg.info(LICENCE);
         lg.info("Started Bridge CLI");
         ConfigBuilderImpl configBuilder = new ConfigBuilderImpl();
-        ConfigFromFile configFactory = new ConfigFromProps(configBuilder);
+        ConfigLoader configFactory = new ConfigLoaderFromProps(configBuilder);
         configFactory.load();
-        BridgeConfig config = configFactory.createConfiguration();
-        ConfigValidator validator = new ConfigValidatorImpl(config);
-        lg.info("is valid = " + validator.isValid());
+        //BridgeConfig config = configFactory.createConfiguration();
+        //ConfigValidator validator = new ConfigValidatorImpl(config);
+        //lg.info("is valid = " + validator.isValid());
     }
 }

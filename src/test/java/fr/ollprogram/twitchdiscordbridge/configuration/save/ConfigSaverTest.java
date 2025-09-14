@@ -26,10 +26,10 @@ import static java.util.logging.Logger.getGlobal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ConfigToFileTest {
+public class ConfigSaverTest {
     private static final String PROPERTIES_FILE = "bridge.properties";
 
-    private ConfigToFile saver;
+    private ConfigSaver saver;
 
     private static void assertConfigurationFile(BridgeConfig expected)
             throws IOException {
@@ -54,7 +54,7 @@ public class ConfigToFileTest {
     }
     @BeforeEach
     void beforeEach(){
-        saver = new ConfigToProps();
+        saver = new ConfigSaverToProps();
     }
 
     @Test

@@ -1,5 +1,5 @@
-/* Copyright © 2024 ollprogram
- *
+/*
+ * Copyright © 2025 ollprogram
  * This file is part of TwitchDiscordBridge.
  * TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or \(at your option\) any later version.
@@ -11,9 +11,7 @@
  */
 package fr.ollprogram.twitchdiscordbridge.configuration.load;
 
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
-import org.apache.commons.lang.IncompleteArgumentException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -23,7 +21,7 @@ import java.util.Properties;
  * Implementation of a ConfigFromFile which loads from properties files.
  * @author ollprogram
  */
-public class ConfigFromProps implements ConfigFromFile {
+public class ConfigLoaderFromProps implements ConfigLoader {
 
     private static final String PROPERTIES = ".properties";
 
@@ -35,7 +33,7 @@ public class ConfigFromProps implements ConfigFromFile {
      * Constructor, using the default path
      * @param builder The bridge config builder
      */
-    public ConfigFromProps(@NotNull ConfigBuilder builder){
+    public ConfigLoaderFromProps(@NotNull ConfigBuilder builder){
         this.builder = builder;
         props = new Properties();
     }
@@ -58,21 +56,11 @@ public class ConfigFromProps implements ConfigFromFile {
 
     @Override
     public void load(@NotNull String pathname) throws IOException {
-        InputStream is = getClass().getResourceAsStream(pathname);
+        InputStream is = getClass().getResourceAsStream(pathname);//FIXME don't use resource link here
         if (is == null) throw new FileNotFoundException("Can't find the properties file " + pathname);
         props.load(is);
         is.close();
         loadProps();
     }
 
-    @Override
-    public boolean isComplete() {
-        return builder.isComplete();
-    }
-
-    @Override
-    public @NotNull BridgeConfig createConfiguration() throws IncompleteArgumentException {
-        if(!isComplete()) throw new IncompleteArgumentException("Can't create an incomplete configuration");
-        return builder.build();
-    }
 }

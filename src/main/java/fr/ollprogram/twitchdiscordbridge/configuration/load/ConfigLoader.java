@@ -1,5 +1,5 @@
-/* Copyright © 2024 ollprogram
- *
+/*
+ * Copyright © 2025 ollprogram
  * This file is part of TwitchDiscordBridge.
  * TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or \(at your option\) any later version.
@@ -11,8 +11,6 @@
  */
 package fr.ollprogram.twitchdiscordbridge.configuration.load;
 
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import org.apache.commons.lang.IncompleteArgumentException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -21,7 +19,7 @@ import java.io.IOException;
  * A factory/loader which can create a configuration after loading a file which contains the configuration.
  * @author ollprogram
  */
-public interface ConfigFromFile {
+public interface ConfigLoader {
 
     String DEFAULT_FILE_NAME = "bridge";
 
@@ -38,16 +36,4 @@ public interface ConfigFromFile {
      */
     void load(@NotNull String pathname) throws IOException;
 
-    /**
-     * Tell if the configuration is complete
-     * @return If the configuration is complete
-     */
-    boolean isComplete();
-
-    /**
-     * Create the bridge configuration from the loaded file
-     * @return The bridge configuration
-     * @throws IncompleteArgumentException If the configuration file was incomplete
-     */
-    @NotNull BridgeConfig createConfiguration() throws IncompleteArgumentException;
 }

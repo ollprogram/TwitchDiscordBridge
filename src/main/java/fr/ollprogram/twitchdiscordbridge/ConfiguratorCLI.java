@@ -1,5 +1,5 @@
-/* Copyright © 2024 ollprogram
- *
+/*
+ * Copyright © 2025 ollprogram
  * This file is part of TwitchDiscordBridge.
  * TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or \(at your option\) any later version.
@@ -12,11 +12,12 @@
 
 package fr.ollprogram.twitchdiscordbridge;
 
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
-import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigFromFile;
-import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigFromProps;
+import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoader;
+import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoaderFromProps;
+import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
+import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,43 +26,37 @@ import java.util.logging.Logger;
 public class ConfiguratorCLI {
 
     private final ConfigBuilder builder;
-    private BridgeConfig config;
 
     private static  Logger log = Logger.getLogger("Configurator CLI");
 
     public ConfiguratorCLI(){
         this.builder = new ConfigBuilderImpl();
-        this.config = null;
     }
 
     public Bridge configure(){
-        boolean complete = false;
         boolean configured = false;
         try {
-            complete = loadFromFile();
+            ConfigLoader configLoader = findOrCreateConfigFile();
+            configLoader.load(); //Using default path
+            //TODO
         } catch (IOException e) {
             log.severe("Can't load the configuration. Because of files conflicts.");
             System.exit(1);
         }
-        if(complete){
-            //TODO
-        }
         while(!configured){
-
+            ConfigValidator validator = new ConfigValidatorImpl(builder);
+            configured = validator.isValid() && builder.isComplete();
+            //TODO
         }
         return null;//TODO
     }
 
-    private boolean loadFromFile() throws IOException {
-        File f = new File(ConfigFromFile.DEFAULT_FILE_NAME+".props");
+    private ConfigLoader findOrCreateConfigFile() throws IOException {
+        File f = new File(ConfigLoader.DEFAULT_FILE_NAME+".props");
         if(!f.isFile() || !f.exists()) {
             if(!f.createNewFile()) throw new IOException("Can't create the configuration file");
         }
-        ConfigFromFile configLoader = new ConfigFromProps(builder);
-        configLoader.load();
-        boolean res = configLoader.isComplete();
-        if(res) this.config = configLoader.createConfiguration();
-        return res;
+        return new ConfigLoaderFromProps(builder);
     }
 
 }

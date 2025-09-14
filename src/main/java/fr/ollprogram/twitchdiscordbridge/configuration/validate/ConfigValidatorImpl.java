@@ -1,19 +1,5 @@
-package fr.ollprogram.twitchdiscordbridge.configuration.validate;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.logging.Logger;
-
-/* Copyright © 2024 ollprogram
- *
+/*
+ * Copyright © 2025 ollprogram
  * This file is part of TwitchDiscordBridge.
  * TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or \(at your option\) any later version.
@@ -23,6 +9,21 @@ import java.util.logging.Logger;
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
+
+package fr.ollprogram.twitchdiscordbridge.configuration.validate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.logging.Logger;
 
 /**
  * The bridge configuration validator implementation
@@ -66,15 +67,23 @@ public class ConfigValidatorImpl implements ConfigValidator {
         this.bridgeConfig = bridgeConfig;
         this.logger = Logger.getLogger("BridgeConfigValidator");
     }
+
+    public ConfigValidatorImpl(ConfigBuilder configBuilder){
+        this(configBuilder.build());
+    }
     @Override
     public boolean isValid() {
-        logger.info("Checking the discord token validity");
+        logger.info("Checking both token validity");
         String discordToken = bridgeConfig.getDiscordToken();
         String twitchToken = bridgeConfig.getTwitchToken();
         boolean validatedTokens = false;
         try {
+            logger.info("Checking discord token validity...");
             boolean discordTokenValidity = isDiscordTokenValid(discordToken);
+            logger.info("Discord token is " + (discordTokenValidity ? "valid" : "invalid"));
+            logger.info("Checking twitch token validity...");
             boolean twitchTokenValidity = isTwitchTokenValid(twitchToken);
+            logger.info("Twitch token is " + (twitchTokenValidity ? "valid" : "invalid"));
             validatedTokens = discordTokenValidity && twitchTokenValidity;
         } catch (IOException | InterruptedException e) {
             logger.severe("Unable to send a validation request");
