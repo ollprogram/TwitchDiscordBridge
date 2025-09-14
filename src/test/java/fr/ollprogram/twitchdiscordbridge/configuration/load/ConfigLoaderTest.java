@@ -28,6 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ConfigLoaderTest {
 
+    private static final String TEST_FILES_ROOT = "src/test/resources/configFactory";
+
     private ConfigLoader fact;
     private ConfigBuilder builder;
 
@@ -68,56 +70,56 @@ public class ConfigLoaderTest {
     @Test
     @DisplayName("Incomplete props empty")
     void incomplete1() throws IOException {
-        fact.load("/configFactory/empty.properties");
+        fact.load(TEST_FILES_ROOT+"/empty.properties");
         assertFalse(builder.isComplete());
     }
 
     @Test
     @DisplayName("Incomplete props empty")
     void incomplete2() throws IOException {
-        fact.load("/configFactory/randomEmpty.properties");
+        fact.load(TEST_FILES_ROOT+"/randomEmpty.properties");
         assertFalse(builder.isComplete());
     }
 
     @Test
     @DisplayName("Incomplete missing twitch token")
     void incomplete3() throws IOException {
-        fact.load("/configFactory/missingTT.properties");
+        fact.load(TEST_FILES_ROOT+"/missingTT.properties");
         assertFalse(builder.isComplete());
     }
 
     @Test
     @DisplayName("Incomplete missing discord token")
     void incomplete4() throws IOException {
-        fact.load("/configFactory/missingDT.properties");
+        fact.load(TEST_FILES_ROOT+"/missingDT.properties");
         assertFalse(builder.isComplete());
     }
 
     @Test
     @DisplayName("Incomplete missing discord channel")
     void incomplete5() throws IOException {
-        fact.load("/configFactory/missingDC.properties");
+        fact.load(TEST_FILES_ROOT+"/missingDC.properties");
         assertFalse(builder.isComplete());
     }
 
     @Test
     @DisplayName("Incomplete missing twitch channel")
     void incomplete6() throws IOException {
-        fact.load("/configFactory/missingTC.properties");
+        fact.load(TEST_FILES_ROOT+"/missingTC.properties");
         assertFalse(builder.isComplete());
     }
 
     @Test
     @DisplayName("Completed config")
     void complete1() throws IOException {
-        fact.load("/configFactory/completed.properties");
+        fact.load(TEST_FILES_ROOT+"/completed.properties");
         assertTrue(builder.isComplete());
     }
 
     @Test
     @DisplayName("Completed config create")
     void completeCreate1() throws IOException {
-        fact.load("/configFactory/completed.properties");
+        fact.load(TEST_FILES_ROOT+"/completed.properties");
         assertEquals("my%twitch%token", builder.getTwitchToken());
         assertEquals("my%discord%token", builder.getDiscordToken());
         assertEquals("my_twitch_channel", builder.getTwitchChannelName());
