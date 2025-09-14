@@ -13,6 +13,7 @@ package fr.ollprogram.twitchdiscordbridge.configuration.build;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfigImpl;
+import fr.ollprogram.twitchdiscordbridge.exception.IncompleteConfigurationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,7 +62,7 @@ public class ConfigBuilderImpl implements ConfigBuilder {
     @Override
     public @NotNull BridgeConfig build() {
         if(isComplete()) return new BridgeConfigImpl(twitchChannelName, discordChannelID, twitchToken, discordToken);
-        else throw new IllegalArgumentException("Incomplete number of fields");
+        else throw new IncompleteConfigurationException("Incomplete number of fields, unable to build");
     }
 
     @Nullable

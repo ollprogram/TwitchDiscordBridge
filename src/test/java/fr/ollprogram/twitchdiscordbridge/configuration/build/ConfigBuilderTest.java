@@ -1,5 +1,5 @@
-/* Copyright © 2024 ollprogram
- *
+/*
+ * Copyright © 2025 ollprogram
  * This file is part of TwitchDiscordBridge.
  * TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation, either version 3 of the License, or \(at your option\) any later version.
@@ -13,6 +13,7 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.build;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import fr.ollprogram.twitchdiscordbridge.exception.IncompleteConfigurationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -32,7 +33,7 @@ public class ConfigBuilderTest {
     @Tag("Robustness")
     @DisplayName("incomplete empty")
     void incompleteEmpty(){
-        assertThrows(IllegalArgumentException.class, () -> b.build());
+        assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
     @Test
@@ -42,7 +43,7 @@ public class ConfigBuilderTest {
         b.setDiscordChannelID("");
         b.setTwitchToken("");
         b.setTwitchChannelName("");
-        assertThrows(IllegalArgumentException.class, () -> b.build());
+        assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
     @Test
@@ -52,7 +53,7 @@ public class ConfigBuilderTest {
         b.setDiscordChannelID("");
         b.setTwitchChannelName("");
         b.setDiscordToken("");
-        assertThrows(IllegalArgumentException.class, () -> b.build());
+        assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
     @Test
@@ -62,7 +63,7 @@ public class ConfigBuilderTest {
         b.setTwitchToken("");
         b.setTwitchChannelName("");
         b.setDiscordToken("");
-        assertThrows(IllegalArgumentException.class, () -> b.build());
+        assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
     @Test
@@ -72,7 +73,7 @@ public class ConfigBuilderTest {
         b.setDiscordChannelID("");
         b.setTwitchToken("");
         b.setDiscordToken("");
-        assertThrows(IllegalArgumentException.class, () -> b.build());
+        assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
     @Test
