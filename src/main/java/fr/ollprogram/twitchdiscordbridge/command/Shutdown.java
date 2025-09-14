@@ -32,10 +32,6 @@ public class Shutdown implements Command{
         this.bridge = bridge;
     }
 
-    @Override
-    public @NotNull String getName() {
-        return "shutdown";
-    }
 
     @Override
     public @NotNull String getHelp() {

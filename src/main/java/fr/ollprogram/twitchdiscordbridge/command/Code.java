@@ -35,11 +35,6 @@ public class Code implements Command{
     }
 
     @Override
-    public @NotNull String getName() {
-        return "code";
-    }
-
-    @Override
     public @NotNull String getHelp() {
         return MANUAL;
     }

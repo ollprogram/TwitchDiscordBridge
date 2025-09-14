@@ -28,8 +28,8 @@ public class CommandRegistryImpl implements CommandRegistry {
     }
 
     @Override
-    public void register(Command command) {
-        commandsMap.put(command.getName(), command);
+    public void register(String name, Command command) {
+        commandsMap.put(name, command);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class CommandRegistryImpl implements CommandRegistry {
     }
 
     @Override
-    public void deregister(Command command) {
-        commandsMap.remove(command.getName());
+    public void deregister(String name) {
+        commandsMap.remove(name);
     }
 }

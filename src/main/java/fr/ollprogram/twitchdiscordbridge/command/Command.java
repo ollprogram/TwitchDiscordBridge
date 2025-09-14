@@ -17,11 +17,6 @@ import java.util.concurrent.Callable;
 
 public interface Command extends Callable<Void> {
 
-    /**
-     * Get the command name
-     * @return The command name
-     */
-    @NotNull String getName();
 
     /**
      * Get the command help

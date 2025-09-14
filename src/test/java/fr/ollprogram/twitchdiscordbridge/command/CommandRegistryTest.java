@@ -23,6 +23,9 @@ import static org.mockito.Mockito.when;
 
 public class CommandRegistryTest {
     private Command fakeCommand1;
+
+    private static final String COMMAND_NAME1 = "test_command1";
+    private static final String COMMAND_NAME2 = "test_command2";
     private Command fakeCommand2;
 
     private CommandRegistry commandRegistry;
@@ -30,65 +33,63 @@ public class CommandRegistryTest {
     @BeforeEach
     void beforeRegistryTests(){
         fakeCommand1 = mock(Command.class);
-        when(fakeCommand1.getName()).thenReturn("test_command1");
         fakeCommand2 = mock(Command.class);
-        when(fakeCommand2.getName()).thenReturn("test_command2");
         commandRegistry = new CommandRegistryImpl();
     }
 
     @Test
     void testRegisterOneCommand(){
-        commandRegistry.register(fakeCommand1);
-        Command retrievedCommand = commandRegistry.find("test_command1").orElse(null);
+        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
+        Command retrievedCommand = commandRegistry.find(COMMAND_NAME1).orElse(null);
         assertEquals(fakeCommand1, retrievedCommand);
     }
 
     @Test
     void testRegisterTwoCommands1(){
-        commandRegistry.register(fakeCommand1);
-        commandRegistry.register(fakeCommand2);
-        Command retrievedCommand = commandRegistry.find("test_command1").orElse(null);
+        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
+        commandRegistry.register(COMMAND_NAME2, fakeCommand2);
+        Command retrievedCommand = commandRegistry.find(COMMAND_NAME1).orElse(null);
         assertEquals(fakeCommand1, retrievedCommand);
     }
 
     @Test
     void testRegisterTwoCommands2(){
-        commandRegistry.register(fakeCommand1);
-        commandRegistry.register(fakeCommand2);
-        Command retrievedCommand = commandRegistry.find("test_command2").orElse(null);
+        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
+        commandRegistry.register(COMMAND_NAME2, fakeCommand2);
+        Command retrievedCommand = commandRegistry.find(COMMAND_NAME2).orElse(null);
         assertEquals(fakeCommand2, retrievedCommand);
     }
 
     @Test
     void testRegisterTwoCommands3(){
-        commandRegistry.register(fakeCommand1);
-        commandRegistry.register(fakeCommand2);
+        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
+        commandRegistry.register(COMMAND_NAME2, fakeCommand2);
         Optional<Command> retrievedCommand = commandRegistry.find("test_command3");
         assertEquals(Optional.empty(), retrievedCommand);
     }
 
     @Test
     void testDeregister(){
-        commandRegistry.register(fakeCommand1);
-        commandRegistry.deregister(fakeCommand1);
-        Optional<Command> retrievedCommand = commandRegistry.find("test_command1");
+        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
+        commandRegistry.deregister(COMMAND_NAME1);
+        Optional<Command> retrievedCommand = commandRegistry.find(COMMAND_NAME1);
         assertEquals(Optional.empty(), retrievedCommand);
     }
 
     @Test
     void testDeregisterNoSideEffect(){
-        commandRegistry.register(fakeCommand1);
-        commandRegistry.register(fakeCommand2);
-        commandRegistry.deregister(fakeCommand1);
-        Optional<Command> retrievedCommand = commandRegistry.find("test_command2");
+        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
+        commandRegistry.register(COMMAND_NAME2, fakeCommand2);
+        commandRegistry.deregister(COMMAND_NAME1);
+        Optional<Command> retrievedCommand = commandRegistry.find(COMMAND_NAME2);
         assertEquals(fakeCommand2, retrievedCommand.orElse(null));
-        retrievedCommand = commandRegistry.find("test_command1");
+        retrievedCommand = commandRegistry.find(COMMAND_NAME1);
         assertEquals(Optional.empty(), retrievedCommand);
     }
 
     @Test
     void testNothingRegistered(){
-        Optional<Command> retrievedCommand = commandRegistry.find("test_command1");
+        Optional<Command> retrievedCommand = commandRegistry.find(COMMAND_NAME1);
         assertEquals(Optional.empty(), retrievedCommand);
     }
 

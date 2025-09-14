@@ -25,7 +25,7 @@ public interface CommandRegistry {
      * Register a command to the registry.
      * @param command The command to register.
      */
-    void register(Command command);
+    void register(String name, Command command);
 
     /**
      * Retrieve a command by its name.
@@ -36,7 +36,7 @@ public interface CommandRegistry {
 
     /**
      * Remove a command from the registry.
-     * @param command The command to remove from the registry.
+     * @param name The name of the command to remove from the registry.
      */
-    void deregister(Command command);
+    void deregister(String name);
 }
