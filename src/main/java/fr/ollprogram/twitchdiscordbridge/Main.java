@@ -16,17 +16,20 @@ import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoader;
 import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoaderFromProps;
+import fr.ollprogram.twitchdiscordbridge.configuration.validate.BridgeFactory;
+import fr.ollprogram.twitchdiscordbridge.configuration.validate.BridgeFactoryImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
 
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class Main {
 
     private static final String LICENCE = """
             
-            Copyright © 2024 ollprogram
+            Copyright © 2025 ollprogram
             TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
             as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
             TwitchDiscordBridge is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
@@ -40,11 +43,12 @@ public class Main {
         Logger lg = Logger.getLogger("Main");
         lg.info(LICENCE);
         lg.info("Started Bridge CLI");
-        ConfigBuilderImpl configBuilder = new ConfigBuilderImpl();
-        ConfigLoader configFactory = new ConfigLoaderFromProps(configBuilder);
-        configFactory.load();
-        //BridgeConfig config = configFactory.createConfiguration();
-        //ConfigValidator validator = new ConfigValidatorImpl(config);
-        //lg.info("is valid = " + validator.isValid());
+        Scanner scanner = new Scanner(System.in);
+        ConfiguratorCLI configuratorCLI = new ConfiguratorCLI(scanner);
+
+        BridgeConfig config = configuratorCLI.configure();
+        BridgeFactory bridgeFactory = new BridgeFactoryImpl(config);
+        Bridge bridge = bridgeFactory.createBridge();
+        scanner.close();
     }
 }

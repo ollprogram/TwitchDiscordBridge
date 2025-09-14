@@ -47,17 +47,12 @@ public class ConfigLoaderFromProps implements ConfigLoader {
 
     @Override
     public void load() throws IOException {
-        InputStream is;
-        is = new FileInputStream(DEFAULT_FILE_NAME + PROPERTIES);
-        props.load(is);
-        is.close();
-        loadProps();
+        this.load(DEFAULT_FILE_NAME + PROPERTIES);
     }
 
     @Override
     public void load(@NotNull String pathname) throws IOException {
-        InputStream is = getClass().getResourceAsStream(pathname);//FIXME don't use resource link here
-        if (is == null) throw new FileNotFoundException("Can't find the properties file " + pathname);
+        InputStream is = new FileInputStream(pathname);
         props.load(is);
         is.close();
         loadProps();

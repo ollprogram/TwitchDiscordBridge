@@ -12,51 +12,94 @@
 
 package fr.ollprogram.twitchdiscordbridge;
 
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoader;
 import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoaderFromProps;
+import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaver;
+import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaverToProps;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class ConfiguratorCLI {
 
     private final ConfigBuilder builder;
+    private final Scanner scanner;
 
-    private static  Logger log = Logger.getLogger("Configurator CLI");
+    private final static Logger LOG = Logger.getLogger("Configurator CLI");
 
-    public ConfiguratorCLI(){
+    public ConfiguratorCLI(Scanner scanner){
         this.builder = new ConfigBuilderImpl();
+        this.scanner = scanner;
     }
 
-    public Bridge configure(){
-        boolean configured = false;
+    public BridgeConfig configure(){
         try {
             ConfigLoader configLoader = findOrCreateConfigFile();
             configLoader.load(); //Using default path
-            //TODO
         } catch (IOException e) {
-            log.severe("Can't load the configuration. Because of files conflicts.");
+            LOG.severe("Can't load the configuration. Because of files conflicts.");
             System.exit(1);
         }
-        while(!configured){
-            ConfigValidator validator = new ConfigValidatorImpl(builder);
-            configured = validator.isValid() && builder.isComplete();
-            //TODO
+        ConfigValidator validator = new ConfigValidatorImpl(builder);
+        boolean configured = builder.isComplete() && validator.isValid();
+        while(!configured) {
+            validator = new ConfigValidatorImpl(builder);
+            askDiscordToken();
+            askDiscordChannelID();
+            askTwitchToken();
+            askTwitchChannelName();
+            configured = builder.isComplete() && validator.isValid();
         }
-        return null;//TODO
+        BridgeConfig config = builder.build();
+        saveCurrentConfiguration(config);
+        return config;
     }
 
+    private void askTwitchToken(){
+        System.out.println("Please provide a twitch Token : ");
+        String token = scanner.next();
+        builder.setTwitchToken(token);
+    }
+
+    private void askDiscordToken(){
+        System.out.println("Please provide a discord Token : ");
+        String token = scanner.next();
+        builder.setDiscordToken(token);
+    }
+
+    private void askDiscordChannelID(){
+        System.out.println("Please provide a discord channel ID : ");
+        String id = scanner.next();
+        builder.setDiscordChannelID(id);
+    }
+
+    private void askTwitchChannelName(){
+        System.out.println("Please provide a twitch channel name : ");
+        String name = scanner.next();
+        builder.setTwitchChannelName(name);
+    }
     private ConfigLoader findOrCreateConfigFile() throws IOException {
-        File f = new File(ConfigLoader.DEFAULT_FILE_NAME+".props");
+        File f = new File(ConfigLoader.DEFAULT_FILE_NAME+".properties");
         if(!f.isFile() || !f.exists()) {
             if(!f.createNewFile()) throw new IOException("Can't create the configuration file");
         }
         return new ConfigLoaderFromProps(builder);
+    }
+
+    private void saveCurrentConfiguration(BridgeConfig config) {
+        ConfigSaver saver = new ConfigSaverToProps();
+        try {
+            saver.saveConfiguration(config);
+        } catch (IOException e) {
+            LOG.fine("Unable to save configuration");
+        }
     }
 
 }
