@@ -47,14 +47,17 @@ public class ConfiguratorCLI {
             LOG.severe("Can't load the configuration. Because of files conflicts.");
             System.exit(1);
         }
-        ConfigValidator validator = new ConfigValidatorImpl(builder);
-        boolean configured = builder.isComplete() && validator.isValid();
+        boolean configured = false;
+        if(builder.isComplete()) {
+            ConfigValidator validator = new ConfigValidatorImpl(builder);
+            configured = validator.isValid();
+        }
         while(!configured) {
-            validator = new ConfigValidatorImpl(builder);
             askDiscordToken();
             askDiscordChannelID();
             askTwitchToken();
             askTwitchChannelName();
+            ConfigValidator validator = new ConfigValidatorImpl(builder);
             configured = builder.isComplete() && validator.isValid();
         }
         BridgeConfig config = builder.build();

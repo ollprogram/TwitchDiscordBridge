@@ -155,7 +155,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
                 return true;
             }
             case 401 -> {
-                logger.severe("Unauthorized Access");
+                logger.warning("Unauthorized Access");
                 return false;
             }
             default -> {
