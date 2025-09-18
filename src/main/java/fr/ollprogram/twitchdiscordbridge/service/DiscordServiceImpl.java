@@ -10,11 +10,12 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge.auth;
+package fr.ollprogram.twitchdiscordbridge.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.ollprogram.twitchdiscordbridge.service.model.BotInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-public class DiscordAuthService implements BotAuthService {
+public class DiscordServiceImpl implements DiscordService {
 
     private static final String DISCORD_BASE_ROUTE = "https://discord.com/api/v10";
 
@@ -36,18 +37,21 @@ public class DiscordAuthService implements BotAuthService {
 
     private static final String AUTHORIZATION_HEADER = "authorization";
 
-    private static final Logger LOG = Logger.getLogger("DiscordAuthService");
+    private static final Logger LOG = Logger.getLogger("DiscordService");
 
     @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class DiscordResponse{
+    private static class DiscordAuthBody {
         public String id;
+
         public String name;
+
+        public String message;
     }
 
     @Override
     public @NotNull Optional<BotInfo> authenticate(String token) {
         try {
-            DiscordResponse response = checkDiscordToken(token);
+            DiscordAuthBody response = checkDiscordToken(token);
             if(response != null) return Optional.of(new BotInfo(response.id, response.name));
         } catch (IOException | InterruptedException e ){
             LOG.severe("Unable to request discord, reason : "+e.getMessage());
@@ -63,16 +67,28 @@ public class DiscordAuthService implements BotAuthService {
                 .build();
     }
 
-    private DiscordResponse checkDiscordToken(String token) throws IOException, InterruptedException {
+    private DiscordAuthBody checkDiscordToken(String token) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest discordRequest = getDiscordRequest(token);
         HttpResponse<String> response = client.send(discordRequest, HttpResponse.BodyHandlers.ofString());
-        if(response.statusCode() == 200){
-            ObjectMapper mapper = new ObjectMapper();
-            try {
-                return mapper.readValue(response.body(), DiscordResponse.class);
-            } catch (JsonProcessingException e) {
-                LOG.severe("Unable to read the Discord validation response.");
+        ObjectMapper mapper = new ObjectMapper();
+        DiscordAuthBody body = null;
+        try {
+            body = mapper.readValue(response.body(), DiscordAuthBody.class);
+        } catch (JsonProcessingException e) {
+            LOG.severe("Unable to read the Discord validation response.");
+            System.exit(1);
+        }
+        int status = response.statusCode();
+        switch(status){
+            case 200 -> {
+                return body;
+            }
+            case 401 -> {
+                return null;
+            }
+            default -> {
+                LOG.severe("Request error : status=" + status + ", message=" + body.message);
                 System.exit(1);
             }
         }

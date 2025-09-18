@@ -12,21 +12,13 @@
 
 package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ollprogram.twitchdiscordbridge.auth.BotAuthService;
-import fr.ollprogram.twitchdiscordbridge.auth.BotInfo;
-import fr.ollprogram.twitchdiscordbridge.auth.DiscordAuthService;
-import fr.ollprogram.twitchdiscordbridge.auth.TwitchAuthService;
+import fr.ollprogram.twitchdiscordbridge.service.*;
+import fr.ollprogram.twitchdiscordbridge.service.BotAuthService;
+import fr.ollprogram.twitchdiscordbridge.service.TwitchServiceImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
+import fr.ollprogram.twitchdiscordbridge.service.model.BotInfo;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -46,8 +38,8 @@ public class ConfigValidatorImpl implements ConfigValidator {
     public ConfigValidatorImpl(BridgeConfig bridgeConfig){
         this.bridgeConfig = bridgeConfig;
         this.logger = Logger.getLogger("BridgeConfigValidator");
-        this.discordAuthService = new DiscordAuthService();
-        this.twitchAuthService = new TwitchAuthService();
+        this.discordAuthService = new DiscordServiceImpl();
+        this.twitchAuthService = new TwitchServiceImpl();
     }
 
     public ConfigValidatorImpl(ConfigBuilder configBuilder){

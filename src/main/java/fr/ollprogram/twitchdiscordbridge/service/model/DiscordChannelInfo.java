@@ -10,19 +10,7 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge.auth;
+package fr.ollprogram.twitchdiscordbridge.service.model;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Optional;
-
-public interface BotAuthService {
-
-    /**
-     * Authenticate to the app and get the bot info if authentication succeed
-     * @param token A valid app token
-     * @return the bot info if authentication succeed
-     */
-    @NotNull Optional<BotInfo> authenticate(String token);
-
+public record DiscordChannelInfo() {
 }
