@@ -10,14 +10,7 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge.service.model;
+package fr.ollprogram.twitchdiscordbridge.model;
 
-public record BotInfo(String botID, String botName) {
-    @Override
-    public String toString() {
-        return "{" +
-                "botID='" + botID + '\'' +
-                ", botName='" + botName + '\'' +
-                '}';
-    }
+public record TwitchChannelInfo() {
 }

@@ -10,7 +10,7 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge.service.model;
+package fr.ollprogram.twitchdiscordbridge.model;
 
-public record TwitchChannelInfo() {
+public record DiscordChannelInfo() {
 }

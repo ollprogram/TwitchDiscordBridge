@@ -50,7 +50,7 @@ class ConfigValidatorTest {
         configBuilder.setTwitchToken("twitch_token");
         validator = new ConfigValidatorImpl(configBuilder);
     }
-    @Test
+    //TODO @Test
     void isValid() throws IOException, InterruptedException {
         //TODO
     }

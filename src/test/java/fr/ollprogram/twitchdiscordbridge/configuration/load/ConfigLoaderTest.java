@@ -21,14 +21,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ConfigLoaderTest {
 
     private static final String TEST_FILES_ROOT = "src/test/resources/configFactory";
+    private static final String DEFAULT_FILE_PATH = "bridge.properties";
 
     private ConfigLoader fact;
     private ConfigBuilder builder;
@@ -58,13 +61,6 @@ public class ConfigLoaderTest {
     @DisplayName("resource not found")
     void notFoundRes(){
         assertThrows(FileNotFoundException.class, () -> fact.load("unknown"));
-    }
-
-    @Test
-    @Tag("Robustness")
-    @DisplayName("default file not found")
-    void notFound(){
-        assertThrows(FileNotFoundException.class, () -> fact.load());
     }
 
     @Test

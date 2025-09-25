@@ -17,7 +17,7 @@ import fr.ollprogram.twitchdiscordbridge.service.BotAuthService;
 import fr.ollprogram.twitchdiscordbridge.service.TwitchServiceImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
-import fr.ollprogram.twitchdiscordbridge.service.model.BotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.BotInfo;
 
 import java.util.Optional;
 import java.util.logging.Logger;

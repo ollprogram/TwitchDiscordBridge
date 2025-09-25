@@ -15,7 +15,7 @@ package fr.ollprogram.twitchdiscordbridge.service;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ollprogram.twitchdiscordbridge.service.model.BotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.BotInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

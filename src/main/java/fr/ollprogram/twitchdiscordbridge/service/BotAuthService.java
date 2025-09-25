@@ -12,7 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.service;
 
-import fr.ollprogram.twitchdiscordbridge.service.model.BotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.BotInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
