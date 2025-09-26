@@ -60,7 +60,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
             logger.info("Discord token is valid, retrieved bot : "+discordInfo.get());
         }
         logger.info("Checking twitch token validity...");
-        Optional<BotInfo> twitchInfo = discordAuthService.authenticate(twitchToken);
+        Optional<BotInfo> twitchInfo = twitchAuthService.authenticate(twitchToken);
         if(twitchInfo.isEmpty()) {
             logger.info("Twitch token is invalid");
             return false;

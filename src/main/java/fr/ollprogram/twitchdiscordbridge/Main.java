@@ -47,8 +47,10 @@ public class Main {
         ConfiguratorCLI configuratorCLI = new ConfiguratorCLI(scanner);
 
         BridgeConfig config = configuratorCLI.configure();
-        BridgeFactory bridgeFactory = new BridgeFactoryImpl(config);
-        Bridge bridge = bridgeFactory.createBridge();
+        //TODO
+        //BridgeFactory bridgeFactory = new BridgeFactoryImpl(config);
+        //Bridge bridge = bridgeFactory.createBridge();
         scanner.close();
+
     }
 }
