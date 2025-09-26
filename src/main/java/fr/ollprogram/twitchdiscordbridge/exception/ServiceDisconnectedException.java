@@ -10,19 +10,15 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge.model;
+package fr.ollprogram.twitchdiscordbridge.exception;
+
 
 /**
- * A record to simply represent a twitch channel
- * @param id The twitch channel ID
- * @param channelName The twitch channel name
+ * When the service (twitch or discord) are not connected (authenticate wasn't called)
  */
-public record TwitchChannelInfo(String id, String channelName) {
-    @Override
-    public String toString() {
-        return "{" +
-                "ChannelID='" + id + '\'' +
-                ", ChannelName='" + channelName + '\'' +
-                '}';
+public class ServiceDisconnectedException extends RuntimeException {
+
+    public ServiceDisconnectedException(String message){
+        super(message);
     }
 }

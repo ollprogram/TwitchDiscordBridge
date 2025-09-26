@@ -13,6 +13,7 @@
 package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
 import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
 import fr.ollprogram.twitchdiscordbridge.service.*;
 import fr.ollprogram.twitchdiscordbridge.service.TwitchServiceImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
@@ -47,27 +48,44 @@ public class ConfigValidatorImpl implements ConfigValidator {
     }
     @Override
     public boolean isValid() {
-        logger.info("Checking both token validity");
+        //order matters
+        //TODO channelID discord
+        return isValidDiscordToken() && isValidTwitchToken() && isValidTwitchChannelName();
+    }
+
+    private boolean isValidDiscordToken() {
         String discordToken = bridgeConfig.getDiscordToken();
-        String twitchToken = bridgeConfig.getTwitchToken();
         logger.info("Checking discord token validity...");
         Optional<DiscordBotInfo> discordInfo = discordService.authenticate(discordToken);
         if(discordInfo.isEmpty()) {
             logger.info("Discord token is invalid");
             return false;
         }
-        else {
-            logger.info("Discord token is valid, retrieved bot : "+discordInfo.get());
-        }
+        logger.info("Discord token is valid, retrieved bot : "+discordInfo.get());
+        return true;
+    }
+
+    private boolean isValidTwitchToken() {
+        String twitchToken = bridgeConfig.getTwitchToken();
         logger.info("Checking twitch token validity...");
         Optional<TwitchBotInfo> twitchInfo = twitchService.authenticate(twitchToken);
         if(twitchInfo.isEmpty()) {
             logger.info("Twitch token is invalid");
             return false;
         }
-        else {
-            logger.info("Twitch token is valid, retrieved bot : "+twitchInfo.get());
+        logger.info("Twitch token is valid, retrieved bot : "+twitchInfo.get());
+        return true;
+    }
+
+    private boolean isValidTwitchChannelName(){
+        String twitchChannelName = bridgeConfig.getTwitchChannelName();
+        logger.info("Checking twitch channel validity...");
+        Optional<TwitchChannelInfo> twitchChannelInfo = twitchService.getChannel(twitchChannelName);
+        if(twitchChannelInfo.isEmpty()) {
+            logger.info("Twitch channel name is invalid");
+            return false;
         }
+        logger.info("Twitch channel retrieved : "+twitchChannelInfo.get());
         return true;
     }
 }

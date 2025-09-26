@@ -12,6 +12,9 @@
 
 package fr.ollprogram.twitchdiscordbridge.exception;
 
+/**
+ * When the configuration is invalidated
+ */
 public class InvalidConfigurationException extends RuntimeException {
 
     public InvalidConfigurationException(String message) {

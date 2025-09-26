@@ -12,6 +12,9 @@
 
 package fr.ollprogram.twitchdiscordbridge.exception;
 
+/**
+ * When the configuration is not complete
+ */
 public class IncompleteConfigurationException extends RuntimeException {
 
     public IncompleteConfigurationException(String message) {
