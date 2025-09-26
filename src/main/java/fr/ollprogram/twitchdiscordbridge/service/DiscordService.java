@@ -12,7 +12,29 @@
 
 package fr.ollprogram.twitchdiscordbridge.service;
 
-public interface DiscordService extends BotAuthService {
+import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
+/**
+ * Useful to request the discord API without a heavy client for simple validation requests
+ */
+public interface DiscordService {
+
+    /**
+     * Authenticate to the app and get the bot info if authentication succeed
+     * @param token A valid app token
+     * @return the bot info if authentication succeed
+     */
+    @NotNull Optional<DiscordBotInfo> authenticate(String token);
+
+    /**
+     * Retrieve the channel by its ID
+     * @param channelID The channel ID
+     * @return The channel infos
+     */
+    @NotNull Optional<DiscordChannelInfo> getChannel(String channelID);
 
 }

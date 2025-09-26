@@ -12,12 +12,12 @@
 
 package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
+import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
 import fr.ollprogram.twitchdiscordbridge.service.*;
-import fr.ollprogram.twitchdiscordbridge.service.BotAuthService;
 import fr.ollprogram.twitchdiscordbridge.service.TwitchServiceImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
-import fr.ollprogram.twitchdiscordbridge.model.BotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
 
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -30,16 +30,16 @@ import java.util.logging.Logger;
 public class ConfigValidatorImpl implements ConfigValidator {
 
     private final BridgeConfig bridgeConfig;
-    private final BotAuthService twitchAuthService;
-    private final BotAuthService discordAuthService;
+    private final TwitchService twitchService;
+    private final DiscordService discordService;
 
     private final Logger logger;
 
     public ConfigValidatorImpl(BridgeConfig bridgeConfig){
         this.bridgeConfig = bridgeConfig;
         this.logger = Logger.getLogger("BridgeConfigValidator");
-        this.discordAuthService = new DiscordServiceImpl();
-        this.twitchAuthService = new TwitchServiceImpl();
+        this.discordService = new DiscordServiceImpl();
+        this.twitchService = new TwitchServiceImpl();
     }
 
     public ConfigValidatorImpl(ConfigBuilder configBuilder){
@@ -51,7 +51,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
         String discordToken = bridgeConfig.getDiscordToken();
         String twitchToken = bridgeConfig.getTwitchToken();
         logger.info("Checking discord token validity...");
-        Optional<BotInfo> discordInfo = discordAuthService.authenticate(discordToken);
+        Optional<DiscordBotInfo> discordInfo = discordService.authenticate(discordToken);
         if(discordInfo.isEmpty()) {
             logger.info("Discord token is invalid");
             return false;
@@ -60,7 +60,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
             logger.info("Discord token is valid, retrieved bot : "+discordInfo.get());
         }
         logger.info("Checking twitch token validity...");
-        Optional<BotInfo> twitchInfo = twitchAuthService.authenticate(twitchToken);
+        Optional<TwitchBotInfo> twitchInfo = twitchService.authenticate(twitchToken);
         if(twitchInfo.isEmpty()) {
             logger.info("Twitch token is invalid");
             return false;

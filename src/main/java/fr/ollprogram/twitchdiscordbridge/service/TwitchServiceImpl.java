@@ -15,7 +15,8 @@ package fr.ollprogram.twitchdiscordbridge.service;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ollprogram.twitchdiscordbridge.model.BotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -41,9 +44,7 @@ public class TwitchServiceImpl implements TwitchService {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     private static class TwitchAuthBody {
-
-        public String login;
-        public String user_id;
+        public String client_id;
         public long expires_in;
 
         public String message;
@@ -51,14 +52,23 @@ public class TwitchServiceImpl implements TwitchService {
 
 
     @Override
-    public @NotNull Optional<BotInfo> authenticate(String token) {
+    public @NotNull Optional<TwitchBotInfo> authenticate(String token) {
         try {
-            TwitchAuthBody response = checkTwitchToken(token);
-            if(response != null) return Optional.of(new BotInfo(response.user_id, response.login));
+            TwitchAuthBody body = checkTwitchToken(token);
+            if(body != null) return Optional.of(new TwitchBotInfo(body.client_id, getExpirationDate(body.expires_in)));
         } catch (IOException | InterruptedException e ){
             LOG.severe("Unable to request twitch, reason : "+e.getMessage());
         }
         return Optional.empty();
+    }
+
+    /**
+     * Get the expiration date with the token expiration time
+     * @param expiresIn The time before the token expiration
+     * @return The expiration date
+     */
+    private static Date getExpirationDate(long expiresIn){
+        return Date.from(Instant.now().plusSeconds(expiresIn));
     }
 
     private HttpRequest getTwitchAuthRequest(String token){

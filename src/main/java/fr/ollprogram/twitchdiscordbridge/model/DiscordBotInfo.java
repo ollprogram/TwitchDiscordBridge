@@ -12,7 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.model;
 
-public record BotInfo(String botID, String botName) {
+public record DiscordBotInfo(String botID, String botName) {
     @Override
     public String toString() {
         return "{" +

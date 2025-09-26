@@ -10,20 +10,17 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge.service;
+package fr.ollprogram.twitchdiscordbridge.model;
 
-import fr.ollprogram.twitchdiscordbridge.model.BotInfo;
-import org.jetbrains.annotations.NotNull;
+import java.util.Date;
 
-import java.util.Optional;
+public record TwitchBotInfo(String clientID, Date expirationDate) {
 
-public interface BotAuthService {
-
-    /**
-     * Authenticate to the app and get the bot info if authentication succeed
-     * @param token A valid app token
-     * @return the bot info if authentication succeed
-     */
-    @NotNull Optional<BotInfo> authenticate(String token);
-
+    @Override
+    public String toString() {
+        return "{" +
+                "botClientID='" + clientID + '\'' +
+                ", expiration_date='" + expirationDate + '\'' +
+                '}';
+    }
 }

@@ -12,5 +12,21 @@
 
 package fr.ollprogram.twitchdiscordbridge.service;
 
-public interface TwitchService extends BotAuthService {
+import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+
+/**
+ * Useful to request the twitch API without a heavy client for simple validation requests
+ */
+public interface TwitchService {
+
+    /**
+     * Authenticate to the app and get the bot info if authentication succeed
+     * @param token A valid app token
+     * @return the bot info if authentication succeed
+     */
+    @NotNull Optional<TwitchBotInfo> authenticate(String token);
+
 }

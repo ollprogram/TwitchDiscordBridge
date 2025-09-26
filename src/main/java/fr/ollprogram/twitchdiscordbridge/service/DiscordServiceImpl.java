@@ -15,7 +15,8 @@ package fr.ollprogram.twitchdiscordbridge.service;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.ollprogram.twitchdiscordbridge.model.BotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -49,13 +50,19 @@ public class DiscordServiceImpl implements DiscordService {
     }
 
     @Override
-    public @NotNull Optional<BotInfo> authenticate(String token) {
+    public @NotNull Optional<DiscordBotInfo> authenticate(String token) {
         try {
             DiscordAuthBody response = checkDiscordToken(token);
-            if(response != null) return Optional.of(new BotInfo(response.id, response.name));
+            if(response != null) return Optional.of(new DiscordBotInfo(response.id, response.name));
         } catch (IOException | InterruptedException e ){
             LOG.severe("Unable to request discord, reason : "+e.getMessage());
         }
+        return Optional.empty();
+    }
+
+    @Override
+    public @NotNull Optional<DiscordChannelInfo> getChannel(String channelID) {
+        //TODO
         return Optional.empty();
     }
 
