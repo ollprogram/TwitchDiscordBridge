@@ -38,6 +38,9 @@ public class ConfigLoaderFromProps implements ConfigLoader {
         props = new Properties();
     }
 
+    /**
+     * Load all properties
+     */
     private void loadProps(){
         builder.setTwitchChannelName(props.getProperty("TwitchChannelName"))
                 .setTwitchToken(props.getProperty("TwitchToken"))

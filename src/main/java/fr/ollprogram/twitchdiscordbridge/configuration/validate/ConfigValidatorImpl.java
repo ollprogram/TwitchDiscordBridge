@@ -37,6 +37,10 @@ public class ConfigValidatorImpl implements ConfigValidator {
 
     private final Logger logger;
 
+    /**
+     * Validator constructor
+     * @param bridgeConfig The bridge configuration
+     */
     public ConfigValidatorImpl(BridgeConfig bridgeConfig){
         this.bridgeConfig = bridgeConfig;
         this.logger = Logger.getLogger("BridgeConfigValidator");
@@ -44,14 +48,23 @@ public class ConfigValidatorImpl implements ConfigValidator {
         this.twitchService = new TwitchServiceImpl();
     }
 
+    /**
+     * Validator constructor
+     * @param configBuilder Bridge configuration builder
+     */
     public ConfigValidatorImpl(ConfigBuilder configBuilder){
         this(configBuilder.build());
     }
+
     @Override
     public boolean isValid() {
         return isValidDiscordToken() && isValidDiscordChannelID() && isValidTwitchToken() && isValidTwitchChannelName();
     }
 
+    /**
+     * Check discord token validity
+     * @return If the discord token is valid
+     */
     private boolean isValidDiscordToken() {
         String discordToken = bridgeConfig.getDiscordToken();
         logger.info("Checking discord token validity...");
@@ -64,6 +77,10 @@ public class ConfigValidatorImpl implements ConfigValidator {
         return true;
     }
 
+    /**
+     * Check the twitch token validity
+     * @return If the twitch token is valid
+     */
     private boolean isValidTwitchToken() {
         String twitchToken = bridgeConfig.getTwitchToken();
         logger.info("Checking twitch token validity...");
@@ -76,6 +93,10 @@ public class ConfigValidatorImpl implements ConfigValidator {
         return true;
     }
 
+    /**
+     * Check the twitch channel name validity
+     * @return If the twitch channel name is valid
+     */
     private boolean isValidTwitchChannelName(){
         String twitchChannelName = bridgeConfig.getTwitchChannelName();
         logger.info("Checking twitch channel validity...");
@@ -88,6 +109,10 @@ public class ConfigValidatorImpl implements ConfigValidator {
         return true;
     }
 
+    /**
+     * Check the discord channel ID validity
+     * @return If the discord channel is valid
+     */
     private boolean isValidDiscordChannelID(){
         String discordChannelID = bridgeConfig.getDiscordChannelID();
         logger.info("Checking discord channel validity...");

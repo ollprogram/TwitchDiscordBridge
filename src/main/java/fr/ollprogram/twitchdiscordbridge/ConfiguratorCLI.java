@@ -27,6 +27,9 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+/**
+ * Help the user to fill the configuration in the console if elements are missing
+ */
 public class ConfiguratorCLI {
 
     private final ConfigBuilder builder;
@@ -34,11 +37,19 @@ public class ConfiguratorCLI {
 
     private final static Logger LOG = Logger.getLogger("Configurator CLI");
 
+    /**
+     * Configurator constructor
+     * @param scanner The file scanner
+     */
     public ConfiguratorCLI(Scanner scanner){
         this.builder = new ConfigBuilderImpl();
         this.scanner = scanner;
     }
 
+    /**
+     * Ask the user to configure until the configuration is complete and valid
+     * @return The validated bridge config
+     */
     public BridgeConfig configure(){
         try {
             ConfigLoader configLoader = findOrCreateConfigFile();
@@ -65,29 +76,47 @@ public class ConfiguratorCLI {
         return config;
     }
 
+    /**
+     * Ask the twitch token to the user
+     */
     private void askTwitchToken(){
         System.out.println("Please provide a twitch Token : ");
         String token = scanner.next();
         builder.setTwitchToken(token);
     }
 
+    /**
+     * Ask the discord token to the user
+     */
     private void askDiscordToken(){
         System.out.println("Please provide a discord Token : ");
         String token = scanner.next();
         builder.setDiscordToken(token);
     }
 
+    /**
+     * Ask the discord channel ID to the User
+     */
     private void askDiscordChannelID(){
         System.out.println("Please provide a discord channel ID : ");
         String id = scanner.next();
         builder.setDiscordChannelID(id);
     }
 
+    /**
+     * Ask the twitch channel name to the user
+     */
     private void askTwitchChannelName(){
         System.out.println("Please provide a twitch channel name : ");
         String name = scanner.next();
         builder.setTwitchChannelName(name);
     }
+
+    /**
+     * Find or create the configuration file
+     * @return The configuration loader
+     * @throws IOException If an I/O error occurs
+     */
     private ConfigLoader findOrCreateConfigFile() throws IOException {
         File f = new File(ConfigLoader.DEFAULT_FILE_NAME+".properties");
         if(!f.isFile() || !f.exists()) {
@@ -96,6 +125,10 @@ public class ConfiguratorCLI {
         return new ConfigLoaderFromProps(builder);
     }
 
+    /**
+     * Save the current configuration
+     * @param config The bridge configuration
+     */
     private void saveCurrentConfiguration(BridgeConfig config) {
         ConfigSaver saver = new ConfigSaverToProps();
         try {

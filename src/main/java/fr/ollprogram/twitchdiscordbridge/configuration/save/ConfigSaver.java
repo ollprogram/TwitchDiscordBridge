@@ -27,7 +27,7 @@ public interface ConfigSaver {
     /**
      * Save the configuration
      * @param bridgeConfig The configuration  to save.
-     * @throws IOException If can't save the configuration into a file.
+     * @throws IOException If it can't save the configuration into a file.
      */
     void saveConfiguration(@NotNull BridgeConfig bridgeConfig) throws IOException;
 }
