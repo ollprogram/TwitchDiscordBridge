@@ -12,5 +12,19 @@
 
 package fr.ollprogram.twitchdiscordbridge.model;
 
-public record DiscordChannelInfo() {
+/**
+ * The discord channel info
+ * @param id The discord channel ID
+ * @param name The discord channel name
+ */
+public record DiscordChannelInfo(String id, String name) {
+
+    @Override
+    public String toString() {
+        return "{" +
+                "ChannelID='" + id + '\'' +
+                ", ChannelName='" + name + '\'' +
+                '}';
+    }
+
 }

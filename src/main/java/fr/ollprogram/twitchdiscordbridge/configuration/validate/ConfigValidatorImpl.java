@@ -12,6 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
+import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
 import fr.ollprogram.twitchdiscordbridge.service.*;
@@ -48,9 +49,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
     }
     @Override
     public boolean isValid() {
-        //order matters
-        //TODO channelID discord
-        return isValidDiscordToken() && isValidTwitchToken() && isValidTwitchChannelName();
+        return isValidDiscordToken() && isValidDiscordChannelID() && isValidTwitchToken() && isValidTwitchChannelName();
     }
 
     private boolean isValidDiscordToken() {
@@ -86,6 +85,18 @@ public class ConfigValidatorImpl implements ConfigValidator {
             return false;
         }
         logger.info("Twitch channel retrieved : "+twitchChannelInfo.get());
+        return true;
+    }
+
+    private boolean isValidDiscordChannelID(){
+        String discordChannelID = bridgeConfig.getDiscordChannelID();
+        logger.info("Checking discord channel validity...");
+        Optional<DiscordChannelInfo> channelInfo = discordService.getChannel(discordChannelID);
+        if(channelInfo.isEmpty()) {
+            logger.info("Discord channel ID is invalid");
+            return false;
+        }
+        logger.info("Discord channel retrieved : "+channelInfo.get());
         return true;
     }
 }

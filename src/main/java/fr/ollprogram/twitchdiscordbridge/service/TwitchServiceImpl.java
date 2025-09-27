@@ -231,10 +231,11 @@ public class TwitchServiceImpl implements TwitchService {
             LOG.severe("Unable to read twitch users response");
             System.exit(1);
         }
-        if(response.statusCode() == 200){
+        int status = response.statusCode();
+        if(status == 200){
             return body;
         }else {
-            LOG.severe("The request went wrong, reason : "+body.message);
+            LOG.severe("Request error : status=" + status + ", message=" + body.message);
             System.exit(1);
         }
         return body;

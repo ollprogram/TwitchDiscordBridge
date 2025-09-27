@@ -14,6 +14,11 @@ package fr.ollprogram.twitchdiscordbridge.model;
 
 import java.util.Date;
 
+/**
+ * The twitch bot information record simplified
+ * @param clientID The client id used
+ * @param expirationDate The token expiration date
+ */
 public record TwitchBotInfo(String clientID, Date expirationDate) {
 
     @Override

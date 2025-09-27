@@ -12,6 +12,12 @@
 
 package fr.ollprogram.twitchdiscordbridge.model;
 
+
+/**
+ * The discord bot information record simplified
+ * @param botID The bot id
+ * @param botName The bot name
+ */
 public record DiscordBotInfo(String botID, String botName) {
     @Override
     public String toString() {
