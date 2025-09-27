@@ -28,6 +28,9 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+/**
+ * The discord service implementation
+ */
 public class DiscordServiceImpl implements DiscordService {
 
     private static final String BASE_ROUTE = "https://discord.com/api/v10";
@@ -40,6 +43,8 @@ public class DiscordServiceImpl implements DiscordService {
     private static final String CONTENT_TYPE_VALUE = "application/json";
 
     private static final String AUTHORIZATION_HEADER = "authorization";
+
+    private static final String UNKNOWN_CHANNEL_MESSAGE = "Unknown Channel";
 
     private static final Logger LOG = Logger.getLogger("DiscordService");
 
@@ -63,10 +68,16 @@ public class DiscordServiceImpl implements DiscordService {
 
     private String token;
 
+    /**
+     * Discord service constructor
+     */
     public DiscordServiceImpl(){
         this.token = null;
     }
 
+    /**
+     * Check if the authenticate method was called once
+     */
     private void checkAuthCalled(){
         if(token == null) throw new ServiceDisconnectedException("The discord service authentication failed or wasn't called first.");
     }
@@ -99,23 +110,46 @@ public class DiscordServiceImpl implements DiscordService {
         return Optional.empty();
     }
 
+    /**
+     * Prepare the default discord api headers
+     * @param token The discord bot token
+     * @return The request builder with default headers
+     */
     private HttpRequest.Builder prepareRequestHeaders(String token){
         return HttpRequest.newBuilder().header(CONTENT_TYPE_HEADER, CONTENT_TYPE_VALUE)
                 .header(AUTHORIZATION_HEADER,"Bot "+token);
     }
 
+    /**
+     * Prepare the request for the token validation
+     * @param token The discord token
+     * @return The request for the token validation
+     */
     private HttpRequest getAuthValidationRequest(String token){
         return prepareRequestHeaders(token).GET()
                 .uri(URI.create(BASE_ROUTE + AUTH_ROUTE))
                 .build();
     }
 
+    /**
+     * Prepare the request for retrieving a channel by its ID
+     * @param token The discord token
+     * @param channelID The discord channel ID
+     * @return the request for retrieving a channel by its ID
+     */
     private HttpRequest getChannelRequest(String token, String channelID){
         return prepareRequestHeaders(token).GET()
                 .uri(URI.create(BASE_ROUTE + CHANNELS_ROUTE + "/" + channelID))
                 .build();
     }
 
+    /**
+     * Call to the discord API to check if the token is valid
+     * @param token The discord token
+     * @return The simplified body response or null if invalid
+     * @throws IOException If an I/O error occurs
+     * @throws InterruptedException If an interruption error occurs
+     */
     private AuthValidationBody callCheckDiscordToken(String token) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest discordRequest = getAuthValidationRequest(token);
@@ -144,6 +178,13 @@ public class DiscordServiceImpl implements DiscordService {
         return null;
     }
 
+    /**
+     * Call to the discord API to get a channel by its id
+     * @param channelID The id of the channel to retrieve
+     * @return The simplified body response or null if not found
+     * @throws IOException If an I/O error occurs
+     * @throws InterruptedException If an interruption error occurs
+     */
     private ChannelBody callGetChannelByID(String channelID) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newBuilder().build();
         HttpRequest request = getChannelRequest(token, channelID);
@@ -157,9 +198,9 @@ public class DiscordServiceImpl implements DiscordService {
             System.exit(1);
         }
         int status = response.statusCode();
-        if(status == 200){
-            return body;
-        } else {
+        if(status == 200) return body;
+        else if(status == 404 && body.message.equals(UNKNOWN_CHANNEL_MESSAGE)) return null;
+        else {
             LOG.severe("Request error : status=" + status + ", message=" + body.message);
             System.exit(1);
         }
