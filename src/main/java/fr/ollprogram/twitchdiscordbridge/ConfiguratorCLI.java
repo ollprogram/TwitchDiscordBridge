@@ -21,10 +21,6 @@ import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaver;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaverToProps;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
-import fr.ollprogram.twitchdiscordbridge.service.DiscordService;
-import fr.ollprogram.twitchdiscordbridge.service.DiscordServiceImpl;
-import fr.ollprogram.twitchdiscordbridge.service.TwitchService;
-import fr.ollprogram.twitchdiscordbridge.service.TwitchServiceImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,10 +33,6 @@ import java.util.logging.Logger;
 public class ConfiguratorCLI {
 
     private final ConfigBuilder builder;
-
-    private final DiscordService discordService;
-
-    private final TwitchService twitchService;
     private final Scanner scanner;
 
     private final static Logger LOG = Logger.getLogger("Configurator CLI");
@@ -51,8 +43,6 @@ public class ConfiguratorCLI {
      */
     public ConfiguratorCLI(Scanner scanner){
         this.builder = new ConfigBuilderImpl();
-        this.discordService = new DiscordServiceImpl();
-        this.twitchService = new TwitchServiceImpl();
         this.scanner = scanner;
     }
 
@@ -70,7 +60,7 @@ public class ConfiguratorCLI {
         }
         boolean configured = false;
         if(builder.isComplete()) {
-            ConfigValidator validator = new ConfigValidatorImpl(builder, twitchService, discordService);
+            ConfigValidator validator = new ConfigValidatorImpl(builder);
             configured = validator.isValid();
         }
         while(!configured) {
@@ -78,7 +68,7 @@ public class ConfiguratorCLI {
             askDiscordChannelID();
             askTwitchToken();
             askTwitchChannelName();
-            ConfigValidator validator = new ConfigValidatorImpl(builder, twitchService, discordService);
+            ConfigValidator validator = new ConfigValidatorImpl(builder);
             configured = builder.isComplete() && validator.isValid();
         }
         BridgeConfig config = builder.build();

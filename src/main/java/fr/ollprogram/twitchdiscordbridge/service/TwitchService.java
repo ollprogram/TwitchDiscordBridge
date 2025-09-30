@@ -13,6 +13,7 @@
 package fr.ollprogram.twitchdiscordbridge.service;
 
 
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceException;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +30,7 @@ public interface TwitchService {
      * @param token A valid app token
      * @return the bot info if authentication succeed
      */
-    @NotNull Optional<TwitchBotInfo> authenticate(String token);
+    @NotNull Optional<TwitchBotInfo> authenticate(String token) throws ServiceException;
 
 
     /**
@@ -37,5 +38,5 @@ public interface TwitchService {
      * @param channelName The channel Name
      * @return The channel infos
      */
-    @NotNull Optional<TwitchChannelInfo> getChannel(String channelName);
+    @NotNull Optional<TwitchChannelInfo> getChannel(String channelName) throws ServiceException;
 }

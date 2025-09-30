@@ -15,7 +15,10 @@ package fr.ollprogram.twitchdiscordbridge.service;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceDecodeFailedException;
 import fr.ollprogram.twitchdiscordbridge.exception.ServiceDisconnectedException;
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceException;
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceRequestFailedException;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
 import org.jetbrains.annotations.NotNull;
@@ -75,14 +78,28 @@ public class TwitchServiceImpl implements TwitchService {
 
     private String clientID;
 
-    public TwitchServiceImpl(){
-        this.token  = null;
+    private final HttpClient client;
+
+    /**
+     * Constructor
+     * @param client The http client for the service
+     */
+    public TwitchServiceImpl(HttpClient client){
+        this.client = client;
+        this.token = null;
         this.clientID = null;
+    }
+
+    /**
+     * Constructor using the default Http client
+     */
+    public TwitchServiceImpl(){
+        this(HttpClient.newBuilder().build());
     }
 
 
     @Override
-    public @NotNull Optional<TwitchBotInfo> authenticate(String token) {
+    public @NotNull Optional<TwitchBotInfo> authenticate(String token) throws ServiceException {
         try {
             AuthBody body = callValidateToken(token);
             if(body != null) {
@@ -92,7 +109,7 @@ public class TwitchServiceImpl implements TwitchService {
             }
         } catch (IOException | InterruptedException e ){
             LOG.severe("Unable to request twitch, reason : "+e.getMessage());
-            System.exit(1);
+            throw new ServiceRequestFailedException("Unable to request twitch, reason : "+e.getMessage());
         }
         return Optional.empty();
     }
@@ -105,7 +122,7 @@ public class TwitchServiceImpl implements TwitchService {
     }
 
     @Override
-    public @NotNull Optional<TwitchChannelInfo> getChannel(String channelName) {
+    public @NotNull Optional<TwitchChannelInfo> getChannel(String channelName) throws ServiceException {
         checkAuthCalled();
         try {
             UserListBody userListBody = callGetChannelByName(token, clientID, channelName);
@@ -115,7 +132,7 @@ public class TwitchServiceImpl implements TwitchService {
             }
         }catch (IOException | InterruptedException e ){
             LOG.severe("Unable to request twitch, reason : "+e.getMessage());
-            System.exit(1);
+            throw new ServiceRequestFailedException("Unable to request twitch, reason : "+e.getMessage());
         }
         return Optional.empty();
     }
@@ -178,17 +195,16 @@ public class TwitchServiceImpl implements TwitchService {
      * @throws IOException if an I/O error occurs
      * @throws InterruptedException If an interruption error occurs
      */
-    private AuthBody callValidateToken(String token) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newBuilder().build();
+    private AuthBody callValidateToken(String token) throws IOException, InterruptedException, ServiceException {
         HttpRequest twitchRequest = getTokenValidateRequest(token);
         HttpResponse<String> response = client.send(twitchRequest, HttpResponse.BodyHandlers.ofString());
         ObjectMapper mapper = new ObjectMapper();
-        AuthBody body = null;
+        AuthBody body;
         try {
             body = mapper.readValue(response.body(), AuthBody.class);
         } catch (JsonProcessingException e) {
             LOG.severe("Unable to read the Twitch validation response.");
-            System.exit(1);
+            throw new ServiceDecodeFailedException("Unable to read the Twitch validation response.");
         }
         int status = response.statusCode();
         switch (status) {
@@ -204,10 +220,9 @@ public class TwitchServiceImpl implements TwitchService {
             }
             default -> {
                 LOG.severe("Request error : status=" + status + ", message=" + body.message);
-                System.exit(1);
+                throw new ServiceRequestFailedException("Request error : status=" + status + ", message=" + body.message);
             }
         }
-        return null;
     }
 
     /**
@@ -219,26 +234,24 @@ public class TwitchServiceImpl implements TwitchService {
      * @throws IOException if an I/O error occurs
      * @throws InterruptedException If an interruption error occurs
      */
-    private UserListBody callGetChannelByName(String token, String clientID, String channelName) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newBuilder().build();
+    private UserListBody callGetChannelByName(String token, String clientID, String channelName) throws IOException, InterruptedException, ServiceException {
         HttpRequest request = getTwitchChannelRequest(token, clientID, channelName);
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         ObjectMapper mapper = new ObjectMapper();
-        UserListBody body = null;
+        UserListBody body;
         try {
             body = mapper.readValue(response.body(), UserListBody.class);
         } catch(JsonProcessingException e){
             LOG.severe("Unable to read twitch users response");
-            System.exit(1);
+            throw new ServiceDecodeFailedException("Unable to read the Twitch validation response.");
         }
         int status = response.statusCode();
         if(status == 200){
             return body;
         }else {
             LOG.severe("Request error : status=" + status + ", message=" + body.message);
-            System.exit(1);
+            throw new ServiceRequestFailedException("Request error : status=" + status + ", message=" + body.message);
         }
-        return body;
     }
 
 

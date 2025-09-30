@@ -14,6 +14,7 @@ package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceException;
 import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
 import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
@@ -67,7 +68,7 @@ class ConfigValidatorTest {
      * @param twitchChannelValidity if the twitch channel will be returned as valid
      * @param discordChannelValidity if the discord channel will be returned as valid
      */
-    private void mockAllServiceCalls(boolean twitchTokenValidity, boolean discordTokenValidity, boolean twitchChannelValidity, boolean discordChannelValidity){
+    private void mockAllServiceCalls(boolean twitchTokenValidity, boolean discordTokenValidity, boolean twitchChannelValidity, boolean discordChannelValidity) throws ServiceException {
         when(discordService.authenticate(any())).thenReturn(Optional.ofNullable(discordTokenValidity? VALID_DISCORD_BOT_INFO : null));
         when(twitchService.authenticate(any())).thenReturn(Optional.ofNullable(twitchTokenValidity? VALID_TWITCH_BOT_INFO : null));
         when(discordService.getChannel(any())).thenReturn(Optional.ofNullable(discordChannelValidity? VALID_DISCORD_CHANNEL_INFO : null));
@@ -76,42 +77,42 @@ class ConfigValidatorTest {
 
     @Test
     @DisplayName("all valid")
-    void isValid() {
+    void isValid() throws ServiceException {
         mockAllServiceCalls(true, true, true, true);
         assertTrue(validator.isValid());
     }
 
     @Test
     @DisplayName("all invalid")
-    void isInvalid() {
+    void isInvalid() throws ServiceException {
         mockAllServiceCalls(false, false, false, false);
         assertFalse(validator.isValid());
     }
 
     @Test
     @DisplayName("twitch token is invalid")
-    void isInvalidTwitchToken() {
+    void isInvalidTwitchToken() throws ServiceException {
         mockAllServiceCalls(false, true, true, true);
         assertFalse(validator.isValid());
     }
 
     @Test
     @DisplayName("discord token is invalid")
-    void isInvalidDiscordToken() {
+    void isInvalidDiscordToken() throws ServiceException {
         mockAllServiceCalls(true, false, true, true);
         assertFalse(validator.isValid());
     }
 
     @Test
     @DisplayName("twitch channel is invalid")
-    void isInvalidTwitchChannel() {
+    void isInvalidTwitchChannel() throws ServiceException {
         mockAllServiceCalls(true, true, false, true);
         assertFalse(validator.isValid());
     }
 
     @Test
     @DisplayName("discord channel is invalid")
-    void isInvalidDiscordChannel() {
+    void isInvalidDiscordChannel() throws ServiceException {
         mockAllServiceCalls(true, true, true, false);
         assertFalse(validator.isValid());
     }

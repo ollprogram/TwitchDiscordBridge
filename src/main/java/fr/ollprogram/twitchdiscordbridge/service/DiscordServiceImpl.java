@@ -15,7 +15,10 @@ package fr.ollprogram.twitchdiscordbridge.service;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceDecodeFailedException;
 import fr.ollprogram.twitchdiscordbridge.exception.ServiceDisconnectedException;
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceException;
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceRequestFailedException;
 import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
 import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
 import org.jetbrains.annotations.NotNull;
@@ -67,12 +70,23 @@ public class DiscordServiceImpl implements DiscordService {
     }
 
     private String token;
+    private final HttpClient client;
+
+    /**
+     * Constructor where Http client can be specified
+     * @param client The http client for the service
+     */
+    public DiscordServiceImpl(HttpClient client){
+        this.client = client;
+        this.token = null;
+    }
 
     /**
      * Discord service constructor
+     * Using the default HttpClient
      */
     public DiscordServiceImpl(){
-        this.token = null;
+       this(HttpClient.newBuilder().build());
     }
 
     /**
@@ -83,7 +97,7 @@ public class DiscordServiceImpl implements DiscordService {
     }
 
     @Override
-    public @NotNull Optional<DiscordBotInfo> authenticate(String token) {
+    public @NotNull Optional<DiscordBotInfo> authenticate(String token) throws ServiceException {
         try {
             AuthValidationBody response = callCheckDiscordToken(token);
             if(response != null) {
@@ -92,20 +106,20 @@ public class DiscordServiceImpl implements DiscordService {
             }
         } catch (IOException | InterruptedException e ){
             LOG.severe("Unable to request discord, reason : "+e.getMessage());
-            System.exit(1);
+            throw new ServiceRequestFailedException("Unable to request discord, reason : "+e.getMessage());
         }
         return Optional.empty();
     }
 
     @Override
-    public @NotNull Optional<DiscordChannelInfo> getChannel(String channelID) {
+    public @NotNull Optional<DiscordChannelInfo> getChannel(String channelID) throws ServiceException {
         checkAuthCalled();
         try {
             ChannelBody body = callGetChannelByID(channelID);
             if(body != null) return Optional.of(new DiscordChannelInfo(body.id, body.name));
         } catch (IOException | InterruptedException e) {
             LOG.severe("Unable to request discord, reason : "+e.getMessage());
-            System.exit(1);
+            throw new ServiceRequestFailedException("Unable to request discord, reason : "+e.getMessage());
         }
         return Optional.empty();
     }
@@ -150,17 +164,16 @@ public class DiscordServiceImpl implements DiscordService {
      * @throws IOException If an I/O error occurs
      * @throws InterruptedException If an interruption error occurs
      */
-    private AuthValidationBody callCheckDiscordToken(String token) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newBuilder().build();
+    private AuthValidationBody callCheckDiscordToken(String token) throws IOException, InterruptedException, ServiceException {
         HttpRequest discordRequest = getAuthValidationRequest(token);
         HttpResponse<String> response = client.send(discordRequest, HttpResponse.BodyHandlers.ofString());
         ObjectMapper mapper = new ObjectMapper();
-        AuthValidationBody body = null;
+        AuthValidationBody body;
         try {
             body = mapper.readValue(response.body(), AuthValidationBody.class);
         } catch (JsonProcessingException e) {
             LOG.severe("Unable to read the Discord validation response.");
-            System.exit(1);
+            throw new ServiceDecodeFailedException("Unable to read the Discord validation response.");
         }
         int status = response.statusCode();
         switch(status){
@@ -172,10 +185,9 @@ public class DiscordServiceImpl implements DiscordService {
             }
             default -> {
                 LOG.severe("Request error : status=" + status + ", message=" + body.message);
-                System.exit(1);
+                throw new ServiceRequestFailedException("Request error : status=" + status + ", message=" + body.message);
             }
         }
-        return null;
     }
 
     /**
@@ -185,26 +197,24 @@ public class DiscordServiceImpl implements DiscordService {
      * @throws IOException If an I/O error occurs
      * @throws InterruptedException If an interruption error occurs
      */
-    private ChannelBody callGetChannelByID(String channelID) throws IOException, InterruptedException {
-        HttpClient client = HttpClient.newBuilder().build();
+    private ChannelBody callGetChannelByID(String channelID) throws IOException, InterruptedException, ServiceException {
         HttpRequest request = getChannelRequest(token, channelID);
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         ObjectMapper mapper = new ObjectMapper();
-        ChannelBody body = null;
+        ChannelBody body;
         try {
             body = mapper.readValue(response.body(), ChannelBody.class);
         } catch(JsonProcessingException e) {
             LOG.severe("Unable to read the Discord getChannel response.");
-            System.exit(1);
+            throw new ServiceDecodeFailedException("Unable to read the Discord getChannel response.");
         }
         int status = response.statusCode();
         if(status == 200) return body;
         else if(status == 404 && body.message.equals(UNKNOWN_CHANNEL_MESSAGE)) return null;
         else {
             LOG.severe("Request error : status=" + status + ", message=" + body.message);
-            System.exit(1);
+            throw new ServiceRequestFailedException("Request error : status=" + status + ", message=" + body.message);
         }
-        return body;
     }
 
 }
