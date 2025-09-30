@@ -12,14 +12,14 @@
 
 package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
-import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
-import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
-import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
-import fr.ollprogram.twitchdiscordbridge.service.*;
-import fr.ollprogram.twitchdiscordbridge.service.TwitchServiceImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
+import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
+import fr.ollprogram.twitchdiscordbridge.service.DiscordService;
+import fr.ollprogram.twitchdiscordbridge.service.TwitchService;
 
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -40,20 +40,24 @@ public class ConfigValidatorImpl implements ConfigValidator {
     /**
      * Validator constructor
      * @param bridgeConfig The bridge configuration
+     * @param discordService The discord service
+     * @param twitchService The twitch service
      */
-    public ConfigValidatorImpl(BridgeConfig bridgeConfig){
+    public ConfigValidatorImpl(BridgeConfig bridgeConfig, TwitchService twitchService, DiscordService discordService){
         this.bridgeConfig = bridgeConfig;
         this.logger = Logger.getLogger("BridgeConfigValidator");
-        this.discordService = new DiscordServiceImpl();
-        this.twitchService = new TwitchServiceImpl();
+        this.discordService = discordService;
+        this.twitchService = twitchService;
     }
 
     /**
      * Validator constructor
      * @param configBuilder Bridge configuration builder
+     * @param discordService The discord service
+     * @param twitchService The twitch service
      */
-    public ConfigValidatorImpl(ConfigBuilder configBuilder){
-        this(configBuilder.build());
+    public ConfigValidatorImpl(ConfigBuilder configBuilder, TwitchService twitchService, DiscordService discordService){
+        this(configBuilder.build(), twitchService, discordService);
     }
 
     @Override

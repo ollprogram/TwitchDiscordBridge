@@ -12,48 +12,110 @@
 
 package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
+import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
+import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
+import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
+import fr.ollprogram.twitchdiscordbridge.service.DiscordService;
+import fr.ollprogram.twitchdiscordbridge.service.TwitchService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.net.http.HttpClient;
-import java.net.http.HttpResponse;
+import java.util.Date;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class ConfigValidatorTest {
 
+    private static final DiscordBotInfo VALID_DISCORD_BOT_INFO = new DiscordBotInfo("23", "my_bot");
+
+    private static final TwitchBotInfo VALID_TWITCH_BOT_INFO = new TwitchBotInfo("23", new Date());
+
+    private static final DiscordChannelInfo VALID_DISCORD_CHANNEL_INFO = new DiscordChannelInfo("12", "my_channel");
+
+    private static final TwitchChannelInfo VALID_TWITCH_CHANNEL_INFO = new TwitchChannelInfo("22323", "my_channel");
+
+
     private ConfigValidator validator;
-
-    private ConfigBuilder configBuilder;
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    private static class FakeResponse{
-
-        public String login = "ollprogram";
-        public String user_id;
-        public long expires_in;
-        public String id;
-        public String name;
-    }
+    private DiscordService discordService;
+    private TwitchService twitchService;
 
     @BeforeEach
     void before(){
+        ConfigBuilder configBuilder = new ConfigBuilderImpl();
         configBuilder.setTwitchChannelName("ollprogram");
         configBuilder.setDiscordChannelID("1234");
         configBuilder.setDiscordToken("discord_token");
         configBuilder.setTwitchToken("twitch_token");
-        validator = new ConfigValidatorImpl(configBuilder);
+        discordService = mock(DiscordService.class);
+        twitchService = mock(TwitchService.class);
+        validator = new ConfigValidatorImpl(configBuilder, twitchService, discordService);
     }
-    //TODO @Test
-    void isValid() throws IOException, InterruptedException {
-        //TODO
+
+    /**
+     * Mock all service calls
+     * @param twitchTokenValidity if the twitch token will be returned as valid
+     * @param discordTokenValidity if the discord token will be returned as valid
+     * @param twitchChannelValidity if the twitch channel will be returned as valid
+     * @param discordChannelValidity if the discord channel will be returned as valid
+     */
+    private void mockAllServiceCalls(boolean twitchTokenValidity, boolean discordTokenValidity, boolean twitchChannelValidity, boolean discordChannelValidity){
+        when(discordService.authenticate(any())).thenReturn(Optional.ofNullable(discordTokenValidity? VALID_DISCORD_BOT_INFO : null));
+        when(twitchService.authenticate(any())).thenReturn(Optional.ofNullable(twitchTokenValidity? VALID_TWITCH_BOT_INFO : null));
+        when(discordService.getChannel(any())).thenReturn(Optional.ofNullable(discordChannelValidity? VALID_DISCORD_CHANNEL_INFO : null));
+        when(twitchService.getChannel(any())).thenReturn(Optional.ofNullable(twitchChannelValidity? VALID_TWITCH_CHANNEL_INFO: null));
     }
+
+    @Test
+    @DisplayName("all valid")
+    void isValid() {
+        mockAllServiceCalls(true, true, true, true);
+        assertTrue(validator.isValid());
+    }
+
+    @Test
+    @DisplayName("all invalid")
+    void isInvalid() {
+        mockAllServiceCalls(false, false, false, false);
+        assertFalse(validator.isValid());
+    }
+
+    @Test
+    @DisplayName("twitch token is invalid")
+    void isInvalidTwitchToken() {
+        mockAllServiceCalls(false, true, true, true);
+        assertFalse(validator.isValid());
+    }
+
+    @Test
+    @DisplayName("discord token is invalid")
+    void isInvalidDiscordToken() {
+        mockAllServiceCalls(true, false, true, true);
+        assertFalse(validator.isValid());
+    }
+
+    @Test
+    @DisplayName("twitch channel is invalid")
+    void isInvalidTwitchChannel() {
+        mockAllServiceCalls(true, true, false, true);
+        assertFalse(validator.isValid());
+    }
+
+    @Test
+    @DisplayName("discord channel is invalid")
+    void isInvalidDiscordChannel() {
+        mockAllServiceCalls(true, true, true, false);
+        assertFalse(validator.isValid());
+    }
+
 
 
 }
