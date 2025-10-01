@@ -10,9 +10,11 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge.configuration.validate;
+package fr.ollprogram.twitchdiscordbridge.factory;
 
+import com.github.twitch4j.TwitchClient;
 import fr.ollprogram.twitchdiscordbridge.Bridge;
+import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -27,5 +29,17 @@ public interface BridgeFactory {
      * @return The valid bridge
      */
     @NotNull Bridge createBridge();
+
+    /**
+     * Creates the JDA for the bot
+     * @return The configured JDA
+     */
+    @NotNull JDA createJDA();
+
+    /**
+     * Creates the TwitchClient for the bot
+      * @return The configured twitch client
+     */
+    @NotNull TwitchClient createTwitchClient();
 
 }

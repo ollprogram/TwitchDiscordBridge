@@ -16,8 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.Callable;
 
 public interface Command extends Callable<Void> {
-
-
+    //TODO think about using a getCallable() method instead of implementing it the reason is that we wont be able to put arguments in it (in parallel execution) or we might clone the command
+    //TODO asDiscordCommand with optional result
     /**
      * Get the command help
      * @return The manual of the command

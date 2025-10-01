@@ -46,15 +46,12 @@ public class BridgeImpl implements Bridge {
     }
 
     @Override
-    public void shutdown() {
-        try {
-            discordBot.shutdownNow();
-            discordBot.awaitShutdown();
-            twitchBot.close();
-            shutdown = true;
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    public synchronized void shutdown() throws InterruptedException {
+        discordBot.shutdownNow();
+        discordBot.awaitShutdown();
+        twitchBot.close();
+        shutdown = true;
+        this.notifyAll(); //awake all threads waiting on the bridge to finish
     }
 
     @Override
@@ -63,7 +60,7 @@ public class BridgeImpl implements Bridge {
     }
 
     @Override
-    public boolean isShutdown() {
+    public synchronized boolean isShutdown() {
         return shutdown;
     }
 
@@ -75,5 +72,10 @@ public class BridgeImpl implements Bridge {
     @Override
     public void sendToDiscord(@NotNull String message, @NotNull String channelId) {
         //TODO
+    }
+
+    @Override
+    public void awaitShutdown() throws InterruptedException {
+        while(!isShutdown()) this.wait(); //passive waiting
     }
 }

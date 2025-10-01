@@ -13,13 +13,8 @@
 package fr.ollprogram.twitchdiscordbridge;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
-import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoader;
-import fr.ollprogram.twitchdiscordbridge.configuration.load.ConfigLoaderFromProps;
-import fr.ollprogram.twitchdiscordbridge.configuration.validate.BridgeFactory;
-import fr.ollprogram.twitchdiscordbridge.configuration.validate.BridgeFactoryImpl;
-import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
-import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
+import fr.ollprogram.twitchdiscordbridge.factory.BridgeFactory;
+import fr.ollprogram.twitchdiscordbridge.factory.BridgeFactoryImpl;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -47,9 +42,13 @@ public class Main {
         ConfiguratorCLI configuratorCLI = new ConfiguratorCLI(scanner);
 
         BridgeConfig config = configuratorCLI.configure();
-        //TODO
-        //BridgeFactory bridgeFactory = new BridgeFactoryImpl(config);
-        //Bridge bridge = bridgeFactory.createBridge();
+        BridgeFactory bridgeFactory = new BridgeFactoryImpl(config);
+        Bridge bridge = bridgeFactory.createBridge();
+        try {
+            bridge.awaitShutdown();
+        } catch (InterruptedException e) {
+            lg.severe("The bridge exited suddenly : "+e.getMessage());
+        }
         scanner.close();
 
     }

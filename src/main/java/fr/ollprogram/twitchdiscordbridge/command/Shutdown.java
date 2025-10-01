@@ -40,7 +40,11 @@ public class Shutdown implements Command{
 
     @Override
     public Void call() {
-        bridge.shutdown();
+        try {
+            bridge.shutdown();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e); //TODO
+        }
         return null;
     }
 }

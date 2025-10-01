@@ -19,7 +19,7 @@ public interface Bridge {
     /**
      * Shutdown the bots running
      */
-    void shutdown();
+    void shutdown() throws InterruptedException;
 
     /**
      * Starts the bridge bots
@@ -45,4 +45,9 @@ public interface Bridge {
      * @param channelId The channel id of the message
      */
     void sendToDiscord(@NotNull String message, @NotNull String channelId);
+
+    /**
+     * Wait until the bridge shutdown
+     */
+    void awaitShutdown() throws InterruptedException;
 }

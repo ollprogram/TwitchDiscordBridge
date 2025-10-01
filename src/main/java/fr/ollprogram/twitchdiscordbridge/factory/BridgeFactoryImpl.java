@@ -10,22 +10,21 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge.configuration.validate;
+package fr.ollprogram.twitchdiscordbridge.factory;
 
 import com.github.philippheuer.credentialmanager.domain.OAuth2Credential;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
-import com.github.twitch4j.chat.TwitchChat;
 import fr.ollprogram.twitchdiscordbridge.Bridge;
 import fr.ollprogram.twitchdiscordbridge.BridgeImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.exception.InvalidConfigurationException;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.exceptions.InvalidTokenException;
+import net.dv8tion.jda.api.interactions.commands.Command;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
-import static java.util.logging.Logger.getGlobal;
+import java.util.List;
 
 
 /**
@@ -34,30 +33,36 @@ import static java.util.logging.Logger.getGlobal;
  */
 public class BridgeFactoryImpl implements BridgeFactory {
 
-    private JDA discordBot;
-
-    private TwitchClient twitchBot;
-
     private final BridgeConfig conf;
 
 
-    public BridgeFactoryImpl(BridgeConfig conf){
-        this.discordBot = null;
-        this.twitchBot = null;
+    public BridgeFactoryImpl(BridgeConfig conf) {
         this.conf = conf;
-    }
-
-    public void loadConfiguration() {
-        //please change in next version with an oauth2 validator
-        discordBot = JDABuilder.createDefault(conf.getDiscordToken()).build();
-        OAuth2Credential twitchCred = new OAuth2Credential("twitch", conf.getTwitchToken());
-        TwitchClientBuilder builder = TwitchClientBuilder.builder().withChatAccount(twitchCred);
-        twitchBot = builder.build();
-        //TODO
     }
 
     @Override
     public @NotNull Bridge createBridge() {
-        return null;
+        return new BridgeImpl(createJDA(), createTwitchClient(), conf);
+    }
+
+    @Override
+    public @NotNull JDA createJDA() {
+        JDA jda = JDABuilder.createDefault(conf.getDiscordToken()).build();
+        jda.getGuilds().forEach((guild) -> {
+            guild.retrieveCommands().queue(this::deleteAllCommands);
+            guild.updateCommands().addCommands(Commands.slash("code", "Information about the code of this bot")).queue();
+        });
+        return jda;
+    }
+
+    private void deleteAllCommands(List<Command> commands){
+            commands.forEach(command -> {command.delete().queue();});
+    }
+
+    @Override
+    public @NotNull TwitchClient createTwitchClient() {
+        OAuth2Credential twitchCred = new OAuth2Credential("twitch", conf.getTwitchToken());
+        TwitchClientBuilder builder = TwitchClientBuilder.builder().withChatAccount(twitchCred);
+        return builder.build();
     }
 }
