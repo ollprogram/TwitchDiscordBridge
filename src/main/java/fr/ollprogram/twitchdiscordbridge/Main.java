@@ -25,6 +25,7 @@ import java.util.Scanner;
 public class Main {
 
     private static final String LICENCE = """
+            
             Copyright © 2025 ollprogram
             TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
             as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -37,6 +38,7 @@ public class Main {
             """;
 
     private static final String SPLASH = """
+            
               ______         _ __       __        \s
              /_  __/      __(_) /______/ /_       \s
               / / | | /| / / / __/ ___/ __ \\      \s
