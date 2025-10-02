@@ -56,7 +56,7 @@ public class BridgeImpl implements Bridge {
 
     @Override
     public void start() {
-        //TODO
+        shutdown = false;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class BridgeImpl implements Bridge {
     }
 
     @Override
-    public void awaitShutdown() throws InterruptedException {
+    public synchronized void awaitShutdown() throws InterruptedException {
         while(!isShutdown()) this.wait(); //passive waiting
     }
 }

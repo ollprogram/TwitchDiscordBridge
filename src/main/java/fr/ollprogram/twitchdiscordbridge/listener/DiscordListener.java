@@ -13,16 +13,28 @@
 package fr.ollprogram.twitchdiscordbridge.listener;
 
 import fr.ollprogram.twitchdiscordbridge.Bridge;
+import fr.ollprogram.twitchdiscordbridge.command.Command;
+import fr.ollprogram.twitchdiscordbridge.command.CommandExecutor;
+import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class DiscordListener extends ListenerAdapter  {
 
     private final Bridge bridge;
 
-    public DiscordListener(@NotNull Bridge bridge){
+    private final CommandRegistry commandRegistry;
+
+    private final CommandExecutor executor;
+
+    public DiscordListener(@NotNull Bridge bridge, @NotNull CommandRegistry commandRegistry, @NotNull CommandExecutor executor){
         this.bridge = bridge;
+        this.commandRegistry = commandRegistry;
+        this.executor = executor;
     }
 
     @Override
@@ -32,4 +44,12 @@ public class DiscordListener extends ListenerAdapter  {
         bridge.sendToTwitch(message, channelId);
     }
 
+    @Override
+    public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        Optional<Command> commandOptional = commandRegistry.find(event.getName());
+        if(commandOptional.isEmpty()) {
+            return;
+        }
+        executor.submit(commandOptional.get());
+    }
 }

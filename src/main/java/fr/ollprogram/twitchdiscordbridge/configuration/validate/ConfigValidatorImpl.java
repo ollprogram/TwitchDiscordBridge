@@ -23,9 +23,10 @@ import fr.ollprogram.twitchdiscordbridge.service.DiscordService;
 import fr.ollprogram.twitchdiscordbridge.service.DiscordServiceImpl;
 import fr.ollprogram.twitchdiscordbridge.service.TwitchService;
 import fr.ollprogram.twitchdiscordbridge.service.TwitchServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * The bridge configuration validator implementation
@@ -38,7 +39,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
     private final TwitchService twitchService;
     private final DiscordService discordService;
 
-    private final Logger logger;
+    private static final Logger LOG = LoggerFactory.getLogger("BridgeConfigValidator");;
 
     /**
      * Validator constructor
@@ -48,7 +49,6 @@ public class ConfigValidatorImpl implements ConfigValidator {
      */
     public ConfigValidatorImpl(BridgeConfig bridgeConfig, TwitchService twitchService, DiscordService discordService){
         this.bridgeConfig = bridgeConfig;
-        this.logger = Logger.getLogger("BridgeConfigValidator");
         this.discordService = discordService;
         this.twitchService = twitchService;
     }
@@ -76,7 +76,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
         try {
             return isValidDiscordToken() && isValidDiscordChannelID() && isValidTwitchToken() && isValidTwitchChannelName();
         } catch(ServiceException e){
-            logger.severe("An error occurs during validation : "+e.getMessage());
+            LOG.error("An error occurs during validation : "+e.getMessage());
             System.exit(1);
         }
         return false;
@@ -88,13 +88,13 @@ public class ConfigValidatorImpl implements ConfigValidator {
      */
     private boolean isValidDiscordToken() throws ServiceException {
         String discordToken = bridgeConfig.getDiscordToken();
-        logger.info("Checking discord token validity...");
+        LOG.info("Checking discord token validity...");
         Optional<DiscordBotInfo> discordInfo = discordService.authenticate(discordToken);
         if(discordInfo.isEmpty()) {
-            logger.info("Discord token is invalid");
+            LOG.info("Discord token is invalid");
             return false;
         }
-        logger.info("Discord token is valid, retrieved bot : "+discordInfo.get());
+        LOG.info("Discord token is valid, retrieved bot : "+discordInfo.get());
         return true;
     }
 
@@ -104,13 +104,13 @@ public class ConfigValidatorImpl implements ConfigValidator {
      */
     private boolean isValidTwitchToken() throws ServiceException {
         String twitchToken = bridgeConfig.getTwitchToken();
-        logger.info("Checking twitch token validity...");
+        LOG.info("Checking twitch token validity...");
         Optional<TwitchBotInfo> twitchInfo = twitchService.authenticate(twitchToken);
         if(twitchInfo.isEmpty()) {
-            logger.info("Twitch token is invalid");
+            LOG.info("Twitch token is invalid");
             return false;
         }
-        logger.info("Twitch token is valid, retrieved bot : "+twitchInfo.get());
+        LOG.info("Twitch token is valid, retrieved bot : "+twitchInfo.get());
         return true;
     }
 
@@ -120,13 +120,13 @@ public class ConfigValidatorImpl implements ConfigValidator {
      */
     private boolean isValidTwitchChannelName() throws ServiceException {
         String twitchChannelName = bridgeConfig.getTwitchChannelName();
-        logger.info("Checking twitch channel validity...");
+        LOG.info("Checking twitch channel validity...");
         Optional<TwitchChannelInfo> twitchChannelInfo = twitchService.getChannel(twitchChannelName);
         if(twitchChannelInfo.isEmpty()) {
-            logger.info("Twitch channel name is invalid");
+            LOG.info("Twitch channel name is invalid");
             return false;
         }
-        logger.info("Twitch channel retrieved : "+twitchChannelInfo.get());
+        LOG.info("Twitch channel retrieved : "+twitchChannelInfo.get());
         return true;
     }
 
@@ -136,13 +136,13 @@ public class ConfigValidatorImpl implements ConfigValidator {
      */
     private boolean isValidDiscordChannelID() throws ServiceException {
         String discordChannelID = bridgeConfig.getDiscordChannelID();
-        logger.info("Checking discord channel validity...");
+        LOG.info("Checking discord channel validity...");
         Optional<DiscordChannelInfo> channelInfo = discordService.getChannel(discordChannelID);
         if(channelInfo.isEmpty()) {
-            logger.info("Discord channel ID is invalid");
+            LOG.info("Discord channel ID is invalid");
             return false;
         }
-        logger.info("Discord channel retrieved : "+channelInfo.get());
+        LOG.info("Discord channel retrieved : "+channelInfo.get());
         return true;
     }
 }

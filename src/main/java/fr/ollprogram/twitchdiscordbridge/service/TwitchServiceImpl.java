@@ -22,6 +22,8 @@ import fr.ollprogram.twitchdiscordbridge.exception.ServiceRequestFailedException
 import fr.ollprogram.twitchdiscordbridge.model.TwitchBotInfo;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -31,7 +33,6 @@ import java.net.http.HttpResponse;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * Implementation of the twitch service
@@ -51,7 +52,7 @@ public class TwitchServiceImpl implements TwitchService {
     private static final String CONTENT_TYPE_HEADER = "Content-Type";
     private static final String CONTENT_TYPE_VALUE = "application/json";
 
-    private static final Logger LOG = Logger.getLogger("TwitchService");
+    private static final Logger LOG = LoggerFactory.getLogger("TwitchService");
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     private static class AuthBody {
@@ -108,7 +109,7 @@ public class TwitchServiceImpl implements TwitchService {
                 return Optional.of(new TwitchBotInfo(body.client_id, getExpirationDate(body.expires_in)));
             }
         } catch (IOException | InterruptedException e ){
-            LOG.severe("Unable to request twitch, reason : "+e.getMessage());
+            LOG.error("Unable to request twitch, reason : "+e.getMessage());
             throw new ServiceRequestFailedException("Unable to request twitch, reason : "+e.getMessage());
         }
         return Optional.empty();
@@ -131,7 +132,7 @@ public class TwitchServiceImpl implements TwitchService {
                 return Optional.of(new TwitchChannelInfo(userBody.id, userBody.login));
             }
         }catch (IOException | InterruptedException e ){
-            LOG.severe("Unable to request twitch, reason : "+e.getMessage());
+            LOG.error("Unable to request twitch, reason : "+e.getMessage());
             throw new ServiceRequestFailedException("Unable to request twitch, reason : "+e.getMessage());
         }
         return Optional.empty();
@@ -203,14 +204,14 @@ public class TwitchServiceImpl implements TwitchService {
         try {
             body = mapper.readValue(response.body(), AuthBody.class);
         } catch (JsonProcessingException e) {
-            LOG.severe("Unable to read the Twitch validation response.");
+            LOG.error("Unable to read the Twitch validation response.");
             throw new ServiceDecodeFailedException("Unable to read the Twitch validation response.");
         }
         int status = response.statusCode();
         switch (status) {
             case 200 -> {
                 if(body.expires_in <= 0){
-                    LOG.warning("Twitch token expired");
+                    LOG.warn("Twitch token expired");
                     return null;
                 }
                 return body;
@@ -219,7 +220,7 @@ public class TwitchServiceImpl implements TwitchService {
                 return null;
             }
             default -> {
-                LOG.severe("Request error : status=" + status + ", message=" + body.message);
+                LOG.error("Request error : status=" + status + ", message=" + body.message);
                 throw new ServiceRequestFailedException("Request error : status=" + status + ", message=" + body.message);
             }
         }
@@ -242,14 +243,14 @@ public class TwitchServiceImpl implements TwitchService {
         try {
             body = mapper.readValue(response.body(), UserListBody.class);
         } catch(JsonProcessingException e){
-            LOG.severe("Unable to read twitch users response");
+            LOG.error("Unable to read twitch users response");
             throw new ServiceDecodeFailedException("Unable to read the Twitch validation response.");
         }
         int status = response.statusCode();
         if(status == 200){
             return body;
         }else {
-            LOG.severe("Request error : status=" + status + ", message=" + body.message);
+            LOG.error("Request error : status=" + status + ", message=" + body.message);
             throw new ServiceRequestFailedException("Request error : status=" + status + ", message=" + body.message);
         }
     }

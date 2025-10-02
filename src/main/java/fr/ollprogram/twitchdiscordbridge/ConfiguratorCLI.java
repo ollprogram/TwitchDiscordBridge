@@ -21,11 +21,12 @@ import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaver;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaverToProps;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 /**
  * Help the user to fill the configuration in the console if elements are missing
@@ -35,7 +36,7 @@ public class ConfiguratorCLI {
     private final ConfigBuilder builder;
     private final Scanner scanner;
 
-    private final static Logger LOG = Logger.getLogger("Configurator CLI");
+    private final static Logger LOG = LoggerFactory.getLogger("Configurator CLI");
 
     /**
      * Configurator constructor
@@ -55,7 +56,7 @@ public class ConfiguratorCLI {
             ConfigLoader configLoader = findOrCreateConfigFile();
             configLoader.load(); //Using default path
         } catch (IOException e) {
-            LOG.severe("Can't load the configuration. Because of files conflicts.");
+            LOG.error("Can't load the configuration. Because of files conflicts.");
             System.exit(1);
         }
         boolean configured = false;
@@ -134,7 +135,7 @@ public class ConfiguratorCLI {
         try {
             saver.saveConfiguration(config);
         } catch (IOException e) {
-            LOG.fine("Unable to save configuration");
+            LOG.warn("Unable to save configuration");
         }
     }
 

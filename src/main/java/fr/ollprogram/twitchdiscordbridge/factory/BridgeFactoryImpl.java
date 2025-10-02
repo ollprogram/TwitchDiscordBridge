@@ -17,7 +17,10 @@ import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.TwitchClientBuilder;
 import fr.ollprogram.twitchdiscordbridge.Bridge;
 import fr.ollprogram.twitchdiscordbridge.BridgeImpl;
+import fr.ollprogram.twitchdiscordbridge.command.CommandExecutor;
+import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import fr.ollprogram.twitchdiscordbridge.listener.DiscordListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -34,33 +37,37 @@ import java.util.List;
 public class BridgeFactoryImpl implements BridgeFactory {
 
     private final BridgeConfig conf;
+    private final CommandExecutor executor;
+    private final CommandRegistry registry;
 
 
-    public BridgeFactoryImpl(BridgeConfig conf) {
+    public BridgeFactoryImpl(BridgeConfig conf, CommandRegistry registry, CommandExecutor executor) {
         this.conf = conf;
+        this.registry = registry;
+        this.executor = executor;
     }
 
     @Override
     public @NotNull Bridge createBridge() {
-        return new BridgeImpl(createJDA(), createTwitchClient(), conf);
+        JDA jda = createJDA();
+        Bridge bridge = new BridgeImpl(jda, createTwitchClient(), conf);
+        jda.addEventListener(new DiscordListener(bridge, registry, executor));
+        return bridge;
     }
 
-    @Override
-    public @NotNull JDA createJDA() {
+    private @NotNull JDA createJDA() {
         JDA jda = JDABuilder.createDefault(conf.getDiscordToken()).build();
         jda.getGuilds().forEach((guild) -> {
-            guild.retrieveCommands().queue(this::deleteAllCommands);
-            guild.updateCommands().addCommands(Commands.slash("code", "Information about the code of this bot")).queue();
+            List<Command> commands = guild.retrieveCommands().complete();
+            commands.forEach(command -> {command.delete().complete();});
+            guild.updateCommands().addCommands(
+                    Commands.slash("code", "Information about the code of this bot")
+                    ).queue();
         });
         return jda;
     }
 
-    private void deleteAllCommands(List<Command> commands){
-            commands.forEach(command -> {command.delete().queue();});
-    }
-
-    @Override
-    public @NotNull TwitchClient createTwitchClient() {
+    private @NotNull TwitchClient createTwitchClient() {
         OAuth2Credential twitchCred = new OAuth2Credential("twitch", conf.getTwitchToken());
         TwitchClientBuilder builder = TwitchClientBuilder.builder().withChatAccount(twitchCred);
         return builder.build();

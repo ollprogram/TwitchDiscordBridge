@@ -22,6 +22,8 @@ import fr.ollprogram.twitchdiscordbridge.exception.ServiceRequestFailedException
 import fr.ollprogram.twitchdiscordbridge.model.DiscordBotInfo;
 import fr.ollprogram.twitchdiscordbridge.model.DiscordChannelInfo;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -29,7 +31,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Optional;
-import java.util.logging.Logger;
+
 
 /**
  * The discord service implementation
@@ -49,7 +51,7 @@ public class DiscordServiceImpl implements DiscordService {
 
     private static final String UNKNOWN_CHANNEL_MESSAGE = "Unknown Channel";
 
-    private static final Logger LOG = Logger.getLogger("DiscordService");
+    private static final Logger LOG = LoggerFactory.getLogger("DiscordService");
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     private static class AuthValidationBody {
@@ -105,7 +107,7 @@ public class DiscordServiceImpl implements DiscordService {
                 return Optional.of(new DiscordBotInfo(response.id, response.name));
             }
         } catch (IOException | InterruptedException e ){
-            LOG.severe("Unable to request discord, reason : "+e.getMessage());
+            LOG.error("Unable to request discord, reason : "+e.getMessage());
             throw new ServiceRequestFailedException("Unable to request discord, reason : "+e.getMessage());
         }
         return Optional.empty();
@@ -118,7 +120,7 @@ public class DiscordServiceImpl implements DiscordService {
             ChannelBody body = callGetChannelByID(channelID);
             if(body != null) return Optional.of(new DiscordChannelInfo(body.id, body.name));
         } catch (IOException | InterruptedException e) {
-            LOG.severe("Unable to request discord, reason : "+e.getMessage());
+            LOG.error("Unable to request discord, reason : "+e.getMessage());
             throw new ServiceRequestFailedException("Unable to request discord, reason : "+e.getMessage());
         }
         return Optional.empty();
@@ -172,7 +174,7 @@ public class DiscordServiceImpl implements DiscordService {
         try {
             body = mapper.readValue(response.body(), AuthValidationBody.class);
         } catch (JsonProcessingException e) {
-            LOG.severe("Unable to read the Discord validation response.");
+            LOG.error("Unable to read the Discord validation response.");
             throw new ServiceDecodeFailedException("Unable to read the Discord validation response.");
         }
         int status = response.statusCode();
@@ -184,7 +186,7 @@ public class DiscordServiceImpl implements DiscordService {
                 return null;
             }
             default -> {
-                LOG.severe("Request error : status=" + status + ", message=" + body.message);
+                LOG.error("Request error : status=" + status + ", message=" + body.message);
                 throw new ServiceRequestFailedException("Request error : status=" + status + ", message=" + body.message);
             }
         }
@@ -205,14 +207,14 @@ public class DiscordServiceImpl implements DiscordService {
         try {
             body = mapper.readValue(response.body(), ChannelBody.class);
         } catch(JsonProcessingException e) {
-            LOG.severe("Unable to read the Discord getChannel response.");
+            LOG.error("Unable to read the Discord getChannel response.");
             throw new ServiceDecodeFailedException("Unable to read the Discord getChannel response.");
         }
         int status = response.statusCode();
         if(status == 200) return body;
         else if(status == 404 && body.message.equals(UNKNOWN_CHANNEL_MESSAGE)) return null;
         else {
-            LOG.severe("Request error : status=" + status + ", message=" + body.message);
+            LOG.error("Request error : status=" + status + ", message=" + body.message);
             throw new ServiceRequestFailedException("Request error : status=" + status + ", message=" + body.message);
         }
     }
