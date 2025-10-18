@@ -25,7 +25,10 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -39,6 +42,8 @@ public class BridgeFactoryImpl implements BridgeFactory {
     private final BridgeConfig conf;
     private final CommandExecutor executor;
     private final CommandRegistry registry;
+
+    private static final Logger LOG = LoggerFactory.getLogger("BridgeFactory");
 
 
     public BridgeFactoryImpl(BridgeConfig conf, CommandRegistry registry, CommandExecutor executor) {
@@ -55,18 +60,32 @@ public class BridgeFactoryImpl implements BridgeFactory {
         return bridge;
     }
 
+    /**
+     * Create and configure the JDA instance
+     * @return The JDA instance
+     */
     private @NotNull JDA createJDA() {
-        JDA jda = JDABuilder.createDefault(conf.getDiscordToken()).build();
+        JDA jda = JDABuilder.createDefault(conf.getDiscordToken(), GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT).build();
+        try {
+            jda.awaitReady();
+        } catch (InterruptedException e) {
+            LOG.error("Something went wrong while waiting JDA connection : "+e.getMessage());
+            System.exit(1);
+        }
         jda.getGuilds().forEach((guild) -> {
             List<Command> commands = guild.retrieveCommands().complete();
-            commands.forEach(command -> {command.delete().complete();});
+            commands.forEach(command -> command.delete().complete());
             guild.updateCommands().addCommands(
                     Commands.slash("code", "Information about the code of this bot")
-                    ).queue();
+                    ).complete();
         });
         return jda;
     }
 
+    /**
+     * Create and configure the twitch client
+     * @return The twitch client
+     */
     private @NotNull TwitchClient createTwitchClient() {
         OAuth2Credential twitchCred = new OAuth2Credential("twitch", conf.getTwitchToken());
         TwitchClientBuilder builder = TwitchClientBuilder.builder().withChatAccount(twitchCred);
