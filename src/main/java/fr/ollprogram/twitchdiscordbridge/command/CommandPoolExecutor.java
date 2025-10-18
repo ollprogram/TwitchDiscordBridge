@@ -29,8 +29,8 @@ public class CommandPoolExecutor implements CommandExecutor {
     }
 
     @Override
-    public @NotNull Future<Void> submit(Command command) {
-        return executorService.submit(command);
+    public @NotNull Future<String> submit(Command command, String... args) {
+        return executorService.submit(command.getExecution(args));
     }
 
     @Override

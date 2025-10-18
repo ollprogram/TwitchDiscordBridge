@@ -38,11 +38,6 @@ public class BridgeImpl implements Bridge {
         this.twitchBot = twitchBot;
         this.discordBot = discordBot;
         this.shutdown = false;
-        configure();
-    }
-
-    private void configure(){
-        //TODO configure bots
     }
 
     @Override

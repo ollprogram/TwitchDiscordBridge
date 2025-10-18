@@ -15,14 +15,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.Callable;
 
-public interface Command extends Callable<Void> {
-    //TODO think about using a getCallable() method instead of implementing it the reason is that we wont be able to put arguments in it (in parallel execution) or we might clone the command
-    //TODO asDiscordCommand with optional result
+public interface Command {
     /**
      * Get the command help
      * @return The manual of the command
      */
     @NotNull String getHelp();
 
+    /**
+     * Get the code to execute as a callable which should return a string as a bot reply
+     * @param args The arguments of the command needed for the execution
+     * @return The callable representing the code to execute
+     */
+    @NotNull Callable<String> getExecution(String... args);
+
+    //TODO add a method or something to be able to register all slash commands to discord in a way as generic as possible
 
 }

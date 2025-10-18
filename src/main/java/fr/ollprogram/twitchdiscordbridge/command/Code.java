@@ -13,7 +13,7 @@ package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.PrintStream;
+import java.util.concurrent.Callable;
 
 public class Code implements Command{
 
@@ -28,11 +28,6 @@ public class Code implements Command{
                 Example : 
                     code
             """;
-    private final PrintStream out;
-
-    public Code(@NotNull PrintStream out){
-        this.out = out;
-    }
 
     @Override
     public @NotNull String getHelp() {
@@ -40,8 +35,7 @@ public class Code implements Command{
     }
 
     @Override
-    public Void call() {
-        out.println(TEXT);
-        return null;
+    public @NotNull Callable<String> getExecution(String... args) {
+        return () -> TEXT;
     }
 }

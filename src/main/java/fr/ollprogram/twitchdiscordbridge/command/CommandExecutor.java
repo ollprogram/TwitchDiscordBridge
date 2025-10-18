@@ -24,9 +24,10 @@ public interface CommandExecutor {
     /**
      * Submit the command to the executor. The command will be executed.
      * @param command The command to execute.
+     * @param args The arguments needed for the command execution
      * @return The command future.
      */
-    @NotNull Future<Void> submit(Command command);
+    @NotNull Future<String> submit(Command command, String... args);
 
     /**
      * Shutdown the executor and delete all the pending command to execute. The executor can't receive any other commands after this call.

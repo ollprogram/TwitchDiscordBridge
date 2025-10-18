@@ -63,7 +63,7 @@ public class Main {
         BridgeConfig config = configuratorCLI.configure();
         CommandRegistry registry = new CommandRegistryImpl();
         CommandExecutor executor = new CommandPoolExecutor(10);
-        registry.register("code", new Code(System.out));
+        registry.register("code", new Code());
         BridgeFactory bridgeFactory = new BridgeFactoryImpl(config, registry, executor);
         Bridge bridge = bridgeFactory.createBridge();
         LOG.info(SPLASH + "\nStarted Bridge CLI");
