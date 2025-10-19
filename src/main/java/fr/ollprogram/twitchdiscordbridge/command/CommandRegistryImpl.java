@@ -12,6 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.command;
 
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -40,5 +41,15 @@ public class CommandRegistryImpl implements CommandRegistry {
     @Override
     public void deregister(String name) {
         commandsMap.remove(name);
+    }
+
+    @Override
+    public @NotNull List<CommandData> getAllDiscordCommands() {
+        List<CommandData> discordCommands = new ArrayList<>();
+        commandsMap.forEach((name,command) -> {
+            Optional<CommandData> optionalCommandData = command.asDiscordCommand(name);
+            optionalCommandData.ifPresent(discordCommands::add);
+        });
+        return discordCommands;
     }
 }

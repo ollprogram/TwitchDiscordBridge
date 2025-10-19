@@ -12,8 +12,10 @@
 
 package fr.ollprogram.twitchdiscordbridge.command;
 
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -39,4 +41,11 @@ public interface CommandRegistry {
      * @param name The name of the command to remove from the registry.
      */
     void deregister(String name);
+
+
+    /**
+     * Get all the discord commands data
+     * @return The discord commands data
+     */
+    @NotNull List<CommandData> getAllDiscordCommands();
 }

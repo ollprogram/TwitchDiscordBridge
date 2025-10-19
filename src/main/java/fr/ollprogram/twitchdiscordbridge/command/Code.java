@@ -11,8 +11,11 @@
  */
 package fr.ollprogram.twitchdiscordbridge.command;
 
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class Code implements Command{
@@ -22,20 +25,23 @@ public class Code implements Command{
             TwitchDiscordBridge is free software, contribute or download here : https://github.com/ollprogram/TwitchDiscordBridge
             """;
 
-    private static final String MANUAL = """
-            The Code command :
-                Tells where we can find the source code.
-                Example : 
-                    code
+    private static final String DESCRIPTION = """
+            Information about the code of this bot
             """;
-
-    @Override
-    public @NotNull String getHelp() {
-        return MANUAL;
-    }
 
     @Override
     public @NotNull Supplier<String> getExecution(String... args) {
         return () -> TEXT;
     }
+
+    @Override
+    public @NotNull String getDescription() {
+        return DESCRIPTION;
+    }
+
+    @Override
+    public @NotNull Optional<CommandData> asDiscordCommand(String name){
+        return Optional.of(Commands.slash(name, DESCRIPTION));
+    }
+
 }
