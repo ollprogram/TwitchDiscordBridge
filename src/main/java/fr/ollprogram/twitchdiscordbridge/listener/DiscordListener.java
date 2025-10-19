@@ -50,8 +50,9 @@ public class DiscordListener extends ListenerAdapter  {
         if(commandOptional.isEmpty()) {
             return;
         }
-        event.deferReply().queue();
+        event.deferReply(true).queue();
         //TODO with options
+
         executor.submit(commandOptional.get()).thenAccept((replyText) -> {event.getHook().sendMessage(replyText).queue();});
     }
 }
