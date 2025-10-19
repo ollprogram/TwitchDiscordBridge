@@ -41,7 +41,7 @@ public class Code implements Command{
 
     @Override
     public @NotNull Optional<CommandData> asDiscordCommand(String name){
-        return Optional.of(Commands.slash(name, DESCRIPTION));
+        return Optional.of(Commands.slash(name, getDescription()));
     }
 
 }
