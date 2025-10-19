@@ -22,7 +22,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 public class DiscordListener extends ListenerAdapter  {
 
@@ -51,11 +50,8 @@ public class DiscordListener extends ListenerAdapter  {
         if(commandOptional.isEmpty()) {
             return;
         }
-        //event.deferReply().queue();
-        try {//TODO async reply (maybe with a callback on the executor?)
-            event.reply(executor.submit(commandOptional.get()).get()).queue();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
+        event.deferReply().queue();
+        //TODO with options
+        executor.submit(commandOptional.get()).thenAccept((replyText) -> {event.getHook().sendMessage(replyText).queue();});
     }
 }

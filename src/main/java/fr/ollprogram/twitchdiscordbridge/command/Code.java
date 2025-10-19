@@ -13,7 +13,7 @@ package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 public class Code implements Command{
 
@@ -35,7 +35,7 @@ public class Code implements Command{
     }
 
     @Override
-    public @NotNull Callable<String> getExecution(String... args) {
+    public @NotNull Supplier<String> getExecution(String... args) {
         return () -> TEXT;
     }
 }

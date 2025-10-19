@@ -13,7 +13,7 @@ package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 public interface Command {
     /**
@@ -23,11 +23,11 @@ public interface Command {
     @NotNull String getHelp();
 
     /**
-     * Get the code to execute as a callable which should return a string as a bot reply
+     * Get the code to execute as a supplier which should return a string as a bot reply
      * @param args The arguments of the command needed for the execution
-     * @return The callable representing the code to execute
+     * @return The supplier representing the code to execute
      */
-    @NotNull Callable<String> getExecution(String... args);
+    @NotNull Supplier<String> getExecution(String... args);
 
     //TODO add a method or something to be able to register all slash commands to discord in a way as generic as possible
 
