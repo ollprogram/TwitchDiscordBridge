@@ -19,8 +19,10 @@ import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 public class DiscordListener extends ListenerAdapter  {
@@ -51,8 +53,7 @@ public class DiscordListener extends ListenerAdapter  {
             return;
         }
         event.deferReply(true).queue();
-        //TODO with options
-
-        executor.submit(commandOptional.get()).thenAccept((replyText) -> {event.getHook().sendMessage(replyText).queue();});
+        List<String> optionStrings = event.getOptions().parallelStream().map(OptionMapping::getAsString).toList();
+        executor.submit(commandOptional.get(), optionStrings).thenAccept((replyText) -> {event.getHook().sendMessage(replyText).queue();});
     }
 }

@@ -72,9 +72,9 @@ public class BridgeFactoryImpl implements BridgeFactory {
             System.exit(1);
         }
         LOG.info("Refreshing discord commands");
-        jda.getGuilds().forEach((guild) -> {
+        jda.getGuilds().parallelStream().forEach((guild) -> {
             List<Command> commands = guild.retrieveCommands().complete();
-            commands.forEach(command -> command.delete().complete());
+            commands.parallelStream().forEach(command -> command.delete().complete());
             guild.updateCommands().addCommands(registry.getAllDiscordCommands()).complete();
         });
         return jda;

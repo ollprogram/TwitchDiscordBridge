@@ -14,6 +14,7 @@ package fr.ollprogram.twitchdiscordbridge.command;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -24,7 +25,7 @@ public interface Command {
      * @param args The arguments of the command needed for the execution
      * @return The supplier representing the code to execute
      */
-    @NotNull Supplier<String> getExecution(String... args);
+    @NotNull Supplier<String> getExecution(List<String> args);
 
     /**
      * Get the command description

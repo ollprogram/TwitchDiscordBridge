@@ -14,6 +14,7 @@ package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -29,7 +30,7 @@ public class CommandPoolExecutor implements CommandExecutor {
     }
 
     @Override
-    public @NotNull CompletableFuture<String> submit(Command command, String... args) {
+    public @NotNull CompletableFuture<String> submit(Command command, List<String> args) {
         return CompletableFuture.supplyAsync(command.getExecution(args), executorService);
     }
 

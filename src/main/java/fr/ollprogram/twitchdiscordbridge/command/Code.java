@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
@@ -30,7 +31,7 @@ public class Code implements Command{
             """;
 
     @Override
-    public @NotNull Supplier<String> getExecution(String... args) {
+    public @NotNull Supplier<String> getExecution(List<String> args) {
         return () -> TEXT;
     }
 

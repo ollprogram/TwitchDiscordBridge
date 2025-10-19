@@ -14,6 +14,7 @@ package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -27,7 +28,7 @@ public interface CommandExecutor {
      * @param args The arguments needed for the command execution
      * @return The command future.
      */
-    @NotNull CompletableFuture<String> submit(Command command, String... args);
+    @NotNull CompletableFuture<String> submit(Command command, List<String> args);
 
     /**
      * Shutdown the executor and delete all the pending command to execute. The executor can't receive any other commands after this call.
