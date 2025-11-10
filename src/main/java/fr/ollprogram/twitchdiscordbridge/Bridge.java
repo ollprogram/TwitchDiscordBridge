@@ -35,16 +35,14 @@ public interface Bridge {
     /**
      * Send to Twitch a message
      * @param message The message to send
-     * @param channelId The channel id of the message
      */
-    void sendToTwitch(@NotNull String message, @NotNull String channelId);
+    void sendToTwitch(@NotNull String message);
 
     /**
      * Send to Discord a message
      * @param message The message to send
-     * @param channelId The channel id of the message
      */
-    void sendToDiscord(@NotNull String message, @NotNull String channelId);
+    void sendToDiscord(@NotNull String message);
 
     /**
      * Wait until the bridge shutdown

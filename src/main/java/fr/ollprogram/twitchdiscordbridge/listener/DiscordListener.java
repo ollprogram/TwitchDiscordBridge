@@ -41,9 +41,10 @@ public class DiscordListener extends ListenerAdapter  {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        String message = event.getMessage().getContentDisplay();
-        String channelId = event.getChannel().getId();
-        bridge.sendToTwitch(message, channelId);
+        //String message = event.getMessage().getContentDisplay();
+        //String channelId = event.getChannel().getId();
+        //bridge.sendToTwitch(message);
+        //TODO
     }
 
     @Override

@@ -15,7 +15,10 @@ package fr.ollprogram.twitchdiscordbridge;
 import com.github.twitch4j.TwitchClient;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implementation of a Bridge
@@ -30,11 +33,13 @@ public class BridgeImpl implements Bridge {
 
     private final TwitchClient twitchBot;
 
-    private final BridgeConfig bc;
+    private final BridgeConfig config;
+
+    private static final Logger LOG = LoggerFactory.getLogger("Bridge");
 
 
     public BridgeImpl(JDA discordBot, TwitchClient twitchBot, BridgeConfig bc){
-        this.bc = bc;
+        this.config = bc;
         this.twitchBot = twitchBot;
         this.discordBot = discordBot;
         this.shutdown = false;
@@ -60,13 +65,18 @@ public class BridgeImpl implements Bridge {
     }
 
     @Override
-    public void sendToTwitch(@NotNull String message, @NotNull String channelId) {
-        //TODO
+    public void sendToTwitch(@NotNull String message) {
+        twitchBot.getChat().sendMessage(config.getTwitchChannelName(), message);
     }
 
     @Override
-    public void sendToDiscord(@NotNull String message, @NotNull String channelId) {
-        //TODO
+    public void sendToDiscord(@NotNull String message) {
+        TextChannel channel = discordBot.getTextChannelById(config.getDiscordChannelID());
+        if(channel == null){
+            LOG.warn("Discord channel not found (configuration is outdated)");
+            return;
+        }
+        channel.sendMessage(message).queue();
     }
 
     @Override

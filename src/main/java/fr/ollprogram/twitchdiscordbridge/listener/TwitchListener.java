@@ -27,8 +27,9 @@ public class TwitchListener {
 
     @EventSubscriber
     public void onMessageEvent(ChannelMessageEvent event) {
-        String message = event.getMessage();
-        String channelId = event.getChannel().getId();
-        bridge.sendToDiscord(message, channelId);
+        //String message = event.getMessage();
+        //String channelId = event.getChannel().getId();
+        //bridge.sendToDiscord(message);
+        //TODO
     }
 }

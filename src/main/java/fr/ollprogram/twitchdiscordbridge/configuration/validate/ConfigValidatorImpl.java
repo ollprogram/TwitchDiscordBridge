@@ -91,7 +91,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
         LOG.info("Checking discord token validity...");
         Optional<DiscordBotInfo> discordInfo = discordService.authenticate(discordToken);
         if(discordInfo.isEmpty()) {
-            LOG.info("Discord token is invalid");
+            LOG.warn("Discord token is invalid");
             return false;
         }
         LOG.info("Discord token is valid, retrieved bot : "+discordInfo.get());
@@ -107,7 +107,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
         LOG.info("Checking twitch token validity...");
         Optional<TwitchBotInfo> twitchInfo = twitchService.authenticate(twitchToken);
         if(twitchInfo.isEmpty()) {
-            LOG.info("Twitch token is invalid");
+            LOG.warn("Twitch token is invalid");
             return false;
         }
         LOG.info("Twitch token is valid, retrieved bot : "+twitchInfo.get());

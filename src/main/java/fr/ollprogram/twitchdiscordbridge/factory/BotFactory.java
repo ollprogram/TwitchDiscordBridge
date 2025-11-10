@@ -12,20 +12,22 @@
 
 package fr.ollprogram.twitchdiscordbridge.factory;
 
-import fr.ollprogram.twitchdiscordbridge.Bridge;
+import com.github.twitch4j.TwitchClient;
+import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * A Bridge factory which handle the creation of a valid bridge
- *
- * @author ollprogram
- */
-public interface BridgeFactory {
+public interface BotFactory {
 
     /**
-     * Create a valid bridge
-     * @return The valid bridge
+     * Create and configure the JDA instance
+     * @return The JDA instance
      */
-    @NotNull Bridge createBridge();
+    @NotNull JDA createDiscordBot();
+
+    /**
+     * Create and configure the twitch client
+     * @return The twitch client
+     */
+    @NotNull TwitchClient createTwitchBot();
 
 }
