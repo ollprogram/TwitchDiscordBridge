@@ -10,7 +10,7 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge;
+package fr.ollprogram.twitchdiscordbridge.cli;
 
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
@@ -82,7 +82,7 @@ public class ConfiguratorCLI {
      */
     private void askTwitchToken(){
         System.out.println("Please provide a twitch Token : ");
-        String token = scanner.next();
+        String token = scanner.nextLine().strip();
         builder.setTwitchToken(token);
     }
 
@@ -91,7 +91,7 @@ public class ConfiguratorCLI {
      */
     private void askDiscordToken(){
         System.out.println("Please provide a discord Token : ");
-        String token = scanner.next();
+        String token = scanner.nextLine().strip();
         builder.setDiscordToken(token);
     }
 
@@ -100,7 +100,7 @@ public class ConfiguratorCLI {
      */
     private void askDiscordChannelID(){
         System.out.println("Please provide a discord channel ID : ");
-        String id = scanner.next();
+        String id = scanner.nextLine().strip();
         builder.setDiscordChannelID(id);
     }
 
@@ -109,7 +109,7 @@ public class ConfiguratorCLI {
      */
     private void askTwitchChannelName(){
         System.out.println("Please provide a twitch channel name : ");
-        String name = scanner.next();
+        String name = scanner.nextLine().strip();
         builder.setTwitchChannelName(name);
     }
 

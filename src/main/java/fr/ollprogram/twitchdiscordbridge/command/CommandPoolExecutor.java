@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of the Command executor, using a ScheduledThreadPoolExecutor.
@@ -35,12 +36,9 @@ public class CommandPoolExecutor implements CommandExecutor {
     }
 
     @Override
-    public synchronized void shutdown() {
+    public synchronized boolean shutdown() throws InterruptedException {
         executorService.shutdown();
+        return executorService.awaitTermination(5, TimeUnit.SECONDS);
     }
 
-    @Override
-    public boolean isShutdown() {
-        return executorService.isShutdown();
-    }
 }

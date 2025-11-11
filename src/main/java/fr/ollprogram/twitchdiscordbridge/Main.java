@@ -14,19 +14,23 @@ package fr.ollprogram.twitchdiscordbridge;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
+import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
+import fr.ollprogram.twitchdiscordbridge.bridge.BridgeImpl;
+import fr.ollprogram.twitchdiscordbridge.cli.BridgeCLI;
+import fr.ollprogram.twitchdiscordbridge.cli.ConfiguratorCLI;
 import fr.ollprogram.twitchdiscordbridge.command.*;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.factory.BotFactory;
 import fr.ollprogram.twitchdiscordbridge.factory.BotFactoryImpl;
 import fr.ollprogram.twitchdiscordbridge.listener.DiscordListener;
 import fr.ollprogram.twitchdiscordbridge.listener.TwitchListener;
+import fr.ollprogram.twitchdiscordbridge.manager.AppsManager;
+import fr.ollprogram.twitchdiscordbridge.manager.AppsManagerImpl;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.interactions.commands.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -64,18 +68,19 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger("Main");
     public static void main(String[] args) throws IOException {
         LOG.info(LICENCE);
+        CommandExecutor executor = new CommandPoolExecutor(10);
         Scanner scanner = new Scanner(System.in);
         ConfiguratorCLI configuratorCLI = new ConfiguratorCLI(scanner);
         BridgeConfig config = configuratorCLI.configure();
 
-        BotFactory botFactory = new BotFactoryImpl(config);
         LOG.info("Starting bots");
+        BotFactory botFactory = new BotFactoryImpl(config);
         JDA discordBot = botFactory.createDiscordBot();
         TwitchClient twitchBot = botFactory.createTwitchBot();
         Bridge bridge = new BridgeImpl(discordBot, twitchBot, config);
+        AppsManager appsManager = new AppsManagerImpl(executor, discordBot, twitchBot);
 
         LOG.info("Registering commands");
-        CommandExecutor executor = new CommandPoolExecutor(10);
         CommandRegistry registry = new CommandRegistryImpl();
         registry.register("code", new Code());
         registry.register("say", new Say(bridge));
@@ -85,18 +90,11 @@ public class Main {
         twitchBot.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchListener(bridge));
 
         LOG.info("Refreshing discord commands");
-        discordBot.getGuilds().parallelStream().forEach((guild) -> {
-            List<Command> commands = guild.retrieveCommands().complete();
-            commands.parallelStream().forEach(command -> command.delete().complete());
-            guild.updateCommands().addCommands(registry.getAllDiscordCommands()).complete();
-        });
+        appsManager.refreshDiscordCommands(registry);
+
         LOG.info(SPLASH + "\nStarted Bridge CLI");
-        try {
-            bridge.awaitShutdown();
-            executor.shutdown();
-        } catch (InterruptedException e) {
-            LOG.error("The bridge exited suddenly : "+e.getMessage());
-        }
+        BridgeCLI bridgeCLI = new BridgeCLI(scanner, registry, appsManager);
+        bridgeCLI.run();
         scanner.close();
 
     }

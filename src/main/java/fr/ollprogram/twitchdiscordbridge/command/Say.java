@@ -12,7 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.command;
 
-import fr.ollprogram.twitchdiscordbridge.Bridge;
+import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionType;

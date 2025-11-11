@@ -48,4 +48,10 @@ public interface CommandRegistry {
      * @return The discord commands data
      */
     @NotNull List<CommandData> getAllDiscordCommands();
+
+    /**
+     * Get all commands help
+     * @return Help string
+     */
+    @NotNull String getHelp();
 }

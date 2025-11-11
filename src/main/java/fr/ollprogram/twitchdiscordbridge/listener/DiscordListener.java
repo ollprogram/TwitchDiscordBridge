@@ -12,7 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.listener;
 
-import fr.ollprogram.twitchdiscordbridge.Bridge;
+import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
 import fr.ollprogram.twitchdiscordbridge.command.Command;
 import fr.ollprogram.twitchdiscordbridge.command.CommandExecutor;
 import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;

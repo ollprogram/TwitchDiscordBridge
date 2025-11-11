@@ -10,27 +10,24 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge;
+package fr.ollprogram.twitchdiscordbridge.bridge;
 
 import org.jetbrains.annotations.NotNull;
 
 public interface Bridge {
 
     /**
-     * Shutdown the bots running
+     * Check if the bridge is open
+     * @return If the bridge is open
      */
-    void shutdown() throws InterruptedException;
+    boolean isOpen();
 
     /**
-     * Starts the bridge bots
+     *
      */
-    void start();
+    void close();
 
-    /**
-     * Check if the bridge is shutdown
-     * @return if the bridge is shutdown
-     */
-    boolean isShutdown();
+    void open();
 
     /**
      * Send to Twitch a message
@@ -44,8 +41,4 @@ public interface Bridge {
      */
     void sendToDiscord(@NotNull String message);
 
-    /**
-     * Wait until the bridge shutdown
-     */
-    void awaitShutdown() throws InterruptedException;
 }

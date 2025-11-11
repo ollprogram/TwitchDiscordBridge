@@ -32,13 +32,10 @@ public interface CommandExecutor {
 
     /**
      * Shutdown the executor and delete all the pending command to execute. The executor can't receive any other commands after this call.
+     * @throws InterruptedException if an interruption error occurs
+     * @return if the shutdown succeeded before timeout
      */
-    void shutdown();
+    boolean shutdown() throws InterruptedException;
 
-    /**
-     *
-     * @return If the executor is shutdown.
-     */
-    boolean isShutdown();
 
 }

@@ -10,7 +10,7 @@
  * If not, see https://www.gnu.org/licenses.
  */
 
-package fr.ollprogram.twitchdiscordbridge;
+package fr.ollprogram.twitchdiscordbridge.bridge;
 
 import com.github.twitch4j.TwitchClient;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
@@ -29,7 +29,7 @@ public class BridgeImpl implements Bridge {
 
     private final JDA discordBot;
 
-    private boolean shutdown;
+    private boolean open;
 
     private final TwitchClient twitchBot;
 
@@ -42,26 +42,22 @@ public class BridgeImpl implements Bridge {
         this.config = bc;
         this.twitchBot = twitchBot;
         this.discordBot = discordBot;
-        this.shutdown = false;
+        this.open = false;
     }
 
     @Override
-    public synchronized void shutdown() throws InterruptedException {
-        discordBot.shutdownNow();
-        discordBot.awaitShutdown();
-        twitchBot.close();
-        shutdown = true;
-        this.notifyAll(); //awake all threads waiting on the bridge to finish
+    public synchronized boolean isOpen() {
+        return open;
     }
 
     @Override
-    public void start() {
-        shutdown = false;
+    public synchronized void close() {
+        open = false;
     }
 
     @Override
-    public synchronized boolean isShutdown() {
-        return shutdown;
+    public synchronized void open() {
+        open = true;
     }
 
     @Override
@@ -79,8 +75,4 @@ public class BridgeImpl implements Bridge {
         channel.sendMessage(message).queue();
     }
 
-    @Override
-    public synchronized void awaitShutdown() throws InterruptedException {
-        while(!isShutdown()) this.wait(); //passive waiting
-    }
 }
