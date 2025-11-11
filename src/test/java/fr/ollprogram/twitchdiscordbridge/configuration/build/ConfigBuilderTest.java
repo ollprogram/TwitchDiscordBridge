@@ -40,9 +40,7 @@ public class ConfigBuilderTest {
     @Tag("Robustness")
     @DisplayName("incomplete missing discord token")
     void incompleteOne1(){
-        b.setDiscordChannelID("");
-        b.setTwitchToken("");
-        b.setTwitchChannelName("");
+        b.setDiscordChannelID("").setTwitchToken("").setTwitchChannelName("");
         assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
@@ -50,9 +48,7 @@ public class ConfigBuilderTest {
     @Tag("Robustness")
     @DisplayName("incomplete missing twitch token")
     void incompleteOne2(){
-        b.setDiscordChannelID("");
-        b.setTwitchChannelName("");
-        b.setDiscordToken("");
+        b.setDiscordChannelID("").setTwitchChannelName("").setDiscordToken("");
         assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
@@ -60,9 +56,7 @@ public class ConfigBuilderTest {
     @Tag("Robustness")
     @DisplayName("incomplete missing discord channel")
     void incompleteOne3(){
-        b.setTwitchToken("");
-        b.setTwitchChannelName("");
-        b.setDiscordToken("");
+        b.setTwitchToken("").setTwitchChannelName("").setDiscordToken("");
         assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
@@ -70,19 +64,14 @@ public class ConfigBuilderTest {
     @Tag("Robustness")
     @DisplayName("incomplete missing twitch channel")
     void incompleteOne4(){
-        b.setDiscordChannelID("");
-        b.setTwitchToken("");
-        b.setDiscordToken("");
+        b.setDiscordChannelID("").setTwitchToken("").setDiscordToken("");
         assertThrows(IncompleteConfigurationException.class, () -> b.build());
     }
 
     @Test
     @DisplayName("complete")
     void complete(){
-        b.setDiscordChannelID("");
-        b.setTwitchToken("");
-        b.setDiscordToken("");
-        b.setTwitchChannelName("");
+        b.setDiscordChannelID("").setTwitchToken("").setDiscordToken("").setTwitchChannelName("");
         assertTrue(b.isComplete());
     }
 
@@ -95,46 +84,35 @@ public class ConfigBuilderTest {
     @Test
     @DisplayName("incomplete missing twitch channel")
     void incompleteOneTC(){
-        b.setDiscordChannelID("");
-        b.setTwitchToken("");
-        b.setDiscordToken("");
+        b.setDiscordChannelID("").setTwitchToken("").setDiscordToken("");
         assertFalse(b.isComplete());
     }
 
     @Test
     @DisplayName("incomplete missing discord channel")
     void incompleteOneDC(){
-        b.setTwitchToken("");
-        b.setDiscordToken("");
-        b.setTwitchChannelName("");
+        b.setTwitchToken("").setDiscordToken("").setTwitchChannelName("");
         assertFalse(b.isComplete());
     }
 
     @Test
     @DisplayName("incomplete missing twitch token")
     void incompleteOneTT(){
-        b.setDiscordChannelID("");
-        b.setDiscordToken("");
-        b.setTwitchChannelName("");
+        b.setDiscordChannelID("").setDiscordToken("").setTwitchChannelName("");
         assertFalse(b.isComplete());
     }
 
     @Test
     @DisplayName("incomplete missing discord token")
     void incompleteOneDT(){
-        b.setTwitchToken("");
-        b.setDiscordChannelID("");
-        b.setTwitchChannelName("");
+        b.setTwitchToken("").setDiscordChannelID("").setTwitchChannelName("");
         assertFalse(b.isComplete());
     }
 
     @Test
     @DisplayName("build")
     void build(){
-        b.setTwitchToken("token of twitch");
-        b.setDiscordChannelID("id");
-        b.setDiscordToken("token of discord");
-        b.setTwitchChannelName("name");
+        b.setTwitchToken("token of twitch").setDiscordChannelID("id").setDiscordToken("token of discord").setTwitchChannelName("name");
         BridgeConfig c = b.build();
         assertEquals("token of twitch", c.getTwitchToken());
         assertEquals( "token of discord", c.getDiscordToken());

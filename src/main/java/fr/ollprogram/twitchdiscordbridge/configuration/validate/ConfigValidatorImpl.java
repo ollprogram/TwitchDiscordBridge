@@ -39,7 +39,7 @@ public class ConfigValidatorImpl implements ConfigValidator {
     private final TwitchService twitchService;
     private final DiscordService discordService;
 
-    private static final Logger LOG = LoggerFactory.getLogger("BridgeConfigValidator");;
+    private static final Logger LOG = LoggerFactory.getLogger("BridgeConfigValidator");
 
     /**
      * Validator constructor

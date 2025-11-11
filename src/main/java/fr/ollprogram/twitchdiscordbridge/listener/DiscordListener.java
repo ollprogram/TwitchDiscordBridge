@@ -55,6 +55,6 @@ public class DiscordListener extends ListenerAdapter  {
         }
         event.deferReply(true).queue();
         List<String> optionStrings = event.getOptions().parallelStream().map(OptionMapping::getAsString).toList();
-        executor.submit(commandOptional.get(), optionStrings).thenAccept((replyText) -> {event.getHook().sendMessage(replyText).queue();});
+        executor.submit(commandOptional.get(), optionStrings).thenAccept((replyText) -> event.getHook().sendMessage(replyText).queue());
     }
 }

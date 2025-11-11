@@ -56,7 +56,7 @@ public class CommandRegistryImpl implements CommandRegistry {
     @Override
     public @NotNull String getHelp() {
         StringBuilder builder = new StringBuilder();
-        commandsMap.forEach((name,command) -> {builder.append("- ").append(name).append(" : ").append(command.getDescription()).append("\n");});
+        commandsMap.forEach((name,command) -> builder.append("- ").append(name).append(" : ").append(command.getDescription()).append("\n"));
         return builder.toString();
     }
 }

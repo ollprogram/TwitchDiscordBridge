@@ -36,7 +36,7 @@ public class CommandPoolExecutor implements CommandExecutor {
     }
 
     @Override
-    public synchronized boolean shutdown() throws InterruptedException {
+    public boolean shutdown() throws InterruptedException {
         executorService.shutdown();
         return executorService.awaitTermination(5, TimeUnit.SECONDS);
     }

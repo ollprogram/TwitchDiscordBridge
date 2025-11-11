@@ -35,7 +35,7 @@ public class Say implements Command {
     private static final String  MESSAGE_PREFIX = "Admin says : ";
     private static final String  ARGS_ERROR = "No message given";
 
-    private Bridge bridge;
+    private final Bridge bridge;
 
     public Say(Bridge bridge){
         this.bridge = bridge;

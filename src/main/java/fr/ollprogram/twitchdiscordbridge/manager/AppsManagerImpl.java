@@ -43,7 +43,7 @@ public class AppsManagerImpl implements AppsManager {
     }
 
     @Override
-    public synchronized void shutdownAll() throws InterruptedException {
+    public void shutdownAll() throws InterruptedException {
         LOG.info("Shutdown remaining tasks...");
         if(!executor.shutdown()){
             LOG.warn("Forced executor shutdown due to timeout.");
@@ -57,7 +57,7 @@ public class AppsManagerImpl implements AppsManager {
     }
 
     @Override
-    public synchronized void shutdownAllNow() throws InterruptedException {
+    public void shutdownAllNow() throws InterruptedException {
         LOG.info("Shutdown remaining tasks...");
         if(!executor.shutdown()){
             LOG.warn("Forced executor shutdown due to timeout.");
@@ -71,7 +71,7 @@ public class AppsManagerImpl implements AppsManager {
     }
 
     @Override
-    public synchronized boolean areAllRunning() {
+    public boolean areAllRunning() {
         return !shutdown;
     }
 

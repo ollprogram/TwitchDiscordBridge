@@ -30,7 +30,6 @@ import net.dv8tion.jda.api.JDA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -66,7 +65,7 @@ public class Main {
                                /____/             \s
             """;
     private static final Logger LOG = LoggerFactory.getLogger("Main");
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         LOG.info(LICENCE);
         CommandExecutor executor = new CommandPoolExecutor(10);
         Scanner scanner = new Scanner(System.in);
