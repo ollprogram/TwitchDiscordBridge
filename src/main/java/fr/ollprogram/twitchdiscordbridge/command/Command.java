@@ -9,37 +9,72 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
+
 package fr.ollprogram.twitchdiscordbridge.command;
 
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-public interface Command {
+public abstract class Command {
+
+    private final String description;
+    private final int argsMin;
+
+    private final int argsMax;
+
+    private final Permission discordPermission;
+
+    protected Command(String description, int argsMin, int argsMax){
+        this.description = description;
+        this.argsMin = argsMin;
+        this.argsMax = argsMax;
+        discordPermission = null;
+    }
+
+    protected Command(String description, int argsMin, int argsMax, Permission discordPermission){
+        this.description = description;
+        this.argsMin = argsMin;
+        this.argsMax = argsMax;
+        this.discordPermission = discordPermission;
+    }
 
     /**
      * Get the code to execute as a supplier which should return a string as a bot reply
      * @param args The arguments of the command needed for the execution
      * @return The supplier representing the code to execute
      */
-    @NotNull Supplier<String> getExecution(List<String> args);
+    public abstract @NotNull Supplier<String> getExecution(@NotNull List<String> args);
+
+    /**
+     * Validate the arguments
+     * @param args The arguments
+     * @return If arguments are valid
+     */
+    protected boolean validateArguments(@NotNull List<String> args) {
+        int argsNumber = args.size();
+        return argsNumber < argsMin || argsNumber > argsMax;
+    }
 
     /**
      * Get the command description
      * @return The command description.
      */
-    @NotNull String getDescription();
+    public @NotNull String getDescription(){
+        return this.description;
+    }
 
     /**
-     * Get the discord command if compatible
-     * @param name The command name
-     * @return the discord command if compatible
+     * If the command can be used on discord, return the discord permission
+     * @return The discord Permission of the command
      */
-    default @NotNull Optional<CommandData> asDiscordCommand(String name){
-        return Optional.empty();
+    public Optional<Permission> getDiscordPermission() {
+        return Optional.ofNullable(discordPermission);
     }
+
+
 
 }

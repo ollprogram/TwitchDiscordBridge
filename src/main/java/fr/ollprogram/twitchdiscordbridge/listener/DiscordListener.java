@@ -49,7 +49,9 @@ public class DiscordListener extends ListenerAdapter  {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        Optional<Command> commandOptional = commandRegistry.find(event.getName());
+        String subcommandName = event.getSubcommandName();
+        Optional<Command> commandOptional = (subcommandName == null) ?
+                commandRegistry.getCommand(event.getName()) : commandRegistry.getSubcommand(event.getName(), subcommandName);
         if(commandOptional.isEmpty()) {
             return;
         }

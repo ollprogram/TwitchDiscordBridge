@@ -12,51 +12,140 @@
 
 package fr.ollprogram.twitchdiscordbridge.command;
 
+import fr.ollprogram.twitchdiscordbridge.exception.AlreadyRegisteredException;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * Implementation of the command registry, using a HashMap to store commands.
  */
 public class CommandRegistryImpl implements CommandRegistry {
 
-    private final Map<String, Command> commandsMap;
+    private static class Entry {
+        private Map<String, Command> subcommands;
+
+        private Command command;
+
+        Entry(Command command){
+            this.command = command;
+            subcommands = null;
+        }
+
+        Entry(String subcommandName, Command subCommand){
+            this.command = null;
+            this.addSubcommand(subcommandName, subCommand);
+        }
+
+        void addSubcommand(String name, Command subCommand){
+            if(subcommands == null){
+                this.subcommands = new HashMap<>();
+            }
+            Command command = subcommands.get(name);
+            if(command != null) throw new AlreadyRegisteredException("The subcommand "+name+"was already registered");
+            subcommands.put(name, subCommand);
+        }
+
+        void setCommandType(Command command) {
+            this.command = command;
+        }
+
+        Command getCommandType(){
+            return command;
+        }
+
+        boolean hasSubcommands(){
+            return this.subcommands != null && !this.subcommands.isEmpty();
+        }
+
+        Command getSubcommand(String commandName){
+            if(this.hasSubcommands()){
+                return subcommands.get(commandName);
+            }
+            return null;
+        }
+
+        void removeSubcommand(String commandName){
+            if(this.hasSubcommands()){
+                subcommands.remove(commandName);
+                if(subcommands.isEmpty()) subcommands = null; //less memory cost
+            }
+        }
+    }
+
+
+    private final Map<String, Entry> commands;
 
     public CommandRegistryImpl(){
-        commandsMap = new HashMap<>();
+        commands = new HashMap<>();
+    }
+
+
+    @Override
+    public void register(@NotNull String commandName, @NotNull Command command) {
+        Entry entry = commands.get(commandName);
+        if(entry == null) {
+            commands.put(commandName, new Entry(command));
+        }else {
+            Command type = entry.getCommandType();
+            if(type != null) throw new AlreadyRegisteredException("Command "+commandName+" is already registered");
+            entry.setCommandType(command);
+        }
     }
 
     @Override
-    public void register(String name, Command command) {
-        commandsMap.put(name, command);
+    public void register(@NotNull String commandName, @NotNull String subcommandName, @NotNull Command subcommand) {
+        Entry entry = commands.get(commandName);
+        if(entry == null){
+            commands.put(commandName, new Entry(subcommandName, subcommand));
+            return;
+        }
+        entry.addSubcommand(commandName, subcommand);
     }
 
     @Override
-    public @NotNull Optional<Command> find(String commandName) {
-        return Optional.ofNullable(commandsMap.get(commandName));
+    public @NotNull Optional<Command> searchCommand(@NotNull String[] commandLineArgs) {
+        return Optional.empty();
     }
 
     @Override
-    public void deregister(String name) {
-        commandsMap.remove(name);
+    public @NotNull Optional<Command> getSubcommand(@NotNull String commandName, @NotNull String subcommandName) {
+        Entry rootCommand = commands.get(commandName);
+        if(rootCommand == null) return Optional.empty();
+        Command subcommand = rootCommand.getSubcommand(subcommandName);
+        return Optional.ofNullable(subcommand);
+    }
+
+    @Override
+    public @NotNull Optional<Command> getCommand(@NotNull String commandName) {
+        Entry rootCommand = commands.get(commandName);
+        if(rootCommand == null) return Optional.empty();
+        return Optional.ofNullable(rootCommand.command);
+    }
+
+    @Override
+    public void deregister(@NotNull String commandName) {
+        commands.remove(commandName);
+    }
+
+    @Override
+    public void deregister(@NotNull String commandName, @NotNull String subcommandName) {
+        Entry rootCommand = commands.get(commandName);
+        if(rootCommand == null) return;
+        rootCommand.removeSubcommand(subcommandName);
     }
 
     @Override
     public @NotNull List<CommandData> getAllDiscordCommands() {
-        List<CommandData> discordCommands = new ArrayList<>();
-        commandsMap.forEach((name,command) -> {
-            Optional<CommandData> optionalCommandData = command.asDiscordCommand(name);
-            optionalCommandData.ifPresent(discordCommands::add);
-        });
-        return discordCommands;
+        return List.of(); //TODO
     }
 
     @Override
     public @NotNull String getHelp() {
-        StringBuilder builder = new StringBuilder();
-        commandsMap.forEach((name,command) -> builder.append("- ").append(name).append(" : ").append(command.getDescription()).append("\n"));
-        return builder.toString();
+        return "null"; //TODO
     }
 }

@@ -19,10 +19,8 @@ import fr.ollprogram.twitchdiscordbridge.manager.AppsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Command interface for the user. This command interface has some exclusive commands not runnable from discord
@@ -97,13 +95,14 @@ public class BridgeCLI {
      */
     private void handleRegistryCommands(String fullCommandLine){
         CommandExecutor executor = appsManager.getExecutor();
-        List<String> args = List.of(fullCommandLine.split("\\s+"));
-        int argsSize = args.size();
+        String[] args = fullCommandLine.split("\\s+");
+        int argsSize = args.length;
         if(argsSize > 0){
-            Optional<Command> commandOpt = registry.find(args.get(0));
+            Optional<Command> commandOpt = registry.searchCommand(args);
             if(commandOpt.isEmpty()){
                 System.out.println("Command not found, please try 'help' to see all commands.");
             }else {
+                /*
                 try {
                     String res = executor.submit(commandOpt.get(), args.subList(1, argsSize)).get(); //sequential (joining the thread for better user experience)
                     System.out.println(res);
@@ -111,6 +110,7 @@ public class BridgeCLI {
                     LOG.warn("The following error occurs during the command execution "+e.getMessage());
                     System.out.println("Command failed");
                 }
+                *///TODO adapt and fix
             }
         }
     }

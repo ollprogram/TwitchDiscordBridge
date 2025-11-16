@@ -24,24 +24,54 @@ import java.util.Optional;
 public interface CommandRegistry {
 
     /**
-     * Register a command to the registry.
+     * Register a command to the registry. A command can be registered only once.
+     * @param commandName The command name
      * @param command The command to register.
      */
-    void register(String name, Command command);
+    void register(@NotNull String commandName, @NotNull Command command);
 
     /**
-     * Retrieve a command by its name.
-     * @param commandName The command name
-     * @return The command which has the specified name if retrieved.
+     * Register a subcommand. A subcommand can be registered only once.
+     * @param commandName The root command name
+     * @param subcommandName The subcommand name
+     * @param subcommand The subcommand type
      */
-    @NotNull Optional<Command> find(String commandName);
+    void register(@NotNull String commandName, @NotNull String subcommandName, @NotNull Command subcommand);
 
     /**
-     * Remove a command from the registry.
-     * @param name The name of the command to remove from the registry.
+     * Retrieve a command type by the command line.
+     * @param commandLineArgs The command line tokens / args
+     * @return The command which matches the line.
      */
-    void deregister(String name);
+    @NotNull Optional<Command> searchCommand(@NotNull String[] commandLineArgs);
 
+    /**
+     * Retrieve a subcommand by the command name and group name
+     * @param commandName The root command name
+     * @param subcommandName The subcommand name
+     * @return The Command
+     */
+    @NotNull Optional<Command> getSubcommand(@NotNull String commandName, @NotNull String subcommandName);
+
+    /**
+     * Retrieve a command by the command name and group name
+     * @param commandName The root command name
+     * @return The Command to be executed
+     */
+    @NotNull Optional<Command> getCommand(@NotNull String commandName);
+
+    /**
+     * Remove a command from the registry. No effects if already deregistered.
+     * @param commandName The name of the command to remove from the registry.
+     */
+    void deregister(@NotNull String commandName);
+
+    /**
+     * Remove a subcommand from the registry. No effects if already deregistered.
+     * @param commandName The root command name
+     * @param subcommandName The name of the command to remove from the registry.
+     */
+    void deregister(@NotNull String commandName, @NotNull String subcommandName);
 
     /**
      * Get all the discord commands data

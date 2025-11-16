@@ -83,6 +83,7 @@ public class Main {
         CommandRegistry registry = new CommandRegistryImpl();
         registry.register("code", new Code());
         registry.register("say", new Say(bridge));
+        registry.register("bridge", new BridgeInfo(bridge, discordBot));
 
         LOG.info("Registering listeners");
         discordBot.addEventListener(new DiscordListener(bridge, registry, executor));

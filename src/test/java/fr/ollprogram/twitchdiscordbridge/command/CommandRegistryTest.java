@@ -19,7 +19,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class CommandRegistryTest {
     private Command fakeCommand1;
@@ -40,7 +39,7 @@ public class CommandRegistryTest {
     @Test
     void testRegisterOneCommand(){
         commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        Command retrievedCommand = commandRegistry.find(COMMAND_NAME1).orElse(null);
+        Command retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1).orElse(null);
         assertEquals(fakeCommand1, retrievedCommand);
     }
 
@@ -48,7 +47,7 @@ public class CommandRegistryTest {
     void testRegisterTwoCommands1(){
         commandRegistry.register(COMMAND_NAME1, fakeCommand1);
         commandRegistry.register(COMMAND_NAME2, fakeCommand2);
-        Command retrievedCommand = commandRegistry.find(COMMAND_NAME1).orElse(null);
+        Command retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1).orElse(null);
         assertEquals(fakeCommand1, retrievedCommand);
     }
 
@@ -56,7 +55,7 @@ public class CommandRegistryTest {
     void testRegisterTwoCommands2(){
         commandRegistry.register(COMMAND_NAME1, fakeCommand1);
         commandRegistry.register(COMMAND_NAME2, fakeCommand2);
-        Command retrievedCommand = commandRegistry.find(COMMAND_NAME2).orElse(null);
+        Command retrievedCommand = commandRegistry.getCommand(COMMAND_NAME2).orElse(null);
         assertEquals(fakeCommand2, retrievedCommand);
     }
 
@@ -64,7 +63,7 @@ public class CommandRegistryTest {
     void testRegisterTwoCommands3(){
         commandRegistry.register(COMMAND_NAME1, fakeCommand1);
         commandRegistry.register(COMMAND_NAME2, fakeCommand2);
-        Optional<Command> retrievedCommand = commandRegistry.find("test_command3");
+        Optional<Command> retrievedCommand = commandRegistry.getCommand("test_command3");
         assertEquals(Optional.empty(), retrievedCommand);
     }
 
@@ -72,7 +71,7 @@ public class CommandRegistryTest {
     void testDeregister(){
         commandRegistry.register(COMMAND_NAME1, fakeCommand1);
         commandRegistry.deregister(COMMAND_NAME1);
-        Optional<Command> retrievedCommand = commandRegistry.find(COMMAND_NAME1);
+        Optional<Command> retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1);
         assertEquals(Optional.empty(), retrievedCommand);
     }
 
@@ -81,17 +80,19 @@ public class CommandRegistryTest {
         commandRegistry.register(COMMAND_NAME1, fakeCommand1);
         commandRegistry.register(COMMAND_NAME2, fakeCommand2);
         commandRegistry.deregister(COMMAND_NAME1);
-        Optional<Command> retrievedCommand = commandRegistry.find(COMMAND_NAME2);
+        Optional<Command> retrievedCommand = commandRegistry.getCommand(COMMAND_NAME2);
         assertEquals(fakeCommand2, retrievedCommand.orElse(null));
-        retrievedCommand = commandRegistry.find(COMMAND_NAME1);
+        retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1);
         assertEquals(Optional.empty(), retrievedCommand);
     }
 
     @Test
     void testNothingRegistered(){
-        Optional<Command> retrievedCommand = commandRegistry.find(COMMAND_NAME1);
+        Optional<Command> retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1);
         assertEquals(Optional.empty(), retrievedCommand);
     }
+
+    //TODO more tests with subcommands
 
 
 }

@@ -75,4 +75,9 @@ public class BridgeImpl implements Bridge {
         channel.sendMessage(message).queue();
     }
 
+    @Override
+    public @NotNull BridgeConfig getConfig() {
+        return config;
+    }
+
 }

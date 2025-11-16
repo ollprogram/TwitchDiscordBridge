@@ -11,38 +11,35 @@
  */
 package fr.ollprogram.twitchdiscordbridge.command;
 
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
-public class Code implements Command{
+
+public class Code extends Command {
 
     private static final String TEXT = """
             Hi I'm ollprogram this bot has been made with TwitchDiscordBridge.
             TwitchDiscordBridge is free software, contribute or download here : https://github.com/ollprogram/TwitchDiscordBridge
             """;
 
-    private static final String DESCRIPTION = """
-            Information about the code of this bot
-            """;
+    private static final String DESCRIPTION = "Information about the code of this bot";
 
-    @Override
-    public @NotNull Supplier<String> getExecution(List<String> args) {
-        return () -> TEXT;
+    private static final String ARGS_ERROR = "This command don't have any arguments.";
+
+    public Code() {
+        super(DESCRIPTION, 0, 0);
     }
 
     @Override
-    public @NotNull String getDescription() {
-        return DESCRIPTION;
-    }
+    public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
+        if(super.validateArguments(args)){
+            return () -> TEXT;
+        } else {
+            return () -> ARGS_ERROR;
+        }
 
-    @Override
-    public @NotNull Optional<CommandData> asDiscordCommand(String name){
-        return Optional.of(Commands.slash(name, getDescription()));
     }
 
 }

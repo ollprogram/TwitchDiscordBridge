@@ -13,24 +13,17 @@
 package fr.ollprogram.twitchdiscordbridge.command;
 
 import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
-public class Say implements Command {
+
+public class Say extends Command {
 
     private static final String TEXT = "Message sent to both applications.";
 
-    private static final String DESCRIPTION = """
-            Send a message on both application (twitch and discord)
-            """;
+    private static final String DESCRIPTION = "Send a message on both application (twitch and discord)";
 
     private static final String  MESSAGE_PREFIX = "Admin says : ";
     private static final String  ARGS_ERROR = "No message given";
@@ -38,32 +31,21 @@ public class Say implements Command {
     private final Bridge bridge;
 
     public Say(Bridge bridge){
+        super(DESCRIPTION, 1, 1);
         this.bridge = bridge;
     }
 
     @Override
-    public @NotNull Supplier<String> getExecution(List<String> args) {
-        if(args.size() < 1){
-            return () -> ARGS_ERROR;
+    public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
+        if(validateArguments(args)){
+            return () -> {
+                String message = MESSAGE_PREFIX + args.parallelStream().reduce("", String::concat);
+                bridge.sendToDiscord(message);
+                bridge.sendToTwitch(message);
+                return TEXT;
+            };
         }
-        return () -> {
-            String message = MESSAGE_PREFIX + args.parallelStream().reduce("", String::concat);
-            bridge.sendToDiscord(message);
-            bridge.sendToTwitch(message);
-            return TEXT;
-        };
+        return () -> ARGS_ERROR;
     }
 
-    @Override
-    public @NotNull String getDescription() {
-        return DESCRIPTION;
-    }
-
-    @Override
-    public @NotNull Optional<CommandData> asDiscordCommand(String name) {
-        return Optional.of(Commands.slash(name, DESCRIPTION)
-                .setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR))
-                .addOption(OptionType.STRING, "message", "The message to send", true)
-        );
-    }
 }
