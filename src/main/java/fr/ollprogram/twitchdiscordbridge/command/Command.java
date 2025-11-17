@@ -57,7 +57,7 @@ public abstract class Command {
      */
     protected boolean validateArguments(@NotNull List<String> args) {
         int argsNumber = args.size();
-        return argsNumber >= argsMin || argsNumber <= argsMax;
+        return argsNumber >= argsMin && argsNumber <= argsMax;
     }
 
     /**
