@@ -26,19 +26,20 @@ public abstract class Command {
 
     private final int argsMax;
 
-    private final Permission discordPermission;
+    private Permission discordPermission;
 
-    protected Command(String description, int argsMin, int argsMax){
+    private final boolean discordEnabled;
+
+    protected Command(@NotNull String description, int argsMin, int argsMax, boolean discordEnabled){
         this.description = description;
         this.argsMin = argsMin;
         this.argsMax = argsMax;
-        discordPermission = null;
+        this.discordEnabled = discordEnabled;
+        this.discordPermission = null;
     }
 
-    protected Command(String description, int argsMin, int argsMax, Permission discordPermission){
-        this.description = description;
-        this.argsMin = argsMin;
-        this.argsMax = argsMax;
+    protected Command(@NotNull String description, int argsMin, int argsMax, @NotNull Permission discordPermission){
+        this(description, argsMin, argsMax, true);
         this.discordPermission = discordPermission;
     }
 
@@ -56,7 +57,7 @@ public abstract class Command {
      */
     protected boolean validateArguments(@NotNull List<String> args) {
         int argsNumber = args.size();
-        return argsNumber < argsMin || argsNumber > argsMax;
+        return argsNumber >= argsMin || argsNumber <= argsMax;
     }
 
     /**
@@ -68,13 +69,18 @@ public abstract class Command {
     }
 
     /**
-     * If the command can be used on discord, return the discord permission
+     * If the command has discord permission get the permission type
      * @return The discord Permission of the command
      */
     public Optional<Permission> getDiscordPermission() {
         return Optional.ofNullable(discordPermission);
     }
 
-
-
+    /**
+     * If the command can be used on discord
+     * @return If the command can be used on discord
+     */
+    public boolean isDiscordEnabled() {
+        return discordEnabled;
+    }
 }

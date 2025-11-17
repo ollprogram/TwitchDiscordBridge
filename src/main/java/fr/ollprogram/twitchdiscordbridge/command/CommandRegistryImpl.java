@@ -62,6 +62,10 @@ public class CommandRegistryImpl implements CommandRegistry {
             return this.subcommands != null && !this.subcommands.isEmpty();
         }
 
+        boolean isCommand(){
+            return command != null;
+        }
+
         Command getSubcommand(String commandName){
             if(this.hasSubcommands()){
                 return subcommands.get(commandName);
@@ -108,11 +112,6 @@ public class CommandRegistryImpl implements CommandRegistry {
     }
 
     @Override
-    public @NotNull Optional<Command> searchCommand(@NotNull String[] commandLineArgs) {
-        return Optional.empty();
-    }
-
-    @Override
     public @NotNull Optional<Command> getSubcommand(@NotNull String commandName, @NotNull String subcommandName) {
         Entry rootCommand = commands.get(commandName);
         if(rootCommand == null) return Optional.empty();
@@ -146,6 +145,21 @@ public class CommandRegistryImpl implements CommandRegistry {
 
     @Override
     public @NotNull String getHelp() {
-        return "null"; //TODO
+        StringBuilder builder = new StringBuilder("All commands :\n");
+        commands.forEach((name, entry) -> {
+            if(entry.isCommand()) builder.append("- ")
+                    .append(name)
+                    .append(" : ")
+                    .append(entry.command.getDescription()).append("\n");
+            if(entry.hasSubcommands()){
+                entry.subcommands.forEach((subName, sub) -> {
+                    builder.append("- ")
+                            .append(name).append(" ").append(subName)
+                            .append(" : ")
+                            .append(sub.getDescription()).append("\n");
+                });
+            }
+        });
+        return builder.toString();
     }
 }

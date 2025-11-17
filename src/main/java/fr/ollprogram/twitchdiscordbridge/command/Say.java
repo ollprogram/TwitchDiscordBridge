@@ -13,6 +13,7 @@
 package fr.ollprogram.twitchdiscordbridge.command;
 
 import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
+import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class Say extends Command {
     private final Bridge bridge;
 
     public Say(Bridge bridge){
-        super(DESCRIPTION, 1, 1);
+        super(DESCRIPTION, 1, 1, Permission.ADMINISTRATOR);
         this.bridge = bridge;
     }
 

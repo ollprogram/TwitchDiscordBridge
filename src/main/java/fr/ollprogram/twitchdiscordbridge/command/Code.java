@@ -29,7 +29,7 @@ public class Code extends Command {
     private static final String ARGS_ERROR = "This command don't have any arguments.";
 
     public Code() {
-        super(DESCRIPTION, 0, 0);
+        super(DESCRIPTION, 0, 0, true);
     }
 
     @Override

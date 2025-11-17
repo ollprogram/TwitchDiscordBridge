@@ -39,13 +39,6 @@ public interface CommandRegistry {
     void register(@NotNull String commandName, @NotNull String subcommandName, @NotNull Command subcommand);
 
     /**
-     * Retrieve a command type by the command line.
-     * @param commandLineArgs The command line tokens / args
-     * @return The command which matches the line.
-     */
-    @NotNull Optional<Command> searchCommand(@NotNull String[] commandLineArgs);
-
-    /**
      * Retrieve a subcommand by the command name and group name
      * @param commandName The root command name
      * @param subcommandName The subcommand name

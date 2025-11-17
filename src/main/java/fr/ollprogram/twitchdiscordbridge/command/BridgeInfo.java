@@ -15,6 +15,7 @@ package fr.ollprogram.twitchdiscordbridge.command;
 import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +36,7 @@ public class BridgeInfo extends Command {
     private final JDA discordBot;
 
     public BridgeInfo(Bridge bridge, JDA discordBot){
-        super(DESCRIPTION, 0, 0);
+        super(DESCRIPTION, 0, 0, Permission.ADMINISTRATOR);
         this.bridge = bridge;
         this.discordBot = discordBot;
     }
