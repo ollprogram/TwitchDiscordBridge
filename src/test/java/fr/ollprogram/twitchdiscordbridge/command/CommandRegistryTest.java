@@ -170,7 +170,7 @@ public class CommandRegistryTest {
         commandRegistry.register(COMMAND_NAME1, fakeCommand1);
         commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
         Command retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1).orElse(null);
-        assertEquals(fakeSubcommand1, retrievedCommand);
+        assertEquals(fakeCommand1, retrievedCommand);
     }
 
     @Test
@@ -294,7 +294,7 @@ public class CommandRegistryTest {
         commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME2, fakeSubcommand2);
         commandRegistry.deregister(COMMAND_NAME1, SUB_COMMAND_NAME1);
         Command retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME1, SUB_COMMAND_NAME2).orElse(null);
-        assertEquals(fakeCommand2, retrievedCommand);
+        assertEquals(fakeSubcommand2, retrievedCommand);
     }
 
 }

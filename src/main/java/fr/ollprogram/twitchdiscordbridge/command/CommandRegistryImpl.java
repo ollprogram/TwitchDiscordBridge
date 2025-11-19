@@ -33,12 +33,12 @@ public class CommandRegistryImpl implements CommandRegistry {
 
         Entry(Command command){
             this.command = command;
-            subcommands = null;
+            this.subcommands = null;
         }
 
-        Entry(String subcommandName, Command subCommand){
+        Entry(){
             this.command = null;
-            this.addSubcommand(subcommandName, subCommand);
+            this.subcommands = null;
         }
 
         void addSubcommand(String name, Command subCommand){
@@ -105,10 +105,13 @@ public class CommandRegistryImpl implements CommandRegistry {
     public void register(@NotNull String commandName, @NotNull String subcommandName, @NotNull Command subcommand) {
         Entry entry = commands.get(commandName);
         if(entry == null){
-            commands.put(commandName, new Entry(subcommandName, subcommand));
-            return;
+            Entry newEntry = new Entry();
+            commands.put(commandName, newEntry);
+            newEntry.addSubcommand(subcommandName, subcommand);
+        } else {
+            entry.addSubcommand(subcommandName, subcommand);
         }
-        entry.addSubcommand(commandName, subcommand);
+
     }
 
     @Override
