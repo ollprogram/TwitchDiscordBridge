@@ -14,7 +14,6 @@ package fr.ollprogram.twitchdiscordbridge.configuration.save;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.jetbrains.annotations.NotNull;
 
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -26,16 +25,29 @@ import java.util.Properties;
  */
 public class ConfigSaverToProps implements ConfigSaver {
 
+    private final BridgeConfig config;
+
     private static final String PROPERTIES = ".properties";
+
+    public ConfigSaverToProps(@NotNull BridgeConfig config){
+        this.config = config;
+    }
+
+
     @Override
-    public void saveConfiguration(@NotNull BridgeConfig bridgeConfig) throws IOException {
+    public void save(@NotNull String pathname) throws IOException {
         Properties props = new Properties();
-        props.put("TwitchToken", bridgeConfig.getTwitchToken());
-        props.put("DiscordToken", bridgeConfig.getDiscordToken());
-        props.put("TwitchChannelName", bridgeConfig.getTwitchChannelName());
-        props.put("DiscordChannelID", bridgeConfig.getDiscordChannelID());
-        Writer w = new FileWriter(DEFAULT_FILE_NAME + PROPERTIES);
+        props.put("TwitchToken", config.getTwitchToken());
+        props.put("DiscordToken", config.getDiscordToken());
+        props.put("TwitchChannelName", config.getTwitchChannelName());
+        props.put("DiscordChannelID", config.getDiscordChannelID());
+        Writer w = new FileWriter(pathname);
         props.store(w, "You can edit this file if you wish");
         w.close();
+    }
+
+    @Override
+    public void save() throws IOException {
+        this.save(DEFAULT_FILE_NAME + PROPERTIES);
     }
 }

@@ -11,7 +11,6 @@
  */
 package fr.ollprogram.twitchdiscordbridge.configuration.save;
 
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -26,8 +25,14 @@ public interface ConfigSaver {
 
     /**
      * Save the configuration
-     * @param bridgeConfig The configuration  to save.
+     * @param pathname The configuration file pathname
      * @throws IOException If it can't save the configuration into a file.
      */
-    void saveConfiguration(@NotNull BridgeConfig bridgeConfig) throws IOException;
+    void save(@NotNull String pathname) throws IOException;
+
+    /**
+     * Save the configuration to the default location
+     * @throws IOException If it can't save the configuration into a file.
+     */
+    void save() throws IOException;
 }

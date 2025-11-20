@@ -131,9 +131,9 @@ public class ConfiguratorCLI {
      * @param config The bridge configuration
      */
     private void saveCurrentConfiguration(BridgeConfig config) {
-        ConfigSaver saver = new ConfigSaverToProps();
+        ConfigSaver saver = new ConfigSaverToProps(config);
         try {
-            saver.saveConfiguration(config);
+            saver.save();
         } catch (IOException e) {
             LOG.warn("Unable to save configuration");
         }

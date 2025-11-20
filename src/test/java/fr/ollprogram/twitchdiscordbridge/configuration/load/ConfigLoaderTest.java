@@ -12,26 +12,21 @@
 
 package fr.ollprogram.twitchdiscordbridge.configuration.load;
 
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
-import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
-import org.apache.commons.lang.IncompleteArgumentException;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ConfigLoaderTest {
 
     private static final String TEST_FILES_ROOT = "src/test/resources/configFactory";
-    private static final String DEFAULT_FILE_PATH = "bridge.properties";
 
     private ConfigLoader fact;
     private ConfigBuilder builder;
