@@ -32,7 +32,7 @@ public class Say extends Command {
     private final Bridge bridge;
 
     public Say(Bridge bridge){
-        super(DESCRIPTION, 1, 1, Permission.ADMINISTRATOR);
+        super(DESCRIPTION, 1, -1, Permission.ADMINISTRATOR);
         this.bridge = bridge;
     }
 
@@ -40,7 +40,7 @@ public class Say extends Command {
     public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
         if(validateArguments(args)){
             return () -> {
-                String message = MESSAGE_PREFIX + args.parallelStream().reduce("", String::concat);
+                String message = MESSAGE_PREFIX + args.parallelStream().reduce(" ", String::concat);
                 bridge.sendToDiscord(message);
                 bridge.sendToTwitch(message);
                 return TEXT;

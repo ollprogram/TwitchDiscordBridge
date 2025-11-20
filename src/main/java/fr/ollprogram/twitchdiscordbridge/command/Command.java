@@ -30,6 +30,13 @@ public abstract class Command {
 
     private final boolean discordEnabled;
 
+    /**
+     * Main constructor
+     * @param description The command description
+     * @param argsMin The minimum number of arguments
+     * @param argsMax The maximum number of arguments -1 if no limit
+     * @param discordEnabled If this command can be used on discord,
+     */
     protected Command(@NotNull String description, int argsMin, int argsMax, boolean discordEnabled){
         this.description = description;
         this.argsMin = argsMin;
@@ -38,6 +45,13 @@ public abstract class Command {
         this.discordPermission = null;
     }
 
+    /**
+     * Discord command constructor with permissions
+     * @param description The description
+     * @param argsMin The minimum number of arguments
+     * @param argsMax The maximum number of arguments -1 if no limit
+     * @param discordPermission The discord permission for this command
+     */
     protected Command(@NotNull String description, int argsMin, int argsMax, @NotNull Permission discordPermission){
         this(description, argsMin, argsMax, true);
         this.discordPermission = discordPermission;
@@ -57,7 +71,7 @@ public abstract class Command {
      */
     protected boolean validateArguments(@NotNull List<String> args) {
         int argsNumber = args.size();
-        return argsNumber >= argsMin && argsNumber <= argsMax;
+        return argsNumber >= argsMin && (argsMax == -1 || argsNumber <= argsMax);
     }
 
     /**
