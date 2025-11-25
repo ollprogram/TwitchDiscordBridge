@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
 
 /**
  * Command interface for the user. This command interface has some exclusive commands not runnable from discord
@@ -97,7 +98,11 @@ public class BridgeCLI {
      */
     private void handleRegistryCommands(String fullCommandLine){
         CommandExecutor executor = appsManager.getExecutor();
-        List<String> args = List.of(fullCommandLine.split("\\s+"));
+        Pattern pattern = Pattern.compile("\"([^\"]*)\"|(\\S+)");
+        List<String> args = pattern.matcher(fullCommandLine)
+                .results()
+                .map(m -> m.group(1) != null ? m.group(1) : m.group(2))
+                .toList();
         int argsSize = args.size();
         if(argsSize > 0){
             Optional<Command> commandOpt = registry.getCommand(args.get(0));

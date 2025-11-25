@@ -86,27 +86,6 @@ public class CommandRegistryTest {
     }
 
     @Test
-    @DisplayName("Deregistered command can't be retrieved")
-    void testDeregister(){
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        commandRegistry.deregister(COMMAND_NAME1);
-        Optional<Command> retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1);
-        assertEquals(Optional.empty(), retrievedCommand);
-    }
-
-    @Test
-    @DisplayName("Deregister don't deregister other commands")
-    void testDeregisterNoSideEffect(){
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        commandRegistry.register(COMMAND_NAME2, fakeCommand2);
-        commandRegistry.deregister(COMMAND_NAME1);
-        Optional<Command> retrievedCommand = commandRegistry.getCommand(COMMAND_NAME2);
-        assertEquals(fakeCommand2, retrievedCommand.orElse(null));
-        retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1);
-        assertEquals(Optional.empty(), retrievedCommand);
-    }
-
-    @Test
     @DisplayName("Empty registry")
     void testNothingRegistered(){
         Optional<Command> retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1);
@@ -138,39 +117,19 @@ public class CommandRegistryTest {
     }
 
     @Test
-    @DisplayName("Command and subcommand are registered")
-    void testRegisterSubcommandAndCommand1(){
+    @Tag("Robustness")
+    @DisplayName("Can't register subcommand and command")
+    void testRegisterSubcommandAndCommand(){
         commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        Command retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME1, SUB_COMMAND_NAME1).orElse(null);
-        assertEquals(fakeSubcommand1, retrievedCommand);
+        assertThrows(AlreadyRegisteredException.class, () -> {commandRegistry.register(COMMAND_NAME1, fakeCommand1);});
     }
 
     @Test
-    @DisplayName("Command and subcommand are registered")
-    void testRegisterSubcommandAndCommand2(){
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
+    @Tag("Robustness")
+    @DisplayName("Can't register subcommand and command, commutation")
+    void testRegisterSubcommandAndCommandCommutation(){
         commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        Command retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1).orElse(null);
-        assertEquals(fakeCommand1, retrievedCommand);
-    }
-
-    @Test
-    @DisplayName("Command and subcommand are registered, commutation")
-    void testRegisterSubcommandAndCommandCommutation1(){
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
-        Command retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME1, SUB_COMMAND_NAME1).orElse(null);
-        assertEquals(fakeSubcommand1, retrievedCommand);
-    }
-
-    @Test
-    @DisplayName("Command and subcommand are registered, commutation")
-    void testRegisterSubcommandAndCommandCommutation2(){
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
-        Command retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1).orElse(null);
-        assertEquals(fakeCommand1, retrievedCommand);
+        assertThrows(AlreadyRegisteredException.class, () -> {commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);});
     }
 
     @Test
@@ -192,28 +151,8 @@ public class CommandRegistryTest {
     }
 
     @Test
-    @DisplayName("Two subcommands and one command")
-    void testRegisterTwoSubcommands3(){
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME2, fakeSubcommand2);
-        Command retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME1, SUB_COMMAND_NAME1).orElse(null);
-        assertEquals(fakeSubcommand1, retrievedCommand);
-    }
-
-    @Test
-    @DisplayName("Two subcommands and one command")
-    void testRegisterTwoSubcommands4(){
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME2, fakeSubcommand2);
-        Command retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME1, SUB_COMMAND_NAME2).orElse(null);
-        assertEquals(fakeSubcommand2, retrievedCommand);
-    }
-
-    @Test
     @DisplayName("Two subcommands, different groups")
-    void testRegisterTwoSubcommands5(){
+    void testRegisterTwoSubcommands3(){
         commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
         commandRegistry.register(COMMAND_NAME2, SUB_COMMAND_NAME2, fakeSubcommand2);
         Command retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME1, SUB_COMMAND_NAME1).orElse(null);
@@ -222,7 +161,7 @@ public class CommandRegistryTest {
 
     @Test
     @DisplayName("Two subcommands, different groups")
-    void testRegisterTwoSubcommands6(){
+    void testRegisterTwoSubcommands4(){
         commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
         commandRegistry.register(COMMAND_NAME2, SUB_COMMAND_NAME2, fakeSubcommand2);
         Command retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME2, SUB_COMMAND_NAME2).orElse(null);
@@ -265,36 +204,6 @@ public class CommandRegistryTest {
         assertThrows(AlreadyRegisteredException.class, () -> {
             commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand2);
         });
-    }
-
-    @Test
-    @DisplayName("Deregister subcommand")
-    void testDeregisterSubcommand(){
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
-        commandRegistry.deregister(COMMAND_NAME1, SUB_COMMAND_NAME1);
-        Optional<Command> retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME1, SUB_COMMAND_NAME1);
-        assertEquals(Optional.empty(), retrievedCommand);
-    }
-
-    @Test
-    @DisplayName("Deregister subcommand, shouldn't remove the root command")
-    void testDeregisterSubcommandNoBorderEffect1(){
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
-        commandRegistry.deregister(COMMAND_NAME1, SUB_COMMAND_NAME1);
-        Command retrievedCommand = commandRegistry.getCommand(COMMAND_NAME1).orElse(null);
-        assertEquals(fakeCommand1, retrievedCommand);
-    }
-
-    @Test
-    @DisplayName("Deregister subcommand, shouldn't remove the other subcommand")
-    void testDeregisterSubcommandNoBorderEffect2(){
-        commandRegistry.register(COMMAND_NAME1, fakeCommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME1, fakeSubcommand1);
-        commandRegistry.register(COMMAND_NAME1, SUB_COMMAND_NAME2, fakeSubcommand2);
-        commandRegistry.deregister(COMMAND_NAME1, SUB_COMMAND_NAME1);
-        Command retrievedCommand = commandRegistry.getSubcommand(COMMAND_NAME1, SUB_COMMAND_NAME2).orElse(null);
-        assertEquals(fakeSubcommand2, retrievedCommand);
     }
 
 }

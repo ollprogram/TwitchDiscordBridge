@@ -12,49 +12,47 @@
 
 package fr.ollprogram.twitchdiscordbridge.command;
 
-import net.dv8tion.jda.api.Permission;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Supplier;
 
 public abstract class Command {
-
     private final String description;
-    private final int argsMin;
-
-    private final int argsMax;
-
-    private Permission discordPermission;
 
     private final boolean discordEnabled;
+
+    private final List<Option> options;
+
+    private int argsMin;
+    private int argsMax;
 
     /**
      * Main constructor
      * @param description The command description
-     * @param argsMin The minimum number of arguments
-     * @param argsMax The maximum number of arguments -1 if no limit
      * @param discordEnabled If this command can be used on discord,
+     * @param options The command arguments
      */
-    protected Command(@NotNull String description, int argsMin, int argsMax, boolean discordEnabled){
+    protected Command(@NotNull String description, List<Option> options, boolean discordEnabled){
         this.description = description;
-        this.argsMin = argsMin;
-        this.argsMax = argsMax;
         this.discordEnabled = discordEnabled;
-        this.discordPermission = null;
+        this.options = Collections.unmodifiableList(options);
+        argsMin = 0;
+        argsMax = 0;
+        this.options.parallelStream().forEach((a) -> {
+            argsMax++;
+            if(a.mandatory()) argsMin ++;
+        });
     }
 
     /**
-     * Discord command constructor with permissions
-     * @param description The description
-     * @param argsMin The minimum number of arguments
-     * @param argsMax The maximum number of arguments -1 if no limit
-     * @param discordPermission The discord permission for this command
+     * without arguments constructor
+     * @param description The command description
+     * @param discordEnabled If this command can be used on discord,
      */
-    protected Command(@NotNull String description, int argsMin, int argsMax, @NotNull Permission discordPermission){
-        this(description, argsMin, argsMax, true);
-        this.discordPermission = discordPermission;
+    protected Command(@NotNull String description, boolean discordEnabled){
+        this(description, List.of(), discordEnabled);
     }
 
     /**
@@ -71,7 +69,7 @@ public abstract class Command {
      */
     protected boolean validateArguments(@NotNull List<String> args) {
         int argsNumber = args.size();
-        return argsNumber >= argsMin && (argsMax == -1 || argsNumber <= argsMax);
+        return argsNumber >= argsMin && argsNumber <= argsMax;
     }
 
     /**
@@ -83,18 +81,38 @@ public abstract class Command {
     }
 
     /**
-     * If the command has discord permission get the permission type
-     * @return The discord Permission of the command
-     */
-    public Optional<Permission> getDiscordPermission() {
-        return Optional.ofNullable(discordPermission);
-    }
-
-    /**
      * If the command can be used on discord
      * @return If the command can be used on discord
      */
     public boolean isDiscordEnabled() {
         return discordEnabled;
+    }
+
+    /**
+     * Get options
+     * @return The options list
+     */
+    public @NotNull List<Option> getOptions(){
+        return options;
+    }
+
+    /**
+     * The help string of the command
+     * @param commandName The full command name (including subcommand name if it's the case)
+     * @return The help string of the command
+     */
+    public String getHelp(String commandName){
+        StringBuilder builder = new StringBuilder();
+        builder.append("- ")
+                .append(commandName)
+                .append(" : ").append(this.getDescription()).append(argsMax > 0 ? "\n\tArguments : \n" : "\n");
+        this.getOptions().parallelStream().forEach((a) -> {
+            builder.append("\t\t")
+                    .append(a.name())
+                    .append(" : ")
+                    .append(a.description()).append(a.mandatory() ? " [Mandatory]" : "")
+                    .append("\n");
+        });
+        return builder.toString();
     }
 }

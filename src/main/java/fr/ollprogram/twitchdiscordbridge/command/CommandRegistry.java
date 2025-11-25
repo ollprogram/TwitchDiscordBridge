@@ -12,6 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.command;
 
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +26,7 @@ public interface CommandRegistry {
 
     /**
      * Register a command to the registry. A command can be registered only once.
+     * You can't register a command this command has already subcommands registered
      * @param commandName The command name
      * @param command The command to register.
      */
@@ -32,11 +34,19 @@ public interface CommandRegistry {
 
     /**
      * Register a subcommand. A subcommand can be registered only once.
+     * You can't register a subcommand to a command already registered
      * @param commandName The root command name
      * @param subcommandName The subcommand name
      * @param subcommand The subcommand type
      */
     void register(@NotNull String commandName, @NotNull String subcommandName, @NotNull Command subcommand);
+
+    /**
+     * This will set the permission for a command and its subcommands, by default there is no permission set (ENABLED)
+     * @param commandName The command name / Root command name
+     * @param permissions The discord permissions for the command and its subcommands
+     */
+    void setDiscordPermissions(@NotNull String commandName, DefaultMemberPermissions permissions);
 
     /**
      * Retrieve a subcommand by the command name and group name
@@ -52,19 +62,6 @@ public interface CommandRegistry {
      * @return The Command to be executed
      */
     @NotNull Optional<Command> getCommand(@NotNull String commandName);
-
-    /**
-     * Remove a command from the registry. No effects if already deregistered.
-     * @param commandName The name of the command to remove from the registry.
-     */
-    void deregister(@NotNull String commandName);
-
-    /**
-     * Remove a subcommand from the registry. No effects if already deregistered.
-     * @param commandName The root command name
-     * @param subcommandName The name of the command to remove from the registry.
-     */
-    void deregister(@NotNull String commandName, @NotNull String subcommandName);
 
     /**
      * Get all the discord commands data
