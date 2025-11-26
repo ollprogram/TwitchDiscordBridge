@@ -19,6 +19,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public abstract class Command {
+    protected static final String DEFAULT_ARGS_ERROR = "Wrong arguments";
+
+    protected static final String SHOULD_HAVE_NO_ARGS_ERROR = "This command don't have any arguments.";
     private final String description;
 
     private final boolean discordEnabled;

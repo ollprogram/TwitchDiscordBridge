@@ -9,37 +9,32 @@
  * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
  * If not, see https://www.gnu.org/licenses.
  */
+
 package fr.ollprogram.twitchdiscordbridge.command;
 
+import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.Supplier;
 
+public class BridgeClose extends Command{
+    private static final String DESCRIPTION = "Close the bridge";
 
-public class Code extends Command {
-
-    private static final String TEXT = """
-            Hi I'm ollprogram this bot has been made with TwitchDiscordBridge.
-            TwitchDiscordBridge is free software, contribute or download here : https://github.com/ollprogram/TwitchDiscordBridge
-            """;
-
-    private static final String DESCRIPTION = "Information about the code of this bot";
-
-
-
-    public Code() {
-        super(DESCRIPTION,true);
+    private final Bridge bridge;
+    public BridgeClose(Bridge bridge) {
+        super(DESCRIPTION, true);
+        this.bridge = bridge;
     }
 
     @Override
     public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
-        if(super.validateArguments(args)){
-            return () -> TEXT;
-        } else {
-            return () -> SHOULD_HAVE_NO_ARGS_ERROR;
-        }
-
+        boolean isValid = validateArguments(args);
+        if(!isValid) return () -> SHOULD_HAVE_NO_ARGS_ERROR;
+        return () -> {
+            if(!bridge.isOpen()) return "Already closed !";
+            bridge.close();
+            return "The bridge is now close !";
+        };
     }
-
 }

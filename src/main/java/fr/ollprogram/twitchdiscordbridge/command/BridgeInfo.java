@@ -28,7 +28,7 @@ public class BridgeInfo extends Command {
 
     private static final String INIT_TEXT = "Bridge information : ";
 
-    private static final String ARGS_ERROR = "This command don't have any arguments.";
+
 
     private final Bridge bridge;
 
@@ -43,7 +43,7 @@ public class BridgeInfo extends Command {
     @Override
     public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
         if(validateArguments(args)) return this::getInformationMessage;
-        else return () -> ARGS_ERROR;
+        else return () -> SHOULD_HAVE_NO_ARGS_ERROR;
     }
 
     private String getInformationMessage(){

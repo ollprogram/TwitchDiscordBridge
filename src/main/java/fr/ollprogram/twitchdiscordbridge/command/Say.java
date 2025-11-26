@@ -26,7 +26,6 @@ public class Say extends Command {
     private static final String DESCRIPTION = "Send a message on both application (twitch and discord)";
 
     private static final String  MESSAGE_PREFIX = "Admin says : ";
-    private static final String  ARGS_ERROR = "No message given";
 
     private final Bridge bridge;
 
@@ -45,7 +44,7 @@ public class Say extends Command {
                 return TEXT;
             };
         }
-        return () -> ARGS_ERROR;
+        return () -> DEFAULT_ARGS_ERROR;
     }
 
 }

@@ -27,6 +27,7 @@ import fr.ollprogram.twitchdiscordbridge.listener.TwitchListener;
 import fr.ollprogram.twitchdiscordbridge.manager.AppsManager;
 import fr.ollprogram.twitchdiscordbridge.manager.AppsManagerImpl;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,6 +85,10 @@ public class Main {
         registry.register("code", new Code());
         registry.register("say", new Say(bridge));
         registry.register("bridge", "info", new BridgeInfo(bridge, discordBot));
+        registry.register("bridge", "open", new BridgeOpen(bridge));
+        registry.register("bridge", "close", new BridgeClose(bridge));
+        registry.setDiscordPermissions("bridge", DefaultMemberPermissions.DISABLED);
+        registry.setDiscordPermissions("say", DefaultMemberPermissions.DISABLED);
 
         LOG.info("Registering listeners");
         discordBot.addEventListener(new DiscordListener(bridge, registry, executor));
