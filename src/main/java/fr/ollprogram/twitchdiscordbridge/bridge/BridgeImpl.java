@@ -13,9 +13,14 @@
 package fr.ollprogram.twitchdiscordbridge.bridge;
 
 import com.github.twitch4j.TwitchClient;
+import com.github.twitch4j.chat.TwitchChat;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaver;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaverToProps;
+import fr.ollprogram.twitchdiscordbridge.exception.ServiceException;
+import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
+import fr.ollprogram.twitchdiscordbridge.service.TwitchService;
+import fr.ollprogram.twitchdiscordbridge.service.TwitchServiceImpl;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Implementation of a Bridge
@@ -91,6 +97,37 @@ public class BridgeImpl implements Bridge {
         synchronized (this){
             config.changeDiscordChannelID(channelID);
             LOG.info("Changed the discord channel to ["+channel.getName()+"].");
+            LOG.info("Saving configuration");
+            ConfigSaver saver = new ConfigSaverToProps(config);
+            try {
+                saver.save();
+            } catch (IOException e) {
+                LOG.warn("Configuration can't be saved");
+            }
+            LOG.info("Configuration saved");
+        }
+        return true;
+    }
+
+    @Override
+    public boolean changeTwitchChannel(@NotNull String channelName) {
+        //Not using Helix form Twitch4J since the interface creates warning with URL and is too much complex for this easy task, but easy to change if necessary
+        TwitchService service = new TwitchServiceImpl();
+        Optional<TwitchChannelInfo> channelOpt;
+        try{
+            service.authenticate(config.getTwitchToken());
+            channelOpt = service.getChannel(channelName);
+        } catch (ServiceException e){
+            LOG.warn("Operation aborted. Request failed due to : "+e.getMessage());
+            return false;
+        }
+        if(channelOpt.isEmpty()) return false;
+        synchronized (this){
+            config.changeTwitchChannelName(channelName);
+            TwitchChat chat = twitchBot.getChat();
+            chat.leaveChannel(config.getTwitchChannelName());
+            chat.joinChannel(channelName);
+            LOG.info("Changed the discord channel to ["+channelName+"].");
             LOG.info("Saving configuration");
             ConfigSaver saver = new ConfigSaverToProps(config);
             try {

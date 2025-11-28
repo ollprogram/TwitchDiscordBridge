@@ -55,4 +55,11 @@ public interface Bridge {
      */
     boolean changeDiscordChannel(@NotNull String channelID);
 
+    /**
+     * Change the twitch channel if it can be retrieved
+     * @param channelName The new channel name
+     * @return If the channel exists and then has been changed
+     */
+    boolean changeTwitchChannel(@NotNull String channelName);
+
 }

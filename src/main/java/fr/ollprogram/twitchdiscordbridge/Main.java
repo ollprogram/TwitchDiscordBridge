@@ -88,6 +88,7 @@ public class Main {
         registry.register("bridge", "open", new BridgeOpen(bridge));
         registry.register("bridge", "close", new BridgeClose(bridge));
         registry.register("bridge", "discord_target", new BridgeDiscordTarget(bridge));
+        registry.register("bridge", "twitch_target", new BridgeTwitchTarget(bridge));
         registry.setDiscordPermissions("bridge", DefaultMemberPermissions.DISABLED);
         registry.setDiscordPermissions("say", DefaultMemberPermissions.DISABLED);
 
