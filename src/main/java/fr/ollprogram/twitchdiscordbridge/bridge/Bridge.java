@@ -48,4 +48,11 @@ public interface Bridge {
      */
     @NotNull BridgeConfig getConfig();
 
+    /**
+     * Change the discord channel if it can be retrieved
+     * @param channelID The new channel ID
+     * @return If the channel exists and then has been changed
+     */
+    boolean changeDiscordChannel(@NotNull String channelID);
+
 }

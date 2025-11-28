@@ -14,11 +14,15 @@ package fr.ollprogram.twitchdiscordbridge.bridge;
 
 import com.github.twitch4j.TwitchClient;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaver;
+import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaverToProps;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
 
 /**
  * Implementation of a Bridge
@@ -78,6 +82,25 @@ public class BridgeImpl implements Bridge {
     @Override
     public @NotNull BridgeConfig getConfig() {
         return config;
+    }
+
+    @Override
+    public boolean changeDiscordChannel(@NotNull String channelID) {
+        TextChannel channel = discordBot.getTextChannelById(channelID);
+        if(channel == null) return false;
+        synchronized (this){
+            config.changeDiscordChannelID(channelID);
+            LOG.info("Changed the discord channel to ["+channel.getName()+"].");
+            LOG.info("Saving configuration");
+            ConfigSaver saver = new ConfigSaverToProps(config);
+            try {
+                saver.save();
+            } catch (IOException e) {
+                LOG.warn("Configuration can't be saved");
+            }
+            LOG.info("Configuration saved");
+        }
+        return true;
     }
 
 }

@@ -104,7 +104,7 @@ public class CommandRegistryImpl implements CommandRegistry {
                     if(sub.isDiscordEnabled()){
                         SubcommandData subData = new SubcommandData(subName, sub.getDescription());
                         sub.getOptions().parallelStream().forEach(option -> {
-                            data.addOption(OptionType.STRING, option.name(), option.description(), option.mandatory());
+                            subData.addOption(OptionType.STRING, option.name(), option.description(), option.mandatory());
                         });
                         data.addSubcommands(subData);
                     }
