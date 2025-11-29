@@ -68,7 +68,9 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger("Main");
     public static void main(String[] args) {
         LOG.info(LICENCE);
-        CommandExecutor executor = new CommandPoolExecutor(10);
+        int threads = Runtime.getRuntime().availableProcessors() + 1;
+        LOG.info("Using "+threads+" threads for the TDB pool executor");
+        CommandExecutor executor = new CommandPoolExecutor(threads);
         Scanner scanner = new Scanner(System.in);
         ConfiguratorCLI configuratorCLI = new ConfiguratorCLI(scanner);
         BridgeConfig config = configuratorCLI.configure();
