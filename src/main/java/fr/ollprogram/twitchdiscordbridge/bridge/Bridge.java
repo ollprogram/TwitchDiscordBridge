@@ -62,4 +62,18 @@ public interface Bridge {
      */
     boolean changeTwitchChannel(@NotNull String channelName);
 
+    /**
+     * Check if the given channel is the targeted channel
+     * @param channelID The discord channel ID
+     * @return if the given channel is the targeted channel
+     */
+    boolean isDiscordTarget(@NotNull String channelID);
+
+    /**
+     * Check if the given channel is the targeted channel
+     * @param channelName The twitch channel ID
+     * @return if the given channel is the targeted channel
+     */
+    boolean isTwitchTarget(@NotNull String channelName);
+
 }

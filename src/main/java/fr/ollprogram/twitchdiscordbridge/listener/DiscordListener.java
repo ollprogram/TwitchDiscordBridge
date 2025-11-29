@@ -16,6 +16,7 @@ import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
 import fr.ollprogram.twitchdiscordbridge.command.Command;
 import fr.ollprogram.twitchdiscordbridge.command.CommandExecutor;
 import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
+import fr.ollprogram.twitchdiscordbridge.utils.MessageUtils;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -41,10 +42,12 @@ public class DiscordListener extends ListenerAdapter  {
 
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        //String message = event.getMessage().getContentDisplay();
-        //String channelId = event.getChannel().getId();
-        //bridge.sendToTwitch(message);
-        //TODO
+        String message = event.getMessage().getContentDisplay();
+        String channelId = event.getChannel().getId();
+        String authorName = event.getAuthor().getName();
+        if(bridge.isOpen() && bridge.isDiscordTarget(channelId)){
+            bridge.sendToTwitch(authorName+" says : "+ MessageUtils.filterMessage(message));
+        }
     }
 
     @Override

@@ -114,6 +114,7 @@ public class BridgeImpl implements Bridge {
         //Not using Helix form Twitch4J since the interface creates warning with URL and is too much complex for this easy task, but easy to change if necessary
         TwitchService service = new TwitchServiceImpl();
         Optional<TwitchChannelInfo> channelOpt;
+
         try{
             service.authenticate(config.getTwitchToken());
             channelOpt = service.getChannel(channelName);
@@ -122,11 +123,11 @@ public class BridgeImpl implements Bridge {
             return false;
         }
         if(channelOpt.isEmpty()) return false;
+        TwitchChat chat = twitchBot.getChat();
         synchronized (this){
-            config.changeTwitchChannelName(channelName);
-            TwitchChat chat = twitchBot.getChat();
             chat.leaveChannel(config.getTwitchChannelName());
             chat.joinChannel(channelName);
+            config.changeTwitchChannelName(channelName);
             LOG.info("Changed the discord channel to ["+channelName+"].");
             LOG.info("Saving configuration");
             ConfigSaver saver = new ConfigSaverToProps(config);
@@ -138,6 +139,16 @@ public class BridgeImpl implements Bridge {
             LOG.info("Configuration saved");
         }
         return true;
+    }
+
+    @Override
+    public boolean isDiscordTarget(@NotNull String channelID) {
+        return channelID.equals(config.getDiscordChannelID());
+    }
+
+    @Override
+    public boolean isTwitchTarget(@NotNull String channelName) {
+        return channelName.equals(config.getTwitchChannelName());
     }
 
 }

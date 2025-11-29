@@ -15,6 +15,7 @@ package fr.ollprogram.twitchdiscordbridge.listener;
 import com.github.philippheuer.events4j.simple.domain.EventSubscriber;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
+import fr.ollprogram.twitchdiscordbridge.utils.MessageUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class TwitchListener {
@@ -27,9 +28,11 @@ public class TwitchListener {
 
     @EventSubscriber
     public void onMessageEvent(ChannelMessageEvent event) {
-        //String message = event.getMessage();
-        //String channelId = event.getChannel().getId();
-        //bridge.sendToDiscord(message);
-        //TODO
+        String message = event.getMessage();
+        String channelName = event.getChannel().getName();
+        String authorName = event.getUser().getName();
+        if(bridge.isOpen() && bridge.isTwitchTarget(channelName)) {
+            bridge.sendToDiscord(authorName+" says : "+ MessageUtils.filterMessage(message));
+        }
     }
 }
