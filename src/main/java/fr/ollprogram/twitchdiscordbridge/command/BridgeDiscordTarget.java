@@ -35,6 +35,6 @@ public class BridgeDiscordTarget extends Command{
     public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
         if(!validateArguments(args)) return () -> DEFAULT_ARGS_ERROR;
         String channelID = args.get(0);
-        return () -> bridge.changeDiscordChannel(channelID) ? CHANNEL_FOUND : CHANNEL_NOT_FOUND;
+        return () -> (channelID.matches("^[0-9]+$") && bridge.changeDiscordChannel(channelID)) ? CHANNEL_FOUND : CHANNEL_NOT_FOUND;
     }
 }
