@@ -34,12 +34,12 @@ public class TDBPoolExecutor implements TDBExecutor {
     }
 
     @Override
-    public @NotNull CompletableFuture<String> submit(Command command, List<String> args) {
+    public @NotNull CompletableFuture<String> submit(@NotNull Command command, @NotNull List<@NotNull String> args) {
         return CompletableFuture.supplyAsync(command.getExecution(args), commandPool);
     }
 
     @Override
-    public void submit(Runnable task) {
+    public void submit(@NotNull Runnable task) {
         taskPool.submit(task);
     }
 

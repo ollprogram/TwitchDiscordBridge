@@ -12,5 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.command;
 
-public record Option(String name, String description, boolean mandatory) {
+import org.jetbrains.annotations.NotNull;
+
+public record Option(@NotNull String name, @NotNull String description, boolean mandatory) {
 }

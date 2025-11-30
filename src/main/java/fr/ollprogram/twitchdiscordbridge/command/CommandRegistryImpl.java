@@ -49,14 +49,14 @@ public class CommandRegistryImpl implements CommandRegistry {
             this.permissions = DefaultMemberPermissions.ENABLED;
         }
 
-        void addSubcommand(String name, Command subommand){
+        void addSubcommand(String name, Command subcommand){
             if(subcommands == null){
                 this.subcommands = new HashMap<>();
             }
             Command command = subcommands.get(name);
             if(command != null) throw new AlreadyRegisteredException("The subcommand "+name+"was already registered");
-            subcommands.put(name, subommand);
-            anyEnabled = anyEnabled || subommand.isDiscordEnabled();
+            subcommands.put(name, subcommand);
+            anyEnabled = anyEnabled || subcommand.isDiscordEnabled();
         }
 
         Command getCommand(){
@@ -78,13 +78,6 @@ public class CommandRegistryImpl implements CommandRegistry {
             return null;
         }
 
-        void removeSubcommand(String commandName){
-            if(this.hasSubcommands()){
-                subcommands.remove(commandName);
-                if(subcommands.isEmpty()) subcommands = null; //less memory cost
-            }
-        }
-
         void setPermissions(DefaultMemberPermissions permissions){
             this.permissions = permissions;
         }
@@ -96,16 +89,12 @@ public class CommandRegistryImpl implements CommandRegistry {
             if(isCommand()){
                 data.setDescription(command.getDescription());
                 data.setDefaultPermissions(permissions);
-                command.getOptions().parallelStream().forEach(option -> {
-                    data.addOption(OptionType.STRING, option.name(), option.description(), option.mandatory());
-                });
+                command.getOptions().parallelStream().forEach(option -> data.addOption(OptionType.STRING, option.name(), option.description(), option.mandatory()));
             } else if(hasSubcommands()) {
                 subcommands.forEach((subName, sub) -> {
                     if(sub.isDiscordEnabled()){
                         SubcommandData subData = new SubcommandData(subName, sub.getDescription());
-                        sub.getOptions().parallelStream().forEach(option -> {
-                            subData.addOption(OptionType.STRING, option.name(), option.description(), option.mandatory());
-                        });
+                        sub.getOptions().parallelStream().forEach(option -> subData.addOption(OptionType.STRING, option.name(), option.description(), option.mandatory()));
                         data.addSubcommands(subData);
                     }
                 });
@@ -159,7 +148,7 @@ public class CommandRegistryImpl implements CommandRegistry {
     }
 
     @Override
-    public @NotNull List<CommandData> getAllDiscordCommands() {
+    public @NotNull List<@NotNull CommandData> getAllDiscordCommands() {
         List<CommandData> commandDataList = new ArrayList<>();
         commands.forEach((name, entry) -> {
             CommandData data = entry.getDiscordCommand(name);
@@ -177,16 +166,14 @@ public class CommandRegistryImpl implements CommandRegistry {
                 builder.append(command.getHelp(name));
             }
             else if(entry.hasSubcommands()){
-                entry.subcommands.forEach((subName, sub) -> {
-                    builder.append(sub.getHelp(name+" "+subName));
-                });
+                entry.subcommands.forEach((subName, sub) -> builder.append(sub.getHelp(name+" "+subName)));
             }
         });
         return builder.toString();
     }
 
     @Override
-    public void setDiscordPermissions(@NotNull String commandName, DefaultMemberPermissions permissions) {
+    public void setDiscordPermissions(@NotNull String commandName, @NotNull DefaultMemberPermissions permissions) {
         Entry entry = commands.get(commandName);
         if(entry == null) throw new CommandNotFoundException("The given command should exists.");
         entry.setPermissions(permissions);

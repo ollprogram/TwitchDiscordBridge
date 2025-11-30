@@ -29,13 +29,13 @@ public class Say extends Command {
 
     private final Bridge bridge;
 
-    public Say(Bridge bridge){
+    public Say(@NotNull Bridge bridge){
         super(DESCRIPTION, List.of(new Option("message", "The message to send", true)), true);
         this.bridge = bridge;
     }
 
     @Override
-    public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
+    public @NotNull Supplier<@NotNull String> getExecution(@NotNull List<@NotNull String> args) {
         if(validateArguments(args)){
             return () -> {
                 String message = MESSAGE_PREFIX + args.parallelStream().reduce(" ", String::concat);

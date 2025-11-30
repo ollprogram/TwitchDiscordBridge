@@ -46,7 +46,7 @@ public interface CommandRegistry {
      * @param commandName The command name / Root command name
      * @param permissions The discord permissions for the command and its subcommands
      */
-    void setDiscordPermissions(@NotNull String commandName, DefaultMemberPermissions permissions);
+    void setDiscordPermissions(@NotNull String commandName, @NotNull DefaultMemberPermissions permissions);
 
     /**
      * Retrieve a subcommand by the command name and group name
@@ -65,9 +65,10 @@ public interface CommandRegistry {
 
     /**
      * Get all the discord commands data
+     *
      * @return The discord commands data
      */
-    @NotNull List<CommandData> getAllDiscordCommands();
+    @NotNull List<@NotNull CommandData> getAllDiscordCommands();
 
     /**
      * Get all commands help

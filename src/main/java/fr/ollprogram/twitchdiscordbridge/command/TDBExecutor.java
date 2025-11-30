@@ -28,14 +28,14 @@ public interface TDBExecutor {
      * @param args The arguments needed for the command execution
      * @return The command future.
      */
-    @NotNull CompletableFuture<String> submit(Command command, List<String> args);
+    @NotNull CompletableFuture<String> submit(@NotNull Command command, @NotNull List<@NotNull String> args);
 
 
     /**
      * Submit the task to the executor. The task will be executed.
      * @param task The runnable to execute.
      */
-    void submit(Runnable task);
+    void submit(@NotNull Runnable task);
 
     /**
      * Shutdown the executor and delete all the pending command to execute. The executor can't receive any other commands after this call.
