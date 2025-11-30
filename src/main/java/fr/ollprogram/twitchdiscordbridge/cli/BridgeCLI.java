@@ -16,6 +16,7 @@ import fr.ollprogram.twitchdiscordbridge.command.Command;
 import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
 import fr.ollprogram.twitchdiscordbridge.command.TDBExecutor;
 import fr.ollprogram.twitchdiscordbridge.manager.AppsManager;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +44,7 @@ public class BridgeCLI {
      * @param registry The command registry
      * @param appsManager The applications manager
      */
-    public BridgeCLI(Scanner scanner, CommandRegistry registry, AppsManager appsManager){
+    public BridgeCLI(@NotNull Scanner scanner, @NotNull CommandRegistry registry, @NotNull AppsManager appsManager){
         this.scanner = scanner;
         this.appsManager = appsManager;
         this.registry = registry;

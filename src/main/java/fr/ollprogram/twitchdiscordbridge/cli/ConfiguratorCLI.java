@@ -21,6 +21,7 @@ import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaver;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaverToProps;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidator;
 import fr.ollprogram.twitchdiscordbridge.configuration.validate.ConfigValidatorImpl;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public class ConfiguratorCLI {
      * Configurator constructor
      * @param scanner The file scanner
      */
-    public ConfiguratorCLI(Scanner scanner){
+    public ConfiguratorCLI(@NotNull Scanner scanner){
         this.builder = new ConfigBuilderImpl();
         this.scanner = scanner;
     }
@@ -51,7 +52,7 @@ public class ConfiguratorCLI {
      * Ask the user to configure until the configuration is complete and valid
      * @return The validated bridge config
      */
-    public BridgeConfig configure(){
+    public @NotNull BridgeConfig configure(){
         try {
             ConfigLoader configLoader = findOrCreateConfigFile();
             configLoader.load(); //Using default path
