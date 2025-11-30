@@ -15,6 +15,10 @@ package fr.ollprogram.twitchdiscordbridge.bridge;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents the communication bridge between twitch and discord
+ * In order to send a message, the bridge needs to be opened.
+ */
 public interface Bridge {
 
     /**

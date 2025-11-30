@@ -31,9 +31,9 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Implementation of a Bridge
+ * Implementation of a Bridge.
+ * Because some most of the methods can be called by different threads, some blocks are synchronised to avoid race conditions.
  *
- * @author ollprogram
  */
 public class BridgeImpl implements Bridge {
 
