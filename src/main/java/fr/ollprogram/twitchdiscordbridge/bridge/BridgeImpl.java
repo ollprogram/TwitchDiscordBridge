@@ -47,9 +47,14 @@ public class BridgeImpl implements Bridge {
 
     private static final Logger LOG = LoggerFactory.getLogger("Bridge");
 
-
-    public BridgeImpl(JDA discordBot, TwitchClient twitchBot, BridgeConfig bc){
-        this.config = bc;
+    /**
+     * Constructor
+     * @param discordBot The discord bot / JDA instance
+     * @param twitchBot The twitch client
+     * @param config The bridge configuration
+     */
+    public BridgeImpl(@NotNull JDA discordBot, @NotNull TwitchClient twitchBot, @NotNull BridgeConfig config){
+        this.config = config;
         this.twitchBot = twitchBot;
         this.discordBot = discordBot;
         this.open = false;
