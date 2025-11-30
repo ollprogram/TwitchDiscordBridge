@@ -113,7 +113,7 @@ public class BridgeCLI {
                 System.out.println("Command not found, please try 'help' to see all commands.");
             }else {
                 try {
-                    String res = "";
+                    String res;
                     if(subCommandOpt.isPresent()) {
                         res = executor.submit(subCommandOpt.get(), args.subList(2, argsSize)).get(); //sequential (joining the thread for better user experience)
                     } else {
