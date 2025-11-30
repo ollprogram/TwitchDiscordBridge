@@ -33,7 +33,7 @@ public class Code extends Command {
     }
 
     @Override
-    public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
+    public @NotNull Supplier<@NotNull String> getExecution(@NotNull List<@NotNull String> args) {
         if(super.validateArguments(args)){
             return () -> TEXT;
         } else {

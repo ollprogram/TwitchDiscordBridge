@@ -26,13 +26,13 @@ public class BridgeTwitchTarget extends Command{
     private static final String CHANNEL_FOUND = "The target channel for twitch has been changed.";
 
     private final Bridge bridge;
-    public BridgeTwitchTarget(Bridge bridge) {
+    public BridgeTwitchTarget(@NotNull Bridge bridge) {
         super(DESCRIPTION, List.of(new Option("channel_name", "The twitch target channel name", true)), true);
         this.bridge = bridge;
     }
 
     @Override
-    public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
+    public @NotNull Supplier<@NotNull String> getExecution(@NotNull List<@NotNull String> args) {
         if(!validateArguments(args)) return () -> DEFAULT_ARGS_ERROR;
         String channelName = args.get(0);
         return () -> bridge.changeTwitchChannel(channelName) ? CHANNEL_FOUND : CHANNEL_NOT_FOUND;

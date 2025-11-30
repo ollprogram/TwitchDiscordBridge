@@ -26,13 +26,13 @@ public class BridgeDiscordTarget extends Command{
     private static final String CHANNEL_FOUND = "The target channel for discord has been changed.";
 
     private final Bridge bridge;
-    public BridgeDiscordTarget(Bridge bridge) {
+    public BridgeDiscordTarget(@NotNull Bridge bridge) {
         super(DESCRIPTION, List.of(new Option("channel_id", "The discord target channel ID", true)), true);
         this.bridge = bridge;
     }
 
     @Override
-    public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
+    public @NotNull Supplier<@NotNull String> getExecution(@NotNull List<@NotNull String> args) {
         if(!validateArguments(args)) return () -> DEFAULT_ARGS_ERROR;
         String channelID = args.get(0);
         return () -> (channelID.matches("^[0-9]+$") && bridge.changeDiscordChannel(channelID)) ? CHANNEL_FOUND : CHANNEL_NOT_FOUND;

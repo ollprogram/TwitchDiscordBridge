@@ -22,13 +22,13 @@ public class BridgeClose extends Command{
     private static final String DESCRIPTION = "Close the bridge";
 
     private final Bridge bridge;
-    public BridgeClose(Bridge bridge) {
+    public BridgeClose(@NotNull Bridge bridge) {
         super(DESCRIPTION, true);
         this.bridge = bridge;
     }
 
     @Override
-    public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
+    public @NotNull Supplier<@NotNull String> getExecution(@NotNull List<@NotNull String> args) {
         boolean isValid = validateArguments(args);
         if(!isValid) return () -> SHOULD_HAVE_NO_ARGS_ERROR;
         return () -> {

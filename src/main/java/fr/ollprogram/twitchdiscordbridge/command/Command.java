@@ -18,6 +18,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * The abstract class of a command.
+ * Commands can be executed on the CLI or on discord if specified.
+ * For now, it's not possible to create a command that should be executed only on discord
+ */
 public abstract class Command {
     protected static final String DEFAULT_ARGS_ERROR = "Wrong arguments";
 
@@ -37,7 +42,7 @@ public abstract class Command {
      * @param discordEnabled If this command can be used on discord,
      * @param options The command arguments
      */
-    protected Command(@NotNull String description, List<Option> options, boolean discordEnabled){
+    protected Command(@NotNull String description, @NotNull List<@NotNull Option> options, boolean discordEnabled){
         this.description = description;
         this.discordEnabled = discordEnabled;
         this.options = Collections.unmodifiableList(options);
@@ -50,7 +55,7 @@ public abstract class Command {
     }
 
     /**
-     * without arguments constructor
+     * without options constructor
      * @param description The command description
      * @param discordEnabled If this command can be used on discord,
      */
@@ -63,14 +68,14 @@ public abstract class Command {
      * @param args The arguments of the command needed for the execution
      * @return The supplier representing the code to execute
      */
-    public abstract @NotNull Supplier<String> getExecution(@NotNull List<String> args);
+    public abstract @NotNull Supplier<@NotNull String> getExecution(@NotNull List<@NotNull String> args);
 
     /**
      * Validate the arguments
      * @param args The arguments
      * @return If arguments are valid
      */
-    protected boolean validateArguments(@NotNull List<String> args) {
+    protected boolean validateArguments(@NotNull List<@NotNull String> args) {
         int argsNumber = args.size();
         return argsNumber >= argsMin && argsNumber <= argsMax;
     }
@@ -95,7 +100,7 @@ public abstract class Command {
      * Get options
      * @return The options list
      */
-    public @NotNull List<Option> getOptions(){
+    public @NotNull List<@NotNull Option> getOptions(){
         return options;
     }
 
@@ -104,7 +109,7 @@ public abstract class Command {
      * @param commandName The full command name (including subcommand name if it's the case)
      * @return The help string of the command
      */
-    public String getHelp(String commandName){
+    public @NotNull String getHelp(String commandName){
         StringBuilder builder = new StringBuilder();
         builder.append("- ")
                 .append(commandName)

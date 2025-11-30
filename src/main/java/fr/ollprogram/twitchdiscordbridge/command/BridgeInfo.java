@@ -34,14 +34,14 @@ public class BridgeInfo extends Command {
 
     private final JDA discordBot;
 
-    public BridgeInfo(Bridge bridge, JDA discordBot){
+    public BridgeInfo(@NotNull Bridge bridge, @NotNull JDA discordBot){
         super(DESCRIPTION,true);
         this.bridge = bridge;
         this.discordBot = discordBot;
     }
 
     @Override
-    public @NotNull Supplier<String> getExecution(@NotNull List<String> args) {
+    public @NotNull Supplier<@NotNull String> getExecution(@NotNull List<@NotNull String> args) {
         if(validateArguments(args)) return this::getInformationMessage;
         else return () -> SHOULD_HAVE_NO_ARGS_ERROR;
     }
