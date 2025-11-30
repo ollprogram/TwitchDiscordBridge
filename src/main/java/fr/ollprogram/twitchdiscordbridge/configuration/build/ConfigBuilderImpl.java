@@ -30,6 +30,16 @@ public class ConfigBuilderImpl implements ConfigBuilder {
 
     private String twitchChannelName;
 
+    public ConfigBuilderImpl(){
+    }
+
+    public ConfigBuilderImpl(BridgeConfig config){
+        this.setDiscordChannelID(config.getDiscordChannelID())
+                .setDiscordToken(config.getDiscordToken())
+                .setTwitchChannelName(config.getTwitchChannelName())
+                .setTwitchToken(config.getTwitchToken());
+    }
+
     @Override
     public @NotNull ConfigBuilder setDiscordChannelID(String id) {
         this.discordChannelID = id;

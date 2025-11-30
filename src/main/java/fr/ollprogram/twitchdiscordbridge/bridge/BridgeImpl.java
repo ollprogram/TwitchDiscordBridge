@@ -15,6 +15,8 @@ package fr.ollprogram.twitchdiscordbridge.bridge;
 import com.github.twitch4j.TwitchClient;
 import com.github.twitch4j.chat.TwitchChat;
 import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
+import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaver;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaverToProps;
 import fr.ollprogram.twitchdiscordbridge.exception.ServiceException;
@@ -77,12 +79,12 @@ public class BridgeImpl implements Bridge {
 
     @Override
     public void sendToTwitch(@NotNull String message) {
-        twitchBot.getChat().sendMessage(config.getTwitchChannelName(), message);
+        twitchBot.getChat().sendMessage(getTwitchChannelNameSync(), message);
     }
 
     @Override
     public void sendToDiscord(@NotNull String message) {
-        TextChannel channel = discordBot.getTextChannelById(config.getDiscordChannelID());
+        TextChannel channel = discordBot.getTextChannelById(getDiscordChannelIDSync());
         if(channel == null){
             LOG.warn("Discord channel not found (configuration is outdated)");
             return;
@@ -143,12 +145,26 @@ public class BridgeImpl implements Bridge {
 
     @Override
     public boolean isDiscordTarget(@NotNull String channelID) {
-        return channelID.equals(config.getDiscordChannelID());
+        return channelID.equals(getDiscordChannelIDSync());
     }
 
     @Override
     public boolean isTwitchTarget(@NotNull String channelName) {
-        return channelName.equals(config.getTwitchChannelName());
+        return channelName.equals(getTwitchChannelNameSync());
+    }
+
+    @Override
+    public synchronized @NotNull BridgeConfig getConfig() {
+        ConfigBuilder builder = new ConfigBuilderImpl(config);
+        return builder.build(); //return a copy
+    }
+
+    private synchronized String getDiscordChannelIDSync(){
+        return config.getDiscordChannelID();
+    }
+
+    private synchronized String getTwitchChannelNameSync(){
+        return config.getTwitchChannelName();
     }
 
 }

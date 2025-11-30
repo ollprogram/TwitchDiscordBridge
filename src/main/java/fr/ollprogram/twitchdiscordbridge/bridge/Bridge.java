@@ -12,6 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.bridge;
 
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -75,5 +76,11 @@ public interface Bridge {
      * @return if the given channel is the targeted channel
      */
     boolean isTwitchTarget(@NotNull String channelName);
+
+    /**
+     * Get the bridge configuration
+     * @return The bridge config
+     */
+    @NotNull BridgeConfig getConfig();
 
 }
