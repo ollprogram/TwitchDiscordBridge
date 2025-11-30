@@ -70,7 +70,7 @@ public class Main {
         LOG.info(LICENCE);
         int threads = Runtime.getRuntime().availableProcessors();
         int commandPoolSize = (int) (threads * 0.2); // only 20% ~= 2 threads, this is not the most demanded task
-        int taskPoolSize = (threads - commandPoolSize) * (1 + (600 / 100)); // IDLE time over real calculation time (this is an approximation in ms)
+        int taskPoolSize = (threads - commandPoolSize) * (1 + (500 / 150)); // IDLE time over real calculation time (this is an approximation in ms)
         // maybe this approximation is useless since the twitch api rate limit is a bottleneck.
         LOG.info("Using "+commandPoolSize+" threads for commands and "+taskPoolSize+" threads for TDB messages and TDB tasks");
         TDBExecutor executor = new TDBPoolExecutor(commandPoolSize, taskPoolSize);
