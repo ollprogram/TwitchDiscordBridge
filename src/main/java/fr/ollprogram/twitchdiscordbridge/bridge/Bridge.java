@@ -12,7 +12,6 @@
 
 package fr.ollprogram.twitchdiscordbridge.bridge;
 
-import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -28,10 +27,13 @@ public interface Bridge {
     boolean isOpen();
 
     /**
-     *
+     * Close the bridge
      */
     void close();
 
+    /**
+     * Open the bridge
+     */
     void open();
 
     /**
@@ -45,12 +47,6 @@ public interface Bridge {
      * @param message The message to send
      */
     void sendToDiscord(@NotNull String message);
-
-    /**
-     * Get the bridge current configuration
-     * @return The bridge current configuration
-     */
-    @NotNull BridgeConfig getConfig();
 
     /**
      * Change the discord channel if it can be retrieved

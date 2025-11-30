@@ -86,11 +86,6 @@ public class BridgeImpl implements Bridge {
     }
 
     @Override
-    public @NotNull BridgeConfig getConfig() {
-        return config;
-    }
-
-    @Override
     public boolean changeDiscordChannel(@NotNull String channelID) {
         TextChannel channel = discordBot.getTextChannelById(channelID);
         if(channel == null) return false;
