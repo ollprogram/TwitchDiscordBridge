@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * A command executor service. Based on the active object pattern to allow parallel execution of commands.
+ * A custom executor service. Based on the active object pattern to allow parallel execution of commands and runnable
  */
-public interface CommandExecutor {
+public interface TDBExecutor {
 
     /**
      * Submit the command to the executor. The command will be executed.
@@ -29,6 +29,13 @@ public interface CommandExecutor {
      * @return The command future.
      */
     @NotNull CompletableFuture<String> submit(Command command, List<String> args);
+
+
+    /**
+     * Submit the task to the executor. The task will be executed.
+     * @param task The runnable to execute.
+     */
+    void submit(Runnable task);
 
     /**
      * Shutdown the executor and delete all the pending command to execute. The executor can't receive any other commands after this call.

@@ -14,8 +14,8 @@ package fr.ollprogram.twitchdiscordbridge.listener;
 
 import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
 import fr.ollprogram.twitchdiscordbridge.command.Command;
-import fr.ollprogram.twitchdiscordbridge.command.CommandExecutor;
 import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
+import fr.ollprogram.twitchdiscordbridge.command.TDBExecutor;
 import fr.ollprogram.twitchdiscordbridge.utils.MessageUtils;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -33,9 +33,9 @@ public class DiscordListener extends ListenerAdapter  {
 
     private final CommandRegistry commandRegistry;
 
-    private final CommandExecutor executor;
+    private final TDBExecutor executor;
 
-    public DiscordListener(@NotNull Bridge bridge, @NotNull CommandRegistry commandRegistry, @NotNull CommandExecutor executor){
+    public DiscordListener(@NotNull Bridge bridge, @NotNull CommandRegistry commandRegistry, @NotNull TDBExecutor executor){
         this.bridge = bridge;
         this.commandRegistry = commandRegistry;
         this.executor = executor;
@@ -46,10 +46,11 @@ public class DiscordListener extends ListenerAdapter  {
         String message = event.getMessage().getContentDisplay();
         String channelId = event.getChannel().getId();
         User author = event.getAuthor();
-        String authorName = author.getName();
-        if(!author.isBot() && !author.isSystem() && bridge.isOpen() && bridge.isDiscordTarget(channelId)){
-            bridge.sendToTwitch(authorName+" says : "+ MessageUtils.filterMessage(message));
-        }
+        executor.submit(() -> {
+            if(!author.isBot() && !author.isSystem() && bridge.isOpen() && bridge.isDiscordTarget(channelId)){
+                bridge.sendToTwitch(author.getName()+" says : "+ MessageUtils.filterMessage(message));
+            }
+        });
     }
 
     @Override

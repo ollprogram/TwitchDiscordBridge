@@ -13,8 +13,8 @@
 
 package fr.ollprogram.twitchdiscordbridge.manager;
 
-import fr.ollprogram.twitchdiscordbridge.command.CommandExecutor;
 import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
+import fr.ollprogram.twitchdiscordbridge.command.TDBExecutor;
 import org.jetbrains.annotations.NotNull;
 
 public interface AppsManager {
@@ -47,6 +47,6 @@ public interface AppsManager {
      * Get the command executor
      * @return The command executor
      */
-    @NotNull CommandExecutor getExecutor();
+    @NotNull TDBExecutor getExecutor();
 
 }

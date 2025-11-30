@@ -17,28 +17,37 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of the Command executor, using a ScheduledThreadPoolExecutor.
  */
-public class CommandPoolExecutor implements CommandExecutor {
-    private final ExecutorService executorService;
+public class TDBPoolExecutor implements TDBExecutor {
+    private final ExecutorService taskPool;
 
-    public CommandPoolExecutor(int poolSize) {
-        this.executorService = new ScheduledThreadPoolExecutor(poolSize);
+    private final ExecutorService commandPool;
+
+    public TDBPoolExecutor(int commandPoolSize, int taskPoolSize) {
+        this.commandPool = Executors.newFixedThreadPool(commandPoolSize);
+        this.taskPool = Executors.newFixedThreadPool(taskPoolSize);
     }
 
     @Override
     public @NotNull CompletableFuture<String> submit(Command command, List<String> args) {
-        return CompletableFuture.supplyAsync(command.getExecution(args), executorService);
+        return CompletableFuture.supplyAsync(command.getExecution(args), commandPool);
+    }
+
+    @Override
+    public void submit(Runnable task) {
+        taskPool.submit(task);
     }
 
     @Override
     public boolean shutdown() throws InterruptedException {
-        executorService.shutdown();
-        return executorService.awaitTermination(5, TimeUnit.SECONDS);
+        taskPool.shutdown();
+        commandPool.shutdown();
+        return commandPool.awaitTermination(5, TimeUnit.SECONDS) && taskPool.awaitTermination(5, TimeUnit.SECONDS);
     }
 
 }

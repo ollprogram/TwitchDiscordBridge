@@ -15,15 +15,18 @@ package fr.ollprogram.twitchdiscordbridge.listener;
 import com.github.philippheuer.events4j.simple.domain.EventSubscriber;
 import com.github.twitch4j.chat.events.channel.ChannelMessageEvent;
 import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
+import fr.ollprogram.twitchdiscordbridge.command.TDBExecutor;
 import fr.ollprogram.twitchdiscordbridge.utils.MessageUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class TwitchListener {
 
     private final Bridge bridge;
+    private final TDBExecutor executor;
 
-    public TwitchListener(@NotNull Bridge bridge){
+    public TwitchListener(@NotNull Bridge bridge, @NotNull TDBExecutor executor){
         this.bridge = bridge;
+        this.executor = executor;
     }
 
     @EventSubscriber
@@ -31,8 +34,10 @@ public class TwitchListener {
         String message = event.getMessage();
         String channelName = event.getChannel().getName();
         String authorName = event.getUser().getName();
-        if(bridge.isOpen() && bridge.isTwitchTarget(channelName)) {
-            bridge.sendToDiscord(authorName+" says : "+ MessageUtils.filterMessage(message));
-        }
+        executor.submit(() -> {
+            if(bridge.isOpen() && bridge.isTwitchTarget(channelName)) {
+                bridge.sendToDiscord(authorName+" says : "+ MessageUtils.filterMessage(message));
+            }
+        });
     }
 }

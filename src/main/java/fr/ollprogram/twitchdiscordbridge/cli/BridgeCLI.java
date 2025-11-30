@@ -13,8 +13,8 @@
 package fr.ollprogram.twitchdiscordbridge.cli;
 
 import fr.ollprogram.twitchdiscordbridge.command.Command;
-import fr.ollprogram.twitchdiscordbridge.command.CommandExecutor;
 import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
+import fr.ollprogram.twitchdiscordbridge.command.TDBExecutor;
 import fr.ollprogram.twitchdiscordbridge.manager.AppsManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,7 +97,7 @@ public class BridgeCLI {
      * @param fullCommandLine The full command line
      */
     private void handleRegistryCommands(String fullCommandLine){
-        CommandExecutor executor = appsManager.getExecutor();
+        TDBExecutor executor = appsManager.getExecutor();
         Pattern pattern = Pattern.compile("\"([^\"]*)\"|(\\S+)");
         List<String> args = pattern.matcher(fullCommandLine)
                 .results()

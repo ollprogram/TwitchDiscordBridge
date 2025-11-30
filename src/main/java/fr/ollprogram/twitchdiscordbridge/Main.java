@@ -68,9 +68,12 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger("Main");
     public static void main(String[] args) {
         LOG.info(LICENCE);
-        int threads = Runtime.getRuntime().availableProcessors() + 1;
-        LOG.info("Using "+threads+" threads for the TDB pool executor");
-        CommandExecutor executor = new CommandPoolExecutor(threads);
+        int threads = Runtime.getRuntime().availableProcessors();
+        int commandPoolSize = (int) (threads * 0.2); // only 20% ~= 2 threads, this is not the most demanded task
+        int taskPoolSize = (threads - commandPoolSize) * (1 + (600 / 100)); // IDLE time over real calculation time (this is an approximation in ms)
+        // maybe this approximation is useless since the twitch api rate limit is a bottleneck.
+        LOG.info("Using "+commandPoolSize+" threads for commands and "+taskPoolSize+" threads for TDB messages and TDB tasks");
+        TDBExecutor executor = new TDBPoolExecutor(commandPoolSize, taskPoolSize);
         Scanner scanner = new Scanner(System.in);
         ConfiguratorCLI configuratorCLI = new ConfiguratorCLI(scanner);
         BridgeConfig config = configuratorCLI.configure();
@@ -96,7 +99,7 @@ public class Main {
 
         LOG.info("Registering listeners");
         discordBot.addEventListener(new DiscordListener(bridge, registry, executor));
-        twitchBot.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchListener(bridge));
+        twitchBot.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchListener(bridge, executor));
 
         LOG.info("Refreshing discord commands");
         appsManager.refreshDiscordCommands(registry);

@@ -13,8 +13,8 @@
 package fr.ollprogram.twitchdiscordbridge.manager;
 
 import com.github.twitch4j.TwitchClient;
-import fr.ollprogram.twitchdiscordbridge.command.CommandExecutor;
 import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
+import fr.ollprogram.twitchdiscordbridge.command.TDBExecutor;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class AppsManagerImpl implements AppsManager {
 
-    private final CommandExecutor executor;
+    private final TDBExecutor executor;
 
     private final JDA discordApp;
 
@@ -35,7 +35,7 @@ public class AppsManagerImpl implements AppsManager {
 
     private static final Logger LOG = LoggerFactory.getLogger("AppsManager");
 
-    public AppsManagerImpl(CommandExecutor executorApp, JDA discordApp, TwitchClient twitchApp){
+    public AppsManagerImpl(TDBExecutor executorApp, JDA discordApp, TwitchClient twitchApp){
         this.discordApp = discordApp;
         this.twitchApp = twitchApp;
         this.executor = executorApp;
@@ -85,7 +85,7 @@ public class AppsManagerImpl implements AppsManager {
     }
 
     @Override
-    public @NotNull CommandExecutor getExecutor() {
+    public @NotNull TDBExecutor getExecutor() {
         return executor;
     }
 }
