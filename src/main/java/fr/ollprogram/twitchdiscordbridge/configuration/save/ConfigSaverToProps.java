@@ -21,7 +21,6 @@ import java.util.Properties;
 
 /**
  * Implementation of a ConfigToFile which saves into properties files.
- * @author ollprogram
  */
 public class ConfigSaverToProps implements ConfigSaver {
 
@@ -29,6 +28,10 @@ public class ConfigSaverToProps implements ConfigSaver {
 
     private static final String PROPERTIES = ".properties";
 
+    /**
+     * Constrictor
+     * @param config The config to save
+     */
     public ConfigSaverToProps(@NotNull BridgeConfig config){
         this.config = config;
     }

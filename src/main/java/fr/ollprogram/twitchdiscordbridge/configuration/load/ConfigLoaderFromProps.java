@@ -14,12 +14,13 @@ package fr.ollprogram.twitchdiscordbridge.configuration.load;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
  * Implementation of a ConfigFromFile which loads from properties files.
- * @author ollprogram
  */
 public class ConfigLoaderFromProps implements ConfigLoader {
 
@@ -30,7 +31,7 @@ public class ConfigLoaderFromProps implements ConfigLoader {
     private final ConfigBuilder builder;
 
     /**
-     * Constructor, using the default path
+     * Constructor
      * @param builder The bridge config builder
      */
     public ConfigLoaderFromProps(@NotNull ConfigBuilder builder){

@@ -14,8 +14,6 @@ package fr.ollprogram.twitchdiscordbridge.configuration.validate;
 
 /**
  * The validator of a bridge configuration.
- *
- * @author ollprogram
  */
 public interface ConfigValidator {
 

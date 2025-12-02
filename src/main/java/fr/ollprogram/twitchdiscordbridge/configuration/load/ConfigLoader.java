@@ -17,7 +17,6 @@ import java.io.IOException;
 
 /**
  * A factory/loader which can create a configuration after loading a file which contains the configuration.
- * @author ollprogram
  */
 public interface ConfigLoader {
 

@@ -19,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Implementation of a configuration builder
- * @author ollprogram
  */
 public class ConfigBuilderImpl implements ConfigBuilder {
 
@@ -30,9 +29,16 @@ public class ConfigBuilderImpl implements ConfigBuilder {
 
     private String twitchChannelName;
 
+    /**
+     * Constructor
+     */
     public ConfigBuilderImpl(){
     }
 
+    /**
+     * Constructor to start from an existing configuration
+     * @param config The existing configuration
+     */
     public ConfigBuilderImpl(BridgeConfig config){
         this.setDiscordChannelID(config.getDiscordChannelID())
                 .setDiscordToken(config.getDiscordToken())

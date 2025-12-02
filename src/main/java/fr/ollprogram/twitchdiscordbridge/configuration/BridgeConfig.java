@@ -23,7 +23,6 @@ import org.jetbrains.annotations.NotNull;
  * </ul>
  * This configuration can be saved or read from other files easily.
  * This configuration contains all information needed for the two bots (twitch, discord) to run properly.
- * @author ollprogram
  */
 public interface BridgeConfig {
 

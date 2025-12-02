@@ -15,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple implementation for a BridgeConfig
- * @author ollprogram
  */
 public class BridgeConfigImpl implements BridgeConfig {
 

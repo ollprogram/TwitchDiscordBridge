@@ -30,8 +30,6 @@ import java.util.Optional;
 
 /**
  * The bridge configuration validator implementation
- *
- * @author ollprogram
  */
 public class ConfigValidatorImpl implements ConfigValidator {
 

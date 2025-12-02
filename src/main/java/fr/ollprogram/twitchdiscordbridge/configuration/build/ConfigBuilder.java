@@ -19,7 +19,6 @@ import org.jetbrains.annotations.Nullable;
  * A builder for a configuration which allows you to put null values and or wrong values and change them before building
  * a concrete half immutable configuration.
  * It's not possible to build an incomplete configuration.
- * @author ollprogram
  */
 public interface ConfigBuilder {
 
