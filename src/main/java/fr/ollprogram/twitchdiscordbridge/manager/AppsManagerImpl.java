@@ -23,6 +23,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+/**
+ * AppsManager implementation
+ */
 public class AppsManagerImpl implements AppsManager {
 
     private final TDBExecutor executor;
@@ -76,7 +79,7 @@ public class AppsManagerImpl implements AppsManager {
     }
 
     @Override
-    public void refreshDiscordCommands(CommandRegistry registry) {
+    public void refreshDiscordCommands(@NotNull CommandRegistry registry) {
         discordApp.getGuilds().parallelStream().forEach((guild) -> {
             List<Command> commands = guild.retrieveCommands().complete();
             commands.parallelStream().forEach(command -> command.delete().complete());

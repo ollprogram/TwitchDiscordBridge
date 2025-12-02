@@ -17,6 +17,9 @@ import fr.ollprogram.twitchdiscordbridge.command.CommandRegistry;
 import fr.ollprogram.twitchdiscordbridge.command.TDBExecutor;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The apps manager helps to manage the entire TDB application.
+ */
 public interface AppsManager {
 
     /**
@@ -41,7 +44,7 @@ public interface AppsManager {
      * Refresh the discord commands (should be called once at the beginning to avoid Rate limits)
      * @param registry The command Registry
      */
-    void refreshDiscordCommands(CommandRegistry registry);
+    void refreshDiscordCommands(@NotNull CommandRegistry registry);
 
     /**
      * Get the command executor
