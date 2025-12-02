@@ -24,12 +24,19 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Bot factory implementation
+ */
 public class BotFactoryImpl implements BotFactory{
 
     private final BridgeConfig config;
 
     private static final Logger LOG = LoggerFactory.getLogger("BotFactory");
 
+    /**
+     * Constructor
+     * @param config The bridge configuration to apply
+     */
     public BotFactoryImpl(BridgeConfig config){
         this.config = config;
     }

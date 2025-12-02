@@ -16,6 +16,9 @@ import com.github.twitch4j.TwitchClient;
 import net.dv8tion.jda.api.JDA;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A factory which can create bots with some pre-configurations
+ */
 public interface BotFactory {
 
     /**
