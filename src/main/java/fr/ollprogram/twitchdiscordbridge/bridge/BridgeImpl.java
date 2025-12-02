@@ -19,6 +19,7 @@ import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilder;
 import fr.ollprogram.twitchdiscordbridge.configuration.build.ConfigBuilderImpl;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaver;
 import fr.ollprogram.twitchdiscordbridge.configuration.save.ConfigSaverToProps;
+import fr.ollprogram.twitchdiscordbridge.exception.BridgeNotOpenedException;
 import fr.ollprogram.twitchdiscordbridge.exception.ServiceException;
 import fr.ollprogram.twitchdiscordbridge.model.TwitchChannelInfo;
 import fr.ollprogram.twitchdiscordbridge.service.TwitchService;
@@ -79,11 +80,13 @@ public class BridgeImpl implements Bridge {
 
     @Override
     public void sendToTwitch(@NotNull String message) {
+        if(!isOpen()) throw new BridgeNotOpenedException("The bridge should be opened before using this operation");
         twitchBot.getChat().sendMessage(getTwitchChannelNameSync(), message);
     }
 
     @Override
     public void sendToDiscord(@NotNull String message) {
+        if(!isOpen()) throw new BridgeNotOpenedException("The bridge should be opened before using this operation");
         TextChannel channel = discordBot.getTextChannelById(getDiscordChannelIDSync());
         if(channel == null){
             LOG.warn("Discord channel not found (configuration is outdated)");

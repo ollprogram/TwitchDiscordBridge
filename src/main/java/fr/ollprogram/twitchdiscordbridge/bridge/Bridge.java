@@ -38,13 +38,13 @@ public interface Bridge {
     void open();
 
     /**
-     * Send to Twitch a message
+     * Send to Twitch a message, the bridge should be opened first
      * @param message The message to send
      */
     void sendToTwitch(@NotNull String message);
 
     /**
-     * Send to Discord a message
+     * Send to Discord a message, the bridge should be opened first
      * @param message The message to send
      */
     void sendToDiscord(@NotNull String message);
