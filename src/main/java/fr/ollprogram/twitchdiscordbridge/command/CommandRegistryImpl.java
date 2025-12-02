@@ -25,10 +25,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 /**
- * Implementation of the command registry, using a HashMap to store commands.
+ * Implementation of the command registry, using a HashMaps to store commands.
+ * We shouldn't be able to store a command and subcommands for the same command name (this is due to discord API functioning)
  */
 public class CommandRegistryImpl implements CommandRegistry {
 
+    /**
+     * An inner class which is used to store a single command or multiple subcommands.
+     * We shouldn't be able to store a command and subcommands for the same command name (this is due to discord API functioning)
+     */
     private static class Entry {
         private Map<String, Command> subcommands;
 
@@ -37,6 +42,10 @@ public class CommandRegistryImpl implements CommandRegistry {
         private DefaultMemberPermissions permissions;
         private boolean anyEnabled;
 
+        /**
+         * Constructor for single command entry
+         * @param command The command
+         */
         Entry(Command command){
             this();
             this.command = command;
@@ -44,11 +53,19 @@ public class CommandRegistryImpl implements CommandRegistry {
             anyEnabled = command.isDiscordEnabled();
         }
 
+        /**
+         * Constructor of an Empty entry, might have some subcommands
+         */
         Entry(){
             anyEnabled = false;
             this.permissions = DefaultMemberPermissions.ENABLED;
         }
 
+        /**
+         * Add a subcommand to the entry
+         * @param name The name of the subcommand
+         * @param subcommand The subcommand
+         */
         void addSubcommand(String name, Command subcommand){
             if(subcommands == null){
                 this.subcommands = new HashMap<>();
@@ -59,18 +76,35 @@ public class CommandRegistryImpl implements CommandRegistry {
             anyEnabled = anyEnabled || subcommand.isDiscordEnabled();
         }
 
+        /**
+         * Get the command
+         * @return The command
+         */
         Command getCommand(){
             return command;
         }
 
+        /**
+         * Check if it's a subcommand entry
+         * @return if it's a subcommand entry
+         */
         boolean hasSubcommands(){
-            return this.subcommands != null && !this.subcommands.isEmpty();
+            return command == null && this.subcommands != null && !this.subcommands.isEmpty();
         }
 
+        /**
+         * Check if it's a single command entry
+         * @return if it's a single command entry
+         */
         boolean isCommand(){
-            return command != null && !hasSubcommands();
+            return !hasSubcommands();
         }
 
+        /**
+         * Get the subcommand by its name
+         * @param commandName The subcommand name
+         * @return The subcommand
+         */
         Command getSubcommand(String commandName){
             if(this.hasSubcommands()){
                 return subcommands.get(commandName);
@@ -78,10 +112,19 @@ public class CommandRegistryImpl implements CommandRegistry {
             return null;
         }
 
+        /**
+         * Set the permission for the entire entry (single command or all subcommands)
+         * @param permissions The member permissions
+         */
         void setPermissions(DefaultMemberPermissions permissions){
             this.permissions = permissions;
         }
 
+        /**
+         * Get the discord equivalent command data if any of the command / subcommand is enabled for discord usage
+         * @param name The name of the root command / single command
+         * @return The Discord equivalent command data
+         */
         SlashCommandData getDiscordCommand(String name){ //might be too complex?
             SlashCommandData data = Commands.slash(name, "Command having subcommands");
             if(anyEnabled) data.setDefaultPermissions(permissions);
@@ -106,6 +149,9 @@ public class CommandRegistryImpl implements CommandRegistry {
 
     private final Map<String, Entry> commands;
 
+    /**
+     * Constructor
+     */
     public CommandRegistryImpl(){
         commands = new HashMap<>();
     }
