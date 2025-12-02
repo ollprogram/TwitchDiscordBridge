@@ -114,13 +114,11 @@ public abstract class Command {
         builder.append("- ")
                 .append(commandName)
                 .append(" : ").append(this.getDescription()).append(argsMax > 0 ? "\n\tArguments : \n" : "\n");
-        this.getOptions().parallelStream().forEach((a) -> {
-            builder.append("\t\t")
-                    .append(a.name())
-                    .append(" : ")
-                    .append(a.description()).append(a.mandatory() ? " [Mandatory]" : "")
-                    .append("\n");
-        });
+        this.getOptions().parallelStream().forEach((a) -> builder.append("\t\t")
+                .append(a.name())
+                .append(" : ")
+                .append(a.description()).append(a.mandatory() ? " [Mandatory]" : "")
+                .append("\n"));
         return builder.toString();
     }
 }
