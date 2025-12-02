@@ -12,12 +12,30 @@
 
 package fr.ollprogram.twitchdiscordbridge.utils;
 
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * Message utility class
+ */
 public final class MessageUtils {
+
+    /**
+     * Can't be instantiated
+     */
     private MessageUtils(){
         throw new UnsupportedOperationException("Message utils can't be instantiated");
     }
 
-    public static String filterMessage(String message){
+    /**
+     * Filter the given message to avoid :
+     * <ul>
+     *     <li>Links, if they were disabled on one of the platform</li>
+     * </ul>
+     * <p>With this filter, this prevent users to bypass some permissions by using the bot chat.</p>
+     * @param message The message to filter
+     * @return The filtered message
+     */
+    public static String filterMessage(@NotNull String message){
         return message.replaceAll("(https://www\\.|http://www\\.|https://|http://)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?/[a-zA-Z0-9]{2,}|((https://www\\.|http://www\\.|https://|http://)?[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})(\\.[a-zA-Z]{2,})?)|(https://www\\.|http://www\\.|https://|http://)?[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}\\.[a-zA-Z0-9]{2,}(\\.[a-zA-Z0-9]{2,})?", "[url]");
     }
 }
