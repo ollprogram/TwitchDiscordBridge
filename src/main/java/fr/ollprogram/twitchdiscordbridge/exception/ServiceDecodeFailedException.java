@@ -12,6 +12,9 @@
 
 package fr.ollprogram.twitchdiscordbridge.exception;
 
+/**
+ * Service can't decode / parse a request
+ */
 public class ServiceDecodeFailedException extends ServiceException {
 
     public ServiceDecodeFailedException(String message) { super(message);

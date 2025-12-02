@@ -12,6 +12,9 @@
 
 package fr.ollprogram.twitchdiscordbridge.exception;
 
+/**
+ * Service request failed
+ */
 public class ServiceRequestFailedException extends ServiceException {
 
     public ServiceRequestFailedException(String message) {super(message);}

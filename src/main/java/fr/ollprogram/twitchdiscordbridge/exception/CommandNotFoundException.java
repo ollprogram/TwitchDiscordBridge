@@ -12,6 +12,9 @@
 
 package fr.ollprogram.twitchdiscordbridge.exception;
 
+/**
+ * Command not found
+ */
 public class CommandNotFoundException extends AlreadyRegisteredException{
     public CommandNotFoundException(String message) {
         super(message);

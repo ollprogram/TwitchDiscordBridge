@@ -12,6 +12,9 @@
 
 package fr.ollprogram.twitchdiscordbridge.exception;
 
+/**
+ * Any service exception (not runtime)
+ */
 public class ServiceException extends Exception {
 
     public ServiceException(String message){ super(message); }

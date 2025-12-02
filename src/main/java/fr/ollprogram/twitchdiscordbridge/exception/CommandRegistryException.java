@@ -12,6 +12,10 @@
 
 package fr.ollprogram.twitchdiscordbridge.exception;
 
+
+/**
+ * Any command registry exception
+ */
 public class CommandRegistryException extends RuntimeException {
 
     public CommandRegistryException(String message) {super(message);}

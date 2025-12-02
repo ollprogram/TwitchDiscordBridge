@@ -12,6 +12,9 @@
 
 package fr.ollprogram.twitchdiscordbridge.exception;
 
+/**
+ * Command already registered
+ */
 public class AlreadyRegisteredException extends CommandRegistryException {
     public AlreadyRegisteredException(String message) {
         super(message);
