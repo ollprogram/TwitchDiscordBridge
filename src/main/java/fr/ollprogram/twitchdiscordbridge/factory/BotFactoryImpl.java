@@ -37,7 +37,7 @@ public class BotFactoryImpl implements BotFactory{
      * Constructor
      * @param config The bridge configuration to apply
      */
-    public BotFactoryImpl(BridgeConfig config){
+    public BotFactoryImpl(@NotNull BridgeConfig config){
         this.config = config;
     }
 
