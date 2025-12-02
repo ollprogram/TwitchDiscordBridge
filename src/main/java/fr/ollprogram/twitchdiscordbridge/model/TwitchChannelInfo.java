@@ -12,12 +12,14 @@
 
 package fr.ollprogram.twitchdiscordbridge.model;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A record to simply represent a twitch channel
  * @param id The twitch channel ID
  * @param channelName The twitch channel name
  */
-public record TwitchChannelInfo(String id, String channelName) {
+public record TwitchChannelInfo(@NotNull String id, @NotNull String channelName) {
     @Override
     public String toString() {
         return "{" +

@@ -12,6 +12,8 @@
 
 package fr.ollprogram.twitchdiscordbridge.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 
 /**
@@ -19,7 +21,7 @@ import java.util.Date;
  * @param clientID The client id used
  * @param expirationDate The token expiration date
  */
-public record TwitchBotInfo(String clientID, Date expirationDate) {
+public record TwitchBotInfo(@NotNull String clientID, @NotNull Date expirationDate) {
 
     @Override
     public String toString() {

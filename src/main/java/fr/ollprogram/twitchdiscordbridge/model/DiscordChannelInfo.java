@@ -12,12 +12,14 @@
 
 package fr.ollprogram.twitchdiscordbridge.model;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * The discord channel info
  * @param id The discord channel ID
  * @param name The discord channel name
  */
-public record DiscordChannelInfo(String id, String name) {
+public record DiscordChannelInfo(@NotNull String id, @NotNull String name) {
 
     @Override
     public String toString() {

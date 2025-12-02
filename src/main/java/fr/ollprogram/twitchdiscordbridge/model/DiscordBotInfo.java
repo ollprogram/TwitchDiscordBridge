@@ -13,12 +13,14 @@
 package fr.ollprogram.twitchdiscordbridge.model;
 
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * The discord bot information record simplified
  * @param botID The bot id
  * @param botName The bot name
  */
-public record DiscordBotInfo(String botID, String botName) {
+public record DiscordBotInfo(@NotNull String botID, @NotNull String botName) {
     @Override
     public String toString() {
         return "{" +
