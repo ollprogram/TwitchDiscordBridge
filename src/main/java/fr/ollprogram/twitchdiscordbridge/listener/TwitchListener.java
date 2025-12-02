@@ -19,11 +19,19 @@ import fr.ollprogram.twitchdiscordbridge.command.TDBExecutor;
 import fr.ollprogram.twitchdiscordbridge.utils.MessageUtils;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * The twitch listener. Listen to the messages
+ */
 public class TwitchListener {
 
     private final Bridge bridge;
     private final TDBExecutor executor;
 
+    /**
+     * Constructor
+     * @param bridge The bridge
+     * @param executor The TDB executor
+     */
     public TwitchListener(@NotNull Bridge bridge, @NotNull TDBExecutor executor){
         this.bridge = bridge;
         this.executor = executor;

@@ -27,6 +27,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Discord main listener. Listen to messages and commands. It can be split into two listeners if the application get bigger
+ */
 public class DiscordListener extends ListenerAdapter  {
 
     private final Bridge bridge;
@@ -35,6 +38,12 @@ public class DiscordListener extends ListenerAdapter  {
 
     private final TDBExecutor executor;
 
+    /**
+     * Constructor
+     * @param bridge The bridge
+     * @param commandRegistry The command registry
+     * @param executor The TDB executor
+     */
     public DiscordListener(@NotNull Bridge bridge, @NotNull CommandRegistry commandRegistry, @NotNull TDBExecutor executor){
         this.bridge = bridge;
         this.commandRegistry = commandRegistry;
