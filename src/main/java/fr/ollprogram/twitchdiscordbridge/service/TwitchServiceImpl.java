@@ -100,7 +100,7 @@ public class TwitchServiceImpl implements TwitchService {
 
 
     @Override
-    public @NotNull Optional<TwitchBotInfo> authenticate(String token) throws ServiceException {
+    public @NotNull Optional<TwitchBotInfo> authenticate(@NotNull String token) throws ServiceException {
         try {
             AuthBody body = callValidateToken(token);
             if(body != null) {
@@ -123,7 +123,7 @@ public class TwitchServiceImpl implements TwitchService {
     }
 
     @Override
-    public @NotNull Optional<TwitchChannelInfo> getChannel(String channelName) throws ServiceException {
+    public @NotNull Optional<TwitchChannelInfo> getChannel(@NotNull String channelName) throws ServiceException {
         checkAuthCalled();
         try {
             UserListBody userListBody = callGetChannelByName(token, clientID, channelName);

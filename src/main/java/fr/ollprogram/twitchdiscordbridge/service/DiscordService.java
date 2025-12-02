@@ -29,13 +29,13 @@ public interface DiscordService {
      * @param token A valid app token
      * @return the bot info if authentication succeed
      */
-    @NotNull Optional<DiscordBotInfo> authenticate(String token) throws ServiceException;
+    @NotNull Optional<DiscordBotInfo> authenticate(@NotNull String token) throws ServiceException;
 
     /**
      * Retrieve the channel by its ID
      * @param channelID The channel ID
      * @return The channel infos
      */
-    @NotNull Optional<DiscordChannelInfo> getChannel(String channelID) throws ServiceException;
+    @NotNull Optional<DiscordChannelInfo> getChannel(@NotNull String channelID) throws ServiceException;
 
 }

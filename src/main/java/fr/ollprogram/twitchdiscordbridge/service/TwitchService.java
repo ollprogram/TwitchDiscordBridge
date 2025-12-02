@@ -30,7 +30,7 @@ public interface TwitchService {
      * @param token A valid app token
      * @return the bot info if authentication succeed
      */
-    @NotNull Optional<TwitchBotInfo> authenticate(String token) throws ServiceException;
+    @NotNull Optional<TwitchBotInfo> authenticate(@NotNull String token) throws ServiceException;
 
 
     /**
@@ -38,5 +38,5 @@ public interface TwitchService {
      * @param channelName The channel Name
      * @return The channel infos
      */
-    @NotNull Optional<TwitchChannelInfo> getChannel(String channelName) throws ServiceException;
+    @NotNull Optional<TwitchChannelInfo> getChannel(@NotNull String channelName) throws ServiceException;
 }

@@ -99,7 +99,7 @@ public class DiscordServiceImpl implements DiscordService {
     }
 
     @Override
-    public @NotNull Optional<DiscordBotInfo> authenticate(String token) throws ServiceException {
+    public @NotNull Optional<DiscordBotInfo> authenticate(@NotNull String token) throws ServiceException {
         try {
             AuthValidationBody response = callCheckDiscordToken(token);
             if(response != null) {
@@ -114,7 +114,7 @@ public class DiscordServiceImpl implements DiscordService {
     }
 
     @Override
-    public @NotNull Optional<DiscordChannelInfo> getChannel(String channelID) throws ServiceException {
+    public @NotNull Optional<DiscordChannelInfo> getChannel(@NotNull String channelID) throws ServiceException {
         checkAuthCalled();
         try {
             ChannelBody body = callGetChannelByID(channelID);
