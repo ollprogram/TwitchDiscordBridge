@@ -18,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Command to open the bridge
+ */
 public class BridgeOpen extends Command{
 
     private static final String DESCRIPTION = "Open the bridge";

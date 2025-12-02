@@ -18,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Command to change the discord channel target
+ */
 public class BridgeDiscordTarget extends Command{
 
     private static final String DESCRIPTION = "Change the discord target channel";
@@ -26,6 +29,11 @@ public class BridgeDiscordTarget extends Command{
     private static final String CHANNEL_FOUND = "The target channel for discord has been changed.";
 
     private final Bridge bridge;
+
+    /**
+     * Constructor
+     * @param bridge The bridge
+     */
     public BridgeDiscordTarget(@NotNull Bridge bridge) {
         super(DESCRIPTION, List.of(new Option("channel_id", "The discord target channel ID", true)), true);
         this.bridge = bridge;

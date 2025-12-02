@@ -21,7 +21,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Supplier;
 
-
+/**
+ * Command to get information about the bridge
+ */
 public class BridgeInfo extends Command {
 
     private static final String DESCRIPTION = "Show information about the bridge";
@@ -34,6 +36,11 @@ public class BridgeInfo extends Command {
 
     private final JDA discordBot;
 
+    /**
+     * Constructor
+     * @param bridge The bridge
+     * @param discordBot The discord bot to be able to fetch more information
+     */
     public BridgeInfo(@NotNull Bridge bridge, @NotNull JDA discordBot){
         super(DESCRIPTION,true);
         this.bridge = bridge;
@@ -46,6 +53,10 @@ public class BridgeInfo extends Command {
         else return () -> SHOULD_HAVE_NO_ARGS_ERROR;
     }
 
+    /**
+     * Get the information message
+     * @return THe information message string
+     */
     private String getInformationMessage(){
         BridgeConfig config = bridge.getConfig();
         TextChannel discordChannel = discordBot.getTextChannelById(config.getDiscordChannelID());

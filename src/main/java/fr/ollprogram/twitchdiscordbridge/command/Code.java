@@ -16,7 +16,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Supplier;
 
-
+/**
+ * Command to get information about the code
+ */
 public class Code extends Command {
 
     private static final String TEXT = """
@@ -27,7 +29,9 @@ public class Code extends Command {
     private static final String DESCRIPTION = "Information about the code of this bot";
 
 
-
+    /**
+     * Constructor
+     */
     public Code() {
         super(DESCRIPTION,true);
     }

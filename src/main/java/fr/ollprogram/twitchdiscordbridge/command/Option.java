@@ -14,5 +14,11 @@ package fr.ollprogram.twitchdiscordbridge.command;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * A command option
+ * @param name The option name
+ * @param description The option description
+ * @param mandatory If the option is mandatory or not
+ */
 public record Option(@NotNull String name, @NotNull String description, boolean mandatory) {
 }

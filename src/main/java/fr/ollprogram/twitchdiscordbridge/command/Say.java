@@ -18,7 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Supplier;
 
-
+/**
+ * A command to send a message on both applications (twitch and discord)
+ */
 public class Say extends Command {
 
     private static final String TEXT = "Message sent to both applications.";
@@ -29,6 +31,10 @@ public class Say extends Command {
 
     private final Bridge bridge;
 
+    /**
+     * Constructor
+     * @param bridge The bridge
+     */
     public Say(@NotNull Bridge bridge){
         super(DESCRIPTION, List.of(new Option("message", "The message to send", true)), true);
         this.bridge = bridge;

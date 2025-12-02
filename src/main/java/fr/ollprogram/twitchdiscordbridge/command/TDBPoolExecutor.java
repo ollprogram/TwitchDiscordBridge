@@ -28,6 +28,11 @@ public class TDBPoolExecutor implements TDBExecutor {
 
     private final ExecutorService commandPool;
 
+    /**
+     * Constructor
+     * @param commandPoolSize The size for the thread pool dedicated to commands
+     * @param taskPoolSize The size for the thread pool dedicated to all the other tasks of TwitchDiscordBridge
+     */
     public TDBPoolExecutor(int commandPoolSize, int taskPoolSize) {
         this.commandPool = Executors.newFixedThreadPool(commandPoolSize);
         this.taskPool = Executors.newFixedThreadPool(taskPoolSize);

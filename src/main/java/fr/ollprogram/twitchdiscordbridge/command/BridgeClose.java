@@ -18,10 +18,18 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Command which closes the bridge
+ */
 public class BridgeClose extends Command{
     private static final String DESCRIPTION = "Close the bridge";
 
     private final Bridge bridge;
+
+    /**
+     * Constructor
+     * @param bridge The bridge
+     */
     public BridgeClose(@NotNull Bridge bridge) {
         super(DESCRIPTION, true);
         this.bridge = bridge;

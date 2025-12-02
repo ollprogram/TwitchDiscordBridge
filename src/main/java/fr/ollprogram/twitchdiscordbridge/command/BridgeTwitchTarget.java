@@ -18,6 +18,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * Command to change the twitch channel target
+ */
 public class BridgeTwitchTarget extends Command{
 
     private static final String DESCRIPTION = "Change the twitch target channel";
@@ -26,6 +29,11 @@ public class BridgeTwitchTarget extends Command{
     private static final String CHANNEL_FOUND = "The target channel for twitch has been changed.";
 
     private final Bridge bridge;
+
+    /**
+     * Constructor
+     * @param bridge The bridge
+     */
     public BridgeTwitchTarget(@NotNull Bridge bridge) {
         super(DESCRIPTION, List.of(new Option("channel_name", "The twitch target channel name", true)), true);
         this.bridge = bridge;

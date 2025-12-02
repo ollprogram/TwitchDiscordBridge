@@ -159,10 +159,18 @@ public class BridgeImpl implements Bridge {
         return builder.build(); //return a copy
     }
 
+    /**
+     * Synchronized method to get the discord channel ID atomically
+     * @return the discord channel ID
+     */
     private synchronized String getDiscordChannelIDSync(){
         return config.getDiscordChannelID();
     }
 
+    /**
+     * Synchronized method to get the twitch channel name atomically
+     * @return the twitch channel name
+     */
     private synchronized String getTwitchChannelNameSync(){
         return config.getTwitchChannelName();
     }
