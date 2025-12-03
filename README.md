@@ -1,6 +1,6 @@
 
 
-[//]: # (Copyright © 2024 ollprogram)
+[//]: # (Copyright © 2025 ollprogram)
 
 [//]: # ( This file is part of TwitchDiscordBridge.
 TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
@@ -19,31 +19,20 @@ Links the [Discord](https://discord.com) chat and the [Twitch](https://www.twitc
 
 Hi I'm ollprogram, the author of this project. Thanks for using it. **Feel free to report any bugs or typo. I'll try to fix them. Since english isn't my main language, feel free to correct me if I made any mistake in this documentation.**
 
-Find information about the licence used for this project [here](https://github.com/ollprogram/TwitchDiscordBridge/blob/main/LICENSE).
+Find information about the licence used for this project [here](LICENSE).
 
-Familizarize yourself with the licence before using my project. It gives information about how you can use it.
+Familiarize yourself with the licence before using my project. It gives information about how you can use it.
 
 ## Description
 
-With this application you will be able to link your Twitch chat with a Discord text channel in a guild.
+With this application you will be able to link your Twitch chat with a Discord text channel in your discord server (guild).
 
-When someone will send something on a specified channel on Discord, the same message will be send to a specified Twitch chat, and reversly.
+When someone will send something on a specified channel on Discord, the same message will be sent to a specified Twitch chat, and reversely.
 
 ---
 
-In this project, I'm often refering to a "Bridge". But, what does a "Bridge" represent in this project?
-
+> In this project, I'm often referring to a "Bridge". But, what does a "Bridge" represent in this project?
 > A "Bridge" is an object which transfers messages between two destinations. In our case destinations are Discord and Twitch.
-
-## Dependencies
-
-For this project I'm using three APIs :
-
-- [JDA (Java Discord API)](https://github.com/DV8FromTheWorld/JDA)
-- [Twitch4J (Java Twitch API)](https://github.com/twitch4j/twitch4j)
-- [Emoji-Java (API to manipulate emojis codes)](https://github.com/vdurmont/emoji-java)
-
-  You can see the Maven pom.xml [here](https://github.com/ollprogram/TwitchDiscordBridge/blob/main/pom.xml).
 
 ## Download
 
@@ -54,7 +43,7 @@ You can download the runnable jar file [here](https://github.com/ollprogram/Twit
 There are some procedures before launching the program :
 
 1. You need a [Discord](https://discord.com) account and a Discord server (guild).
-2. Register a new bot on the [Discord Developer Portal](https://discord.com/developers/docs/intro) (I recommend you to watch a tutorial on YouTube).  
+2. Register a new bot on the [Discord Developer Portal](https://discord.com/developers/docs/intro) .  
    You should also turn it to private mode.
 3. Add your bot on Discord with the [Discord Permissions Calculator](https://discordapi.com/permissions.html) using your bot client ID. The Discord bot will need some permissions on your server. See the permissions needed in the screenshot below:
 
@@ -69,7 +58,7 @@ There are some procedures before launching the program :
 When you launch the program for the first time, you need:
 
 1. Your Discord bot token (grab it on the [Discord Dev Portal](https://discord.com/developers/docs/intro)).
-2. Your Twitch bot token (grab it [here](https://twitchtokengenerator.com)).
+2. Your Twitch bot user access token (grab it [here](https://twitchtokengenerator.com)).
 3. A Twitch channel name (The channel where you stream).
 4. A Discord channel ID. You need to activate first dev mode on Discord `advanced -> developer_mode -> on`. Right-click on the channel where you want your bot to listen to it, and copy the ID.
 
@@ -85,41 +74,31 @@ Type `help` or `<command> help` in the console. Or type `!help` on Discord.
 
 ### All commands on discord
 
-- `!test` to see if the bot works.
-- `!code` to get the source code.
-- `!bridge <argument>`
-- Arguments :
-  - `target` this Discord channel is now linked to the Twitch chat.</li>
-  - `open` open the bridge.
-  - `close` close the bridge.
-  - `info` get information about the bridge.
-- `!prefix <new prefix>` to set a new prefix (also changes the nickname of your bot).
-- `!prefix reset` to reset the prefix (reset also the nickname).
+- `/code` to get source code information.
+- `/bridge discord_target <channel_id>` change the discord channel target
+- `/bridge twitch_target <channel_name>` change the twitch channel target
+- `/bridge open` open the bridge.
+- `/bridge close` close the bridge.
+- `/bridge info` get information about the bridge.
 
 ### All commands in the console
 
-- `shutdown` shutdowns the app without exceptions.
+- `help` see all commands
+- `shutdown` shutdowns the app without exceptions (wait all tasks end).
 - `shutdown now` shutdowns the app with exceptions.
 - `say your message` send a message on both platforms.
-- `bridge <argument>`
-- Arguments :
-  - `twitchTarget channel name` link the bridge to an other twitch chat.
-  - `get info` get information about the bridge.
-  - `open` open the bridge.
-  - `close` close the bridge.
+- `/code` to get source code information.
+- `/bridge discord_target <channel_id>` change the discord channel target
+- `/bridge twitch_target <channel_name>` change the twitch channel target
+- `/bridge open` open the bridge.
+- `/bridge close` close the bridge.
+- `/bridge info` get information about the bridge.
+
+## How to contribute?
+
+[Here](CONTRIBUTING.md) are written information which you need in order to contribute to this project.
+
+## Report a bug or something to improve
 
 
 
-## Devcontainer
-
-To use the devcontainer, you need [Docker Desktop](https://www.docker.com/products/docker-desktop/) and [VSCode](https://code.visualstudio.com/), running the [devcontainer extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
-
-Once these dependencies are installed, you can open the project in a new container from VSCode, the project and all of its dependencies will be imported automatically. 
-
-On container startup, Maven will clean, validate, compile and test the project.
-
-## JavaDocs
-
-### Next Upates
-
-- Allow to lock the bridge on one side. (comming very soon)
