@@ -29,6 +29,10 @@ With this application you will be able to link your Twitch chat with a Discord t
 
 When someone will send something on a specified channel on Discord, the same message will be sent to a specified Twitch chat, and reversely.
 
+>⚠️ This application is designed to process a high volume of messages. However, due to Twitch’s low request rate limit, latency may occur on channels with significant activity. Therefore, using TwitchDiscordBridge on highly active channels is not recommended.
+
+>⚠️ Using TwitchDiscordBridge on channels you do not own or for which you do not have moderator rights is not recommended.
+
 ---
 
 > In this project, I'm often referring to a "Bridge". But, what does a "Bridge" represent in this project?
