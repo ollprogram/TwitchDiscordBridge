@@ -111,8 +111,8 @@ Type `help` in the console.
 ### All commands in the console
 
 - `help` see all commands
-- `shutdown` shutdowns the app without exceptions (wait all tasks end).
-- `shutdown now` shutdowns the app with exceptions.
+- `shutdown` shutdown the app without exceptions (wait all tasks end).
+- `shutdown now` shutdown the app with exceptions.
 - `say your message` send a message on both platforms.
 - `/code` to get source code information.
 - `/bridge discord_target <channel_id>` change the discord channel target
@@ -123,7 +123,7 @@ Type `help` in the console.
 
 ## How to contribute?
 
-[Here](CONTRIBUTING.md) are written information you need in order to contribute to this project.
+Contribution guidelines are available [here](CONTRIBUTING.md).
 
 ## Report a bug, something to improve or ask for help
 
