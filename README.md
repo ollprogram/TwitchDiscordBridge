@@ -40,25 +40,48 @@ You can download the runnable jar file [here](https://github.com/ollprogram/Twit
 
 ## Setup
 
-There are some procedures before launching the program :
+There are some procedures before launching the program.
+
+### Discord setup
 
 1. You need a [Discord](https://discord.com) account and a Discord server (guild).
 2. Register a new bot on the [Discord Developer Portal](https://discord.com/developers/docs/intro) .  
    You should also turn it to private mode.
-3. Add your bot on Discord with the [Discord Permissions Calculator](https://discordapi.com/permissions.html) using your bot client ID. The Discord bot will need some permissions on your server. See the permissions needed in the screenshot below:
+3. In the installation section, turn on "guild install"
+4. In the OAuth2 section, in the OAuth2 URL Generator select the "bot" scope.
+   The Discord bot will need some permissions on your server. See the permissions needed in the screenshot below:
 
-   ![Discord Permissions](https://user-images.githubusercontent.com/39884051/148686617-3ca8d816-2a52-4724-a2d9-98dd1c962cb9.png)
+   ![Discord Permissions](images/discord_permissions.png)
 
    If you want to activate other permissions, you will have to think about consequences. For example, if you decide to activate mentions to all roles for the bot, then every person from Twitch will be able to mention all roles on Discord.
 
-4. Create a new [Twitch](https://www.twitch.tv) account for your Twitch bot. Recommended to use OAuth2 and to make your bot a moderator on the Twitch channel where you stream.
+5. Use the generated URL to add your bot in your discord guild
+
+### Twitch setup
+
+1. Create a new [Twitch](https://www.twitch.tv) account for your Twitch bot. It's recommended to make your bot a moderator on the Twitch channel where you stream.
+2. Create a new twitch application on the [twitch developer portal](https://dev.twitch.tv/console) with your bot account
 
 ---
 
+### First launch
+
 When you launch the program for the first time, you need:
 
-1. Your Discord bot token (grab it on the [Discord Dev Portal](https://discord.com/developers/docs/intro)).
-2. Your Twitch bot user access token (grab it [here](https://twitchtokengenerator.com)).
+1. Your Discord bot token `discord dev portal > bot > copy or reset token and copy`.
+2. Your Twitch bot user access token. You have multiple options for getting it :
+   - You can use the go script available in the [releases section](https://github.com/ollprogram/TwitchDiscordBridge/releases).
+   For this script you will need you twitch application client id `twitch dev > your console > manage app > copy you client id`
+     ```bash 
+     # linux / bash
+     ./retrieve_twitch_token <your twitch app client id>
+     ```
+     ```shell
+     # windows / powershell
+     ./retrieve_twitch_token.exe <your twitch app client id>
+     ```
+   - Or you can use this token generator online (https://twitchtokengenerator.com/) if you trust it, and if it works for you. 
+   - It's also possible to use the Twitch CLI.
 3. A Twitch channel name (The channel where you stream).
 4. A Discord channel ID. You need to activate first dev mode on Discord `advanced -> developer_mode -> on`. Right-click on the channel where you want your bot to listen to it, and copy the ID.
 
@@ -66,11 +89,11 @@ When you launch the program for the first time, you need:
 
 ### To launch the program with the console interface
 
-`java -jar TwitchDiscordBridge-1.0-shaded.jar` (cmd or terminal)
+`java -jar TwitchDiscordBridge-1.0-shaded.jar` (cmd, powershell or bash)
 
 ### To list all commands
 
-Type `help` or `<command> help` in the console. Or type `!help` on Discord.
+Type `help` in the console.
 
 ### All commands on discord
 
@@ -96,9 +119,13 @@ Type `help` or `<command> help` in the console. Or type `!help` on Discord.
 
 ## How to contribute?
 
-[Here](CONTRIBUTING.md) are written information which you need in order to contribute to this project.
+[Here](CONTRIBUTING.md) are written information you need in order to contribute to this project.
 
-## Report a bug or something to improve
+## Report a bug, something to improve or ask for help
 
-
+You can create an [issue](https://github.com/ollprogram/TwitchDiscordBridge/issues) to ask us something by following the related template :
+- refactor request
+- feature request
+- question or help
+- bug report
 
