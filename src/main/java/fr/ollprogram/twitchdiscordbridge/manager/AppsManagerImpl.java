@@ -48,7 +48,9 @@ public class AppsManagerImpl implements AppsManager {
     @Override
     public void shutdownAll() throws InterruptedException {
         LOG.info("Shutdown remaining tasks...");
-        if(!executor.shutdown()){
+        if(executor.shutdown()){
+            LOG.info("Executor shutdown properly");
+        } else {
             LOG.warn("Forced executor shutdown due to timeout.");
         }
         LOG.info("Shutdown discord bot...");
@@ -62,7 +64,9 @@ public class AppsManagerImpl implements AppsManager {
     @Override
     public void shutdownAllNow() throws InterruptedException {
         LOG.info("Shutdown remaining tasks...");
-        if(!executor.shutdown()){
+        if(executor.shutdown()){
+            LOG.info("Executor shutdown properly");
+        } else {
             LOG.warn("Forced executor shutdown due to timeout.");
         }
         LOG.info("Shutdown discord bot...");
