@@ -36,7 +36,7 @@ Whenever someone sends a message in a specific Discord channel, that same messag
 ---
 
 > In this project, I'm often referring to a "Bridge". But, what does a "Bridge" represent in this project?
-> A "Bridge" is an object which transfers messages between two destinations. In our case destinations are Discord and Twitch.
+> A “Bridge” is an object responsible for transferring messages between two destinations : Discord and Twitch, in our case.
 
 ## Download
 
