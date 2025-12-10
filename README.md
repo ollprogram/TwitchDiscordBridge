@@ -57,7 +57,7 @@ There are some procedures before launching the program.
 
    ![Discord Permissions](images/discord_permissions.png)
 
-   If you want to activate other permissions, you will have to think about consequences. For example, if you decide to activate mentions to all roles for the bot, then every person from Twitch will be able to mention all roles on Discord.
+   If you choose to enable additional permissions, be mindful of their implications. For example, granting the bot permission to mention all roles would allow anyone from Twitch to trigger role-wide mentions on Discord.
 
 5. Use the generated URL to add your bot in your discord guild
 
