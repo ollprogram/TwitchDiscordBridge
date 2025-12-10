@@ -70,7 +70,7 @@ There are some procedures before launching the program.
 
 ### First launch
 
-When you launch the program for the first time, you need:
+Here are the prerequisites for first time launch :
 
 1. Your Discord bot token `discord dev portal > bot > copy or reset token and copy`.
 2. Your Twitch bot user access token. You have multiple options for getting it :
