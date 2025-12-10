@@ -1,105 +1,113 @@
+/*
+ * Copyright © 2025 ollprogram
+ * This file is part of TwitchDiscordBridge.
+ * TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation, either version 3 of the License, or \(at your option\) any later version.
+ * TwitchDiscordBridge is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
+ * If not, see https://www.gnu.org/licenses.
+ */
+
 package fr.ollprogram.twitchdiscordbridge;
 
 import com.github.philippheuer.events4j.simple.SimpleEventHandler;
 import com.github.twitch4j.TwitchClient;
-import com.github.twitch4j.TwitchClientBuilder;
-import fr.ollprogram.twitchdiscordbridge.commands.BridgeConsoleCmd;
-import fr.ollprogram.twitchdiscordbridge.commands.ConsoleCommand;
-import fr.ollprogram.twitchdiscordbridge.commands.Say;
-import fr.ollprogram.twitchdiscordbridge.commands.Shutdown;
-import fr.ollprogram.twitchdiscordbridge.discord.DiscListener;
-import fr.ollprogram.twitchdiscordbridge.discord.commands.*;
-import fr.ollprogram.twitchdiscordbridge.twitch.TwitchListener;
+import fr.ollprogram.twitchdiscordbridge.bridge.Bridge;
+import fr.ollprogram.twitchdiscordbridge.bridge.BridgeImpl;
+import fr.ollprogram.twitchdiscordbridge.cli.BridgeCLI;
+import fr.ollprogram.twitchdiscordbridge.cli.ConfiguratorCLI;
+import fr.ollprogram.twitchdiscordbridge.command.*;
+import fr.ollprogram.twitchdiscordbridge.configuration.BridgeConfig;
+import fr.ollprogram.twitchdiscordbridge.factory.BotFactory;
+import fr.ollprogram.twitchdiscordbridge.factory.BotFactoryImpl;
+import fr.ollprogram.twitchdiscordbridge.listener.DiscordListener;
+import fr.ollprogram.twitchdiscordbridge.listener.TwitchListener;
+import fr.ollprogram.twitchdiscordbridge.manager.AppsManager;
+import fr.ollprogram.twitchdiscordbridge.manager.AppsManagerImpl;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Activity;
-import org.jetbrains.annotations.NotNull;
+import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.LoginException;
-import java.io.IOException;
 import java.util.Scanner;
 
-/**
- * @author ollprogram
- */
 public class Main {
 
-	public static void main(String[] args) throws IOException {
-		SettingsFileManager settings = new SettingsFileManager();
-		try {
-			//START THE TWITCH BOT
-			System.out.println("[INFO] Starting the Twitch bot...");
-			TwitchClient twitchClient = TwitchClientBuilder.builder()
-					.withEnableChat(true)
-					.withChatAccount(settings.getTwitchAccount()).build();
-			System.out.println("[INFO] Twitch bot started.");
+    private static final String LICENCE = """
+            
+            Copyright © 2025 ollprogram
+            TwitchDiscordBridge is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License
+            as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+            TwitchDiscordBridge is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+            without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+            See the GNU General Public License for more details.
+            You should have received a copy of the GNU General Public License along with TwitchDiscordBridge.
+            If not, see https://www.gnu.org/licenses.
+            
+            """;
 
-			//START THE DISCORD BOT
-			System.out.println("[INFO] Starting the Discord bot...");
-			JDABuilder botBuilder = JDABuilder.createDefault(settings.getDiscordToken());
-			DiscListener discListener = new DiscListener();
-			JDA jda = botBuilder.addEventListeners(discListener).build();
-			jda.awaitReady();//wait until the bot reach the connected status
-			jda.getPresence().setActivity(Activity.listening("Twitch : "+settings.getTwitchChannelName()));
-			Bridge bridge = new Bridge(settings, twitchClient.getChat(), jda);
+    private static final String SPLASH = """
+            
+              ______         _ __       __        \s
+             /_  __/      __(_) /______/ /_       \s
+              / / | | /| / / / __/ ___/ __ \\      \s
+             / /  | |/ |/ / / /_/ /__/ / / /      \s
+            /_/ __|__/|__/_/\\__/\\___/_/ /_/      __
+               / __ \\(_)_____________  _________/ /
+              / / / / / ___/ ___/ __ \\/ ___/ __  /\s
+             / /_/ / (__  ) /__/ /_/ / /  / /_/ / \s
+            /_____/_/____/\\___/\\____/_/   \\__,_/  \s
+               / __ )_____(_)___/ /___ ____       \s
+              / __  / ___/ / __  / __ `/ _ \\      \s
+             / /_/ / /  / / /_/ / /_/ /  __/      \s
+            /_____/_/  /_/\\__,_/\\__, /\\___/       \s
+                               /____/             \s
+            """;
+    private static final Logger LOG = LoggerFactory.getLogger("Main");
+    public static void main(String[] args) {
+        LOG.info(LICENCE);
+        int threads = Runtime.getRuntime().availableProcessors();
+        int commandPoolSize = (int) (threads * 0.2); // only 20% ~= 2 threads, this is not the most demanded task
+        int taskPoolSize = (threads - commandPoolSize) * (1 + (500 / 150)); // IDLE time over real calculation time (this is an approximation in ms)
+        // maybe this approximation is useless since the twitch api rate limit is a bottleneck.
+        LOG.info("Using "+commandPoolSize+" threads for commands and "+taskPoolSize+" threads for TDB messages and TDB tasks");
+        TDBExecutor executor = new TDBPoolExecutor(commandPoolSize, taskPoolSize);
+        Scanner scanner = new Scanner(System.in);
+        ConfiguratorCLI configuratorCLI = new ConfiguratorCLI(scanner);
+        BridgeConfig config = configuratorCLI.configure();
 
-			TextCommand[] commands = {new Test("test", Permission.ADMINISTRATOR),//define all discord commands
-					new Prefix("prefix", Permission.ADMINISTRATOR),
-					new SrcCode("code"), new BridgeCmd("bridge", Permission.ADMINISTRATOR, bridge)};
-			//setting the bridge and commands for the discord listener
-			discListener.setBridge(bridge);
-			discListener.setCommands(commands);
-			System.out.println("[INFO] Discord bot started.");
+        LOG.info("Starting bots");
+        BotFactory botFactory = new BotFactoryImpl(config);
+        JDA discordBot = botFactory.createDiscordBot();
+        TwitchClient twitchBot = botFactory.createTwitchBot();
+        Bridge bridge = new BridgeImpl(discordBot, twitchBot, config);
+        AppsManager appsManager = new AppsManagerImpl(executor, discordBot, twitchBot);
 
-			//adding the chat event listener for the twitch bot
-			twitchClient.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchListener(bridge));
-			twitchClient.getChat().joinChannel(bridge.getTwitchChannelName());
+        LOG.info("Registering commands");
+        CommandRegistry registry = new CommandRegistryImpl();
+        registry.register("code", new Code());
+        registry.register("say", new Say(bridge));
+        registry.register("bridge", "info", new BridgeInfo(bridge, discordBot));
+        registry.register("bridge", "open", new BridgeOpen(bridge));
+        registry.register("bridge", "close", new BridgeClose(bridge));
+        registry.register("bridge", "discord_target", new BridgeDiscordTarget(bridge));
+        registry.register("bridge", "twitch_target", new BridgeTwitchTarget(bridge));
+        registry.setDiscordPermissions("bridge", DefaultMemberPermissions.DISABLED);
+        registry.setDiscordPermissions("say", DefaultMemberPermissions.DISABLED);
 
+        LOG.info("Registering listeners");
+        discordBot.addEventListener(new DiscordListener(bridge, registry, executor));
+        twitchBot.getEventManager().getEventHandler(SimpleEventHandler.class).registerListener(new TwitchListener(bridge, executor));
 
-			//BEGINNING THE CONSOLE INTERFACE IN THIS THREAD
-			//define all console commands
-			ConsoleCommand[] consoleCommands = {new Shutdown("shutdown", jda, twitchClient), new Say("say", bridge)
-			, new BridgeConsoleCmd("bridge", bridge)};
-			//launch the interface
-			consoleInterface(consoleCommands, jda);
+        LOG.info("Refreshing discord commands");
+        appsManager.refreshDiscordCommands(registry);
 
-			//ENDING
-			System.out.println("[INFO] Shutdown...");
-		} catch (LoginException | InterruptedException loginError) {
-			loginError.printStackTrace();
-			System.out.println("[WARN] Login Error.");
-		}
-	}
+        LOG.info(SPLASH + "\nStarted Bridge CLI");
+        BridgeCLI bridgeCLI = new BridgeCLI(scanner, registry, appsManager);
+        bridgeCLI.run();
+        scanner.close();
 
-	/**
-	 * Handle the console Interface, continue until the jda instance still connected.
-	 * @param commands all commands for the console interface.
-	 * @param jda the jda instance (discord bot).
-	 */
-	private static void consoleInterface(ConsoleCommand[] commands, @NotNull JDA jda){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("[VERSION] TWITCH-DISCORD-BRIDGE 1.1.O");
-		System.out.println("[INFO] Your bots must be private, and the bots are recommended to be used only on one server.\n");
-		System.out.println("[INFO] It's also recommended to disable links for everyone on the discord channel targeted and the twitch channel targeted.\n");
-		System.out.println("[INFO] You can type something in the console : (help to view all commands)");
-		while(jda.getStatus().equals(JDA.Status.CONNECTED)){
-			System.out.print(">");
-			String line = sc.nextLine();
-			ConsoleCommand cmd = ConsoleCommand.retrieve(commands, line);
-			if(line.equalsIgnoreCase("help")){
-				System.out.println("[INFO] All commands: (help for more info except for 'say')");
-				for (ConsoleCommand command: commands) {
-					System.out.println(command.getName()+"   "+command.getDescription());
-				}
-			}
-			else if(cmd != null){
-				cmd.execute(line);
-			}
-			else{
-				System.out.println("[INFO] Not a command.");
-			}
-		}
-		sc.close();
-	}
+    }
 }
