@@ -113,7 +113,7 @@ Type `help` in the console.
 - `help` see all commands
 - `shutdown` shutdown the app without exceptions (wait all tasks end).
 - `shutdown now` shutdown the app with exceptions.
-- `say your message` send a message on both platforms.
+- `say <your message>` send a message on both platforms.
 - `/code` to get source code information.
 - `/bridge discord_target <channel_id>` change the discord channel target
 - `/bridge twitch_target <channel_name>` change the twitch channel target
