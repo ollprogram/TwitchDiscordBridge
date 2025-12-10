@@ -5,7 +5,7 @@ Write a short description about what should be refactored
 ### Explanation
 
 Explain here why and how it should be refactored. 
-Try to explain what are the benefits for the application or for developers.
+Explain how this benefits the application or the developers.
 
 ### Additional information
 
