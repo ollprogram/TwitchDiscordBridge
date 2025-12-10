@@ -4,4 +4,4 @@ Bring us the theme, the context, etc.
 
 ### Question
 
-your questions here with additional text if you need.
+Ask your questions here with additionnal text if needed
