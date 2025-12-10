@@ -5,7 +5,7 @@ Briefly describe what this Pull Request does.
 
 ## 🎯 Purpose / Context
 Why is this change necessary?  
-What does it fix, improve, or prepare for?
+What is it fixing, improving, or preparing for?
 
 ---
 
