@@ -1,6 +1,6 @@
 ### Description
 
-Write here a short description of the feature you want
+Write here a short description of the feature you would like to see implemented
 
 ### Story
 
