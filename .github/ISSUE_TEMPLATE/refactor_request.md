@@ -1,6 +1,6 @@
 ### Description
 
-Write here a short description about what should be refactored
+Write a short description about what should be refactored
 
 ### Explanation
 
