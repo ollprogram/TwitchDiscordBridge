@@ -65,7 +65,7 @@ There are some procedures before launching the program.
 
 1. Create a new [Twitch](https://www.twitch.tv) account for your Twitch bot. It's recommended to make your bot a moderator on the Twitch channel where you stream.
 2. Create a new twitch application on the [twitch developer portal](https://dev.twitch.tv/console) with your bot account
-
+3. (optional) Add `http://localhost:3000/token` as a redirection URL for your application (it will be used by the script to retrieve your token)
 ---
 
 ### First launch
@@ -93,7 +93,7 @@ Here are the prerequisites for first time launch :
 
 ### To launch the program with the console interface
 
-`java -jar TwitchDiscordBridge-1.0-shaded.jar` (cmd, powershell or bash)
+`java -jar TwitchDiscordBridge-x.x.x-shaded.jar` (cmd, powershell or bash)
 
 ### To list all commands
 
