@@ -27,7 +27,7 @@ Familiarize yourself with the licence before using my project. It gives informat
 
 With this application you will be able to link your Twitch chat with a Discord text channel in your discord server (guild).
 
-When someone will send something on a specified channel on Discord, the same message will be sent to a specified Twitch chat, and reversely.
+Whenever someone sends a message in a specific Discord channel, that same message will automatically be forwarded to a designated Twitch chat, and vice versa.
 
 >⚠️ This application is designed to process a high volume of messages. However, due to Twitch’s low request rate limit, latency may occur on channels with significant activity. Therefore, using TwitchDiscordBridge on highly active channels is not recommended.
 
