@@ -1,6 +1,6 @@
 ### Context
 
-bring us the theme, the context etc.
+Bring us the theme, the context, etc.
 
 ### Question
 
