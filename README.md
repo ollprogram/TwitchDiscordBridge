@@ -17,7 +17,7 @@ Links the [Discord](https://discord.com) chat and the [Twitch](https://www.twitc
 
 ## Author and Licence
 
-Hi I'm ollprogram, the author of this project. Thanks for using it. **Feel free to report any bugs or typo. I'll try to fix them. Since english isn't my main language, feel free to correct me if I made any mistake in this documentation.**
+Hi I'm ollprogram, the author of this project. Thanks for using it. **If you spot any bugs, typos, or awkward wording, don’t hesitate to let me know. I’ll do my best to fix them. English isn’t my first language, so any corrections or suggestions are welcome.**
 
 Find information about the licence used for this project [here](LICENSE).
 
