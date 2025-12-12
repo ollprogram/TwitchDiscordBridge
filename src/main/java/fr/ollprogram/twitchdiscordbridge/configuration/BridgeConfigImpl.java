@@ -68,4 +68,15 @@ public class BridgeConfigImpl implements BridgeConfig {
     public void changeTwitchChannelName(@NotNull String name) {
         twitchChannelName = name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BridgeConfigImpl that)) return false;
+
+        if (!getTwitchToken().equals(that.getTwitchToken())) return false;
+        if (!getDiscordToken().equals(that.getDiscordToken())) return false;
+        if (!getDiscordChannelID().equals(that.getDiscordChannelID())) return false;
+        return getTwitchChannelName().equals(that.getTwitchChannelName());
+    }
 }

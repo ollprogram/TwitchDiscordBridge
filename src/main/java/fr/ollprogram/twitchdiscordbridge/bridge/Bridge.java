@@ -50,6 +50,19 @@ public interface Bridge {
     void sendToDiscord(@NotNull String message);
 
     /**
+     * Send to discord a message, but bypass the bridge restrictions
+     * @param message The message to send
+     */
+    void adminSendToDiscord(@NotNull String message);
+
+
+    /**
+     * Send to twitch a message, but bypass the bridge restrictions
+     * @param message The message to send
+     */
+    void adminSendToTwitch(@NotNull String message);
+
+    /**
      * Change the discord channel if it can be retrieved
      * @param channelID The new channel ID
      * @return If the channel exists and then has been changed

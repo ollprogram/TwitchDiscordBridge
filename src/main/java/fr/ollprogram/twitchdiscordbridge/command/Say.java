@@ -45,8 +45,8 @@ public class Say extends Command {
         if(validateArguments(args)){
             return () -> {
                 String message = MESSAGE_PREFIX + args.parallelStream().reduce(" ", String::concat);
-                bridge.sendToDiscord(message);
-                bridge.sendToTwitch(message);
+                bridge.adminSendToDiscord(message);
+                bridge.adminSendToTwitch(message);
                 return TEXT;
             };
         }

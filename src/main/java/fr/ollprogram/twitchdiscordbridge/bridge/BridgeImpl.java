@@ -81,18 +81,44 @@ public class BridgeImpl implements Bridge {
     @Override
     public void sendToTwitch(@NotNull String message) {
         if(!isOpen()) throw new BridgeNotOpenedException("The bridge should be opened before using this operation");
-        twitchBot.getChat().sendMessage(getTwitchChannelNameSync(), message);
+        commonSendToTwitch(message);
     }
 
     @Override
     public void sendToDiscord(@NotNull String message) {
         if(!isOpen()) throw new BridgeNotOpenedException("The bridge should be opened before using this operation");
+        commonSendToDiscord(message);
+    }
+
+    /**
+     * Send to twitch the given message
+     * @param message The message to send
+     */
+    private void commonSendToTwitch(String message){
+        twitchBot.getChat().sendMessage(getTwitchChannelNameSync(), message);
+    }
+
+    /**
+     * Send to discord the given message
+     * @param message The message to send
+     */
+    private void commonSendToDiscord(String message){
         TextChannel channel = discordBot.getTextChannelById(getDiscordChannelIDSync());
         if(channel == null){
             LOG.warn("Discord channel not found (configuration is outdated)");
             return;
         }
         channel.sendMessage(message).queue();
+    }
+
+    @Override
+    public void adminSendToDiscord(@NotNull String message) {
+        commonSendToDiscord(message);
+    }
+
+    @Override
+    public void adminSendToTwitch(@NotNull String message) {
+        commonSendToTwitch(message);
     }
 
     @Override
@@ -133,7 +159,7 @@ public class BridgeImpl implements Bridge {
             chat.leaveChannel(config.getTwitchChannelName());
             chat.joinChannel(channelName);
             config.changeTwitchChannelName(channelName);
-            LOG.info("Changed the discord channel to ["+channelName+"].");
+            LOG.info("Changed the twitch channel to ["+channelName+"].");
             LOG.info("Saving configuration");
             ConfigSaver saver = new ConfigSaverToProps(config);
             try {
