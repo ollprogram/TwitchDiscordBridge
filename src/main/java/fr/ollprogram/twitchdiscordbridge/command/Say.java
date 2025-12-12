@@ -46,7 +46,7 @@ public class Say extends Command {
             return () -> {
                 String message = MESSAGE_PREFIX + args.parallelStream().reduce(" ", String::concat);
                 bridge.sendToDiscord(message);
-                bridge.sendToTwitch(message);
+                bridge.sendToTwitch(message); //TODO fix exception if bridge is closed
                 return TEXT;
             };
         }

@@ -133,7 +133,7 @@ public class BridgeImpl implements Bridge {
             chat.leaveChannel(config.getTwitchChannelName());
             chat.joinChannel(channelName);
             config.changeTwitchChannelName(channelName);
-            LOG.info("Changed the discord channel to ["+channelName+"].");
+            LOG.info("Changed the twitch channel to ["+channelName+"].");
             LOG.info("Saving configuration");
             ConfigSaver saver = new ConfigSaverToProps(config);
             try {
