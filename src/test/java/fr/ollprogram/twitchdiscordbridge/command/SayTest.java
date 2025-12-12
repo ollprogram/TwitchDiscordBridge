@@ -12,6 +12,7 @@
 
 package fr.ollprogram.twitchdiscordbridge.command;
 
+import fr.ollprogram.twitchdiscordbridge.exception.BridgeNotOpenedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,12 +20,16 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 
 class SayTest extends CommandTest{
 
 
     @BeforeEach
     void setUp() {
+        doThrow(BridgeNotOpenedException.class).when(bridge).sendToDiscord(anyString()); //say should work even if the bridge is closed
+        doThrow(BridgeNotOpenedException.class).when(bridge).sendToTwitch(anyString());
         command = new Say(bridge);
     }
 
@@ -36,7 +41,7 @@ class SayTest extends CommandTest{
 
     @Test
     @DisplayName("Complex message")
-    void testWrongName(){
+    void testComplexMessage(){
         assertEquals("Message sent to both applications.", command.getExecution(List.of("Hello my name is Ollprogram!!!!& é123")).get());
     }
 
